@@ -418,6 +418,12 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 		return isMimeTypeIn("application/x-shockwave-flash", "video/x-flv");
 	}
 
+	/**
+	 * Check if mime type is equal to a given value.
+	 *
+	 * @param expected Expected value.
+	 * @return {@code this} the assertion object.
+	 */
 	public HttpResponseAssert isMimeTypeTypeEqualTo(String expected) {
 		isNotNull();
 		String contentType = actual.getContentType();
@@ -433,6 +439,12 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 		return this;
 	}
 
+	/**
+	 * Check if mime type is in a list of expected values.
+	 *
+	 * @param expecteds Expected values.
+	 * @return {@code this} the assertion object.
+	 */
 	public HttpResponseAssert isMimeTypeIn(String... expecteds) {
 		isNotNull();
 		String contentType = actual.getContentType();
