@@ -524,6 +524,79 @@ public class ResponseAssertTest {
 		}
 	}
 
+	@Test
+	public void test_hasHeader() {
+		when(response.getHeader("foo")).thenReturn("bar");
+		assertion.hasHeader("foo");
+		assertion.hasHeader("FOO");
+
+		try {
+			when(response.getHeader("foo")).thenReturn(null);
+			assertion.hasHeader("foo");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected header <foo> to be defined");
+		}
+
+		try {
+			when(response.getHeader("foo")).thenReturn("  ");
+			assertion.hasHeader("foo");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected header <foo> to be defined");
+		}
+	}
+
+	@Test
+	public void test_hasHeaderEqualTol() {
+		when(response.getHeader("foo")).thenReturn("bar");
+		assertion.hasHeaderEqualTo("foo", "bar");
+
+		try {
+			when(response.getHeader("foo")).thenReturn("quix");
+			assertion.hasHeaderEqualTo("foo", "bar");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected header <foo> to be <bar> but was <quix>");
+		}
+	}
+
+	@Test
+	public void test_hasEtag() {
+		when(response.getHeader("etag")).thenReturn("123456789");
+		assertion.hasETagHeader();
+
+		try {
+			when(response.getHeader("ETag")).thenReturn(null);
+			assertion.hasETagHeader();
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected header <ETag> to be defined");
+		}
+
+		try {
+			when(response.getHeader("ETag")).thenReturn("  ");
+			assertion.hasETagHeader();
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected header <ETag> to be defined");
+		}
+	}
+
+	@Test
+	public void test_hasETagEqualTo() {
+		when(response.getHeader("etag")).thenReturn("123456789");
+		assertion.hasETagEqualTo("123456789");
+
+		try {
+			when(response.getHeader("ETag")).thenReturn("123");
+			assertion.hasETagEqualTo("123456789");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected header <ETag> to be <123456789> but was <123>");
+		}
+	}
+
 	private void checkType(List<String> expecteds, VoidClojure fn) {
 		for (String expected : expecteds) {
 			when(response.getContentType()).thenReturn(expected);

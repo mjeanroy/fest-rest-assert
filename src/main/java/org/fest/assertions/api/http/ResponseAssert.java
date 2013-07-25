@@ -9,6 +9,9 @@ import org.fest.assertions.util.Response;
 
 public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 
+	/** Etag header name */
+	private static final String ETAG = "ETag";
+
 	public ResponseAssert(Response actual) {
 		super(actual, ResponseAssert.class);
 	}
@@ -279,16 +282,6 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 		return this;
 	}
 
-	public ResponseAssert hasHeader(String headerName) {
-		isNotNull();
-
-		Assertions.assertThat(actual.getHeaders().containsKey(headerName))
-				.overridingErrorMessage("Expected header <%s> to be defined", headerName)
-				.isTrue();
-
-		return this;
-	}
-
 	/**
 	 * Check if mime type is octet-stream (a.k.a 'application/octet-stream').
 	 * See RFC 2046.
@@ -534,23 +527,53 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 		return isHtmlOrXhtml().isUtf8();
 	}
 
-	public ResponseAssert hasETag() {
+	/**
+	 * Check if a header is in the response.
+	 *
+	 * @param headerName Name of header.
+	 * @return {@code this} the assertion object.
+	 */
+	public ResponseAssert hasHeader(String headerName) {
 		isNotNull();
-		String header = actual.getHeader("ETag");
-		Assertions.assertThat(header)
-				.overridingErrorMessage("Expected ETag value to be defined", header)
-				.isNotNull()
-				.isNotEmpty();
+		Assertions.assertThat(actual.getHeader(headerName.toLowerCase()))
+				.overridingErrorMessage("Expected header <%s> to be defined", headerName)
+				.isNotNull().isNotEmpty();
 		return this;
 	}
 
-	public ResponseAssert hasETagEquals(String etag) {
-		hasETag();
-		String header = actual.getHeader("ETag");
-		Assertions.assertThat(header)
-				.overridingErrorMessage("Expected ETag to be <%s> but was <%s>", etag, header)
-				.isEqualTo(etag);
+	/**
+	 * Check if a header is equal to an expected value.
+	 *
+	 * @param headerName Name of header.
+	 * @param value Expected value.
+	 * @return {@code this} the assertion object.
+	 */
+	public ResponseAssert hasHeaderEqualTo(String headerName, String value) {
+		hasHeader(headerName);
+		String current = actual.getHeader(headerName.toLowerCase());
+		Assertions.assertThat(current)
+				.overridingErrorMessage("Expected header <%s> to be <%s> but was <%s>", headerName, value, current)
+				.isEqualTo(value);
 		return this;
+	}
+
+	/**
+	 * Check if response has an ETag header.
+	 *
+	 * @return {@code this} the assertion object.
+	 */
+	public ResponseAssert hasETagHeader() {
+		return hasHeader(ETAG);
+	}
+
+	/**
+	 * Check if ETag header is equal to an expected value.
+	 *
+	 * @param value Expected value.
+	 * @return {@code this} the assertion object.
+	 */
+	public ResponseAssert hasETagEqualTo(String value) {
+		return hasHeaderEqualTo(ETAG, value);
 	}
 
 	private Cookie cookie(String name) {
