@@ -12,6 +12,9 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	/** Etag header name */
 	private static final String ETAG = "ETag";
 
+	/** Location header name */
+	private static final String LOCATION = "Location";
+
 	public ResponseAssert(Response actual) {
 		super(actual, ResponseAssert.class);
 	}
@@ -558,7 +561,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if response has an ETag header.
+	 * Check if response has an "ETag" header.
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -567,13 +570,32 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if ETag header is equal to an expected value.
+	 * Check if "ETag" header is equal to an expected value.
 	 *
 	 * @param value Expected value.
 	 * @return {@code this} the assertion object.
 	 */
 	public ResponseAssert hasETagEqualTo(String value) {
 		return hasHeaderEqualTo(ETAG, value);
+	}
+
+	/**
+	 * Check if response has a "Location" header.
+	 *
+	 * @return {@code this} the assertion object.
+	 */
+	public ResponseAssert hasLocationHeader() {
+		return hasHeader(LOCATION);
+	}
+
+	/**
+	 * Check if "Location" header is equal to an expected value.
+	 *
+	 * @param value Expected value.
+	 * @return {@code this} the assertion object.
+	 */
+	public ResponseAssert hasLocationEqualTo(String value) {
+		return hasHeaderEqualTo(LOCATION, value);
 	}
 
 	private Cookie cookie(String name) {

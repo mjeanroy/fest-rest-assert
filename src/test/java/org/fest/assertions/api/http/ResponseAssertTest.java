@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.fest.assertions.util.Response;
+import org.fest.assertions.utils.OneParameterClojure;
 import org.fest.assertions.utils.VoidClojure;
 import org.junit.Before;
 import org.junit.Test;
@@ -562,38 +563,68 @@ public class ResponseAssertTest {
 	}
 
 	@Test
-	public void test_hasEtag() {
-		when(response.getHeader("etag")).thenReturn("123456789");
-		assertion.hasETagHeader();
-
-		try {
-			when(response.getHeader("ETag")).thenReturn(null);
-			assertion.hasETagHeader();
-		}
-		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expected header <ETag> to be defined");
-		}
-
-		try {
-			when(response.getHeader("ETag")).thenReturn("  ");
-			assertion.hasETagHeader();
-		}
-		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expected header <ETag> to be defined");
-		}
+	public void test_hasETagEqualTo() {
+		checkHeader("ETag", "123456789",
+				new VoidClojure() {
+					@Override
+					public void apply() {
+						assertion.hasETagHeader();
+					}
+				},
+				new OneParameterClojure<String>() {
+					@Override
+					public void apply(String val) {
+						assertion.hasETagEqualTo(val);
+					}
+				}
+		);
 	}
 
 	@Test
-	public void test_hasETagEqualTo() {
-		when(response.getHeader("etag")).thenReturn("123456789");
-		assertion.hasETagEqualTo("123456789");
+	public void test_hasLocationEqualTo() {
+		checkHeader("Location", "foo",
+				new VoidClojure() {
+					@Override
+					public void apply() {
+						assertion.hasLocationHeader();
+					}
+				},
+				new OneParameterClojure<String>() {
+					@Override
+					public void apply(String val) {
+						assertion.hasLocationEqualTo(val);
+					}
+				}
+		);
+	}
+
+	private void checkHeader(String name, String expected, VoidClojure hasCheck, OneParameterClojure<String> fn) {
+		when(response.getHeader(name.toLowerCase())).thenReturn(expected);
+		hasCheck.apply();
+		fn.apply(expected);
 
 		try {
-			when(response.getHeader("ETag")).thenReturn("123");
-			assertion.hasETagEqualTo("123456789");
+			when(response.getHeader(name)).thenReturn(null);
+			hasCheck.apply();
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expected header <ETag> to be <123456789> but was <123>");
+			assertThat(error.getMessage()).isEqualTo("Expected header <" + name + "> to be defined");
+		}
+
+		try {
+			when(response.getHeader(name)).thenReturn("  ");
+			hasCheck.apply();
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected header <" + name + "> to be defined");
+		}
+
+		try {
+			when(response.getHeader(name.toLowerCase())).thenReturn(expected + "foo");
+			fn.apply(expected);
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected header <" + name + "> to be <" + expected + "> but was <" + (expected + "foo") + ">");
 		}
 	}
 
