@@ -458,6 +458,72 @@ public class HttpResponseAssertTest {
 		}
 	}
 
+	@Test
+	public void test_isJsonUtf8() {
+		when(response.getContentType()).thenReturn("application/json; charset=utf-8");
+		assertion.isJsonUtf8();
+
+		try {
+			when(response.getContentType()).thenReturn("application/xml; charset=utf-8");
+			assertion.isJsonUtf8();
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect Content-Type to be <application/json> but was <application/xml>");
+		}
+
+		try {
+			when(response.getContentType()).thenReturn("application/json; charset=iso8859-1");
+			assertion.isJsonUtf8();
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect charset to be <utf-8> but was <iso8859-1>");
+		}
+	}
+
+	@Test
+	public void test_isXmlUtf8() {
+		when(response.getContentType()).thenReturn("application/xml; charset=utf-8");
+		assertion.isXmlUtf8();
+
+		try {
+			when(response.getContentType()).thenReturn("application/json; charset=utf-8");
+			assertion.isXmlUtf8();
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect Content-Type to be one of <application/xml, text/xml> but was <application/json>");
+		}
+
+		try {
+			when(response.getContentType()).thenReturn("application/xml; charset=iso8859-1");
+			assertion.isXmlUtf8();
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect charset to be <utf-8> but was <iso8859-1>");
+		}
+	}
+
+	@Test
+	public void test_isHtmlUtf8() {
+		when(response.getContentType()).thenReturn("text/html; charset=utf-8");
+		assertion.isHtmlUtf8();
+
+		try {
+			when(response.getContentType()).thenReturn("application/json; charset=utf-8");
+			assertion.isHtmlUtf8();
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect Content-Type to be one of <text/html, application/xhtml+xml> but was <application/json>");
+		}
+
+		try {
+			when(response.getContentType()).thenReturn("text/html; charset=iso8859-1");
+			assertion.isHtmlUtf8();
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect charset to be <utf-8> but was <iso8859-1>");
+		}
+	}
+
 	private void checkType(List<String> expecteds, VoidClojure fn) {
 		for (String expected : expecteds) {
 			when(response.getContentType()).thenReturn(expected);

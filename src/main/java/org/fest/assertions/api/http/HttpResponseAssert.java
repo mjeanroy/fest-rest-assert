@@ -484,7 +484,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	}
 
 	/**
-	 * Check is charset value in Content-Type is equal to an expected value.
+	 * Check if charset value in Content-Type is equal to an expected value.
 	 *
 	 * @param expected Expected value.
 	 * @return {@code this} the assertion object.
@@ -499,12 +499,39 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	}
 
 	/**
-	 * Check is charset value in Content-Type is equal to 'utf-8' (case insensitive).
+	 * Check if charset value in Content-Type is equal to 'utf-8' (case insensitive).
 	 *
 	 * @return {@code this} the assertion object.
 	 */
 	public HttpResponseAssert isUtf8() {
 		return isCharsetEqualTo("utf-8");
+	}
+
+	/**
+	 * Check if content-type of response is Json (mime type) and Utf-8 (charset).
+	 *
+	 * @return {@code this} the assertion object.
+	 */
+	public HttpResponseAssert isJsonUtf8() {
+		return isJson().isUtf8();
+	}
+
+	/**
+	 * Check if content-type of response is Xml (mime type) and Utf-8 (charset).
+	 *
+	 * @return {@code this} the assertion object.
+	 */
+	public HttpResponseAssert isXmlUtf8() {
+		return isXml().isUtf8();
+	}
+
+	/**
+	 * Check if content-type of response is Html (mime type) and Utf-8 (charset).
+	 *
+	 * @return {@code this} the assertion object.
+	 */
+	public HttpResponseAssert isHtmlUtf8() {
+		return isHtmlOrXhtml().isUtf8();
 	}
 
 	public HttpResponseAssert hasETag() {
