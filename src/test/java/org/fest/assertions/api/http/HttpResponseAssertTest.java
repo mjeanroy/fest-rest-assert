@@ -385,6 +385,79 @@ public class HttpResponseAssertTest {
 		});
 	}
 
+	@Test
+	public void test_hasContentType() {
+		when(response.getContentType()).thenReturn("application/json");
+		assertion.hasContentType();
+
+		try {
+			when(response.getContentType()).thenReturn(null);
+			assertion.hasContentType();
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect Content-Type to be defined and not empty");
+		}
+
+		try {
+			when(response.getContentType()).thenReturn("  ");
+			assertion.hasContentType();
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect Content-Type to be defined and not empty");
+		}
+	}
+
+	@Test
+	public void test_hasCharset() {
+		when(response.getContentType()).thenReturn("application/json; charset=utf-8");
+		assertion.hasCharset();
+
+		try {
+			when(response.getContentType()).thenReturn("application/json");
+			assertion.hasCharset();
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect charset to be defined in Content-Type value");
+		}
+
+		try {
+			when(response.getContentType()).thenReturn("application/json;foo");
+			assertion.hasContentType();
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect charset not to be empty in Content-Type value");
+		}
+	}
+
+	@Test
+	public void test_isCharsetEqualTo() {
+		when(response.getContentType()).thenReturn("application/json; charset=utf-8");
+		assertion.isCharsetEqualTo("utf-8");
+		assertion.isCharsetEqualTo("UTF-8");
+
+		try {
+			when(response.getContentType()).thenReturn("application/json; charset=iso8859-1");
+			assertion.isCharsetEqualTo("utf-8");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect charset to be <utf-8> but was <iso8859-1>");
+		}
+	}
+
+	@Test
+	public void test_isUtf8() {
+		when(response.getContentType()).thenReturn("application/json; charset=utf-8");
+		assertion.isUtf8();
+
+		try {
+			when(response.getContentType()).thenReturn("application/json; charset=iso8859-1");
+			assertion.isUtf8();
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect charset to be <utf-8> but was <iso8859-1>");
+		}
+	}
+
 	private void checkType(List<String> expecteds, VoidClojure fn) {
 		for (String expected : expecteds) {
 			when(response.getContentType()).thenReturn(expected);

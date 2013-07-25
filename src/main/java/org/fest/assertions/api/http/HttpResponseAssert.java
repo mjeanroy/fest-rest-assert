@@ -419,23 +419,31 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	}
 
 	/**
+	 * Check if Content-Type is defined in response.
+	 *
+	 * @return {@code this} the assertion object.
+	 */
+	public HttpResponseAssert hasContentType() {
+		isNotNull();
+		String contentType = actual.getContentType();
+		Assertions.assertThat(contentType)
+				.overridingErrorMessage("Expect Content-Type to be defined and not empty")
+				.isNotNull().isNotEmpty();
+		return this;
+	}
+
+	/**
 	 * Check if mime type is equal to a given value.
 	 *
 	 * @param expected Expected value.
 	 * @return {@code this} the assertion object.
 	 */
 	public HttpResponseAssert isMimeTypeTypeEqualTo(String expected) {
-		isNotNull();
-		String contentType = actual.getContentType();
-		Assertions.assertThat(contentType)
-				.overridingErrorMessage("Expect Content-Type to be defined and not empty")
-				.isNotEmpty();
-
-		String type = contentType.split(";")[0].toLowerCase();
+		hasContentType();
+		String type = actual.getContentType().split(";")[0].toLowerCase();
 		Assertions.assertThat(type)
 				.overridingErrorMessage("Expect Content-Type to be <%s> but was <%s>", expected, type)
 				.isEqualTo(expected);
-
 		return this;
 	}
 
@@ -446,17 +454,57 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 * @return {@code this} the assertion object.
 	 */
 	public HttpResponseAssert isMimeTypeIn(String... expecteds) {
-		isNotNull();
-		String contentType = actual.getContentType();
-		Assertions.assertThat(contentType)
-				.overridingErrorMessage("Expect Content-Type to be defined and not empty")
-				.isNotEmpty();
-
-		String type = contentType.split(";")[0].toLowerCase();
+		hasContentType();
+		String type = actual.getContentType().split(";")[0].toLowerCase();
 		Assertions.assertThat(type)
 				.overridingErrorMessage("Expect Content-Type to be one of <%s> but was <%s>", join(", ", expecteds), type)
 				.isIn(expecteds);
 		return this;
+	}
+
+	/**
+	 * Check if a charset value is defined in Content-Type of response.
+	 *
+	 * @return {@code this} the assertion object.
+	 */
+	public HttpResponseAssert hasCharset() {
+		hasContentType();
+		String[] type = actual.getContentType().split(";");
+		Assertions.assertThat(type)
+				.overridingErrorMessage("Expect charset to be defined in Content-Type value")
+				.hasSize(2);
+
+		String charset = type[1].replace(" ", "").toLowerCase();
+		Assertions.assertThat(charset)
+				.overridingErrorMessage("Expect charset not to be empty in Content-Type value")
+				.isNotEmpty()
+				.startsWith("charset=");
+
+		return this;
+	}
+
+	/**
+	 * Check is charset value in Content-Type is equal to an expected value.
+	 *
+	 * @param expected Expected value.
+	 * @return {@code this} the assertion object.
+	 */
+	public HttpResponseAssert isCharsetEqualTo(String expected) {
+		hasCharset();
+		String charset = actual.getContentType().split(";")[1].trim().replace(" ", "").replace("charset=", "");
+		Assertions.assertThat(charset)
+				.overridingErrorMessage("Expect charset to be <%s> but was <%s>", expected, charset)
+				.isEqualToIgnoringCase(expected);
+		return this;
+	}
+
+	/**
+	 * Check is charset value in Content-Type is equal to 'utf-8' (case insensitive).
+	 *
+	 * @return {@code this} the assertion object.
+	 */
+	public HttpResponseAssert isUtf8() {
+		return isCharsetEqualTo("utf-8");
 	}
 
 	public HttpResponseAssert hasETag() {
