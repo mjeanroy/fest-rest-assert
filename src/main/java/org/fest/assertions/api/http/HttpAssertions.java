@@ -3,16 +3,16 @@ package org.fest.assertions.api.http;
 import java.util.List;
 
 import org.fest.assertions.util.Cookie;
-import org.fest.assertions.util.HttpResponse;
+import org.fest.assertions.util.Response;
 
 public class HttpAssertions {
 
-	public static HttpResponseAssert from(com.ning.http.client.Response response) {
-		return new HttpResponseAssert(new HttpResponse(response));
+	public static ResponseAssert from(com.ning.http.client.Response response) {
+		return new ResponseAssert(new Response(response));
 	}
 
-	public static HttpResponseAssert from(org.apache.http.HttpResponse response) {
-		return new HttpResponseAssert(new HttpResponse(response));
+	public static ResponseAssert from(org.apache.http.HttpResponse response) {
+		return new ResponseAssert(new Response(response));
 	}
 
 	public static Cookie extractCookie(String name, com.ning.http.client.Response response) {

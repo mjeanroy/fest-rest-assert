@@ -5,19 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HttpResponse {
+public class Response {
 
 	private int statusCode;
 	private String contentType;
 	private Map<String, String> headers;
 	private List<Cookie> cookies;
 
-	public HttpResponse() {
+	public Response() {
 		this.headers = new HashMap<String, String>();
 		this.cookies = new ArrayList<Cookie>();
 	}
 
-	public HttpResponse(com.ning.http.client.Response response) {
+	public Response(com.ning.http.client.Response response) {
 		statusCode = response.getStatusCode();
 		contentType = response.getContentType();
 
@@ -30,7 +30,7 @@ public class HttpResponse {
 		}
 	}
 
-	public HttpResponse(org.apache.http.HttpResponse response) {
+	public Response(org.apache.http.HttpResponse response) {
 		statusCode = response.getStatusLine().getStatusCode();
 		contentType = response.getEntity().getContentType().getValue();
 

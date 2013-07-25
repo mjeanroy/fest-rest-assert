@@ -5,12 +5,12 @@ import java.util.List;
 import org.fest.assertions.api.AbstractAssert;
 import org.fest.assertions.api.Assertions;
 import org.fest.assertions.util.Cookie;
-import org.fest.assertions.util.HttpResponse;
+import org.fest.assertions.util.Response;
 
-public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpResponse> {
+public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 
-	public HttpResponseAssert(HttpResponse actual) {
-		super(actual, HttpResponseAssert.class);
+	public ResponseAssert(Response actual) {
+		super(actual, ResponseAssert.class);
 	}
 
 	/**
@@ -18,7 +18,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isSuccess() {
+	public ResponseAssert isSuccess() {
 		return isStatusBetween(200, 299);
 	}
 
@@ -27,7 +27,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isRedirection() {
+	public ResponseAssert isRedirection() {
 		return isStatusBetween(300, 399);
 	}
 
@@ -36,7 +36,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isClientError() {
+	public ResponseAssert isClientError() {
 		return isStatusBetween(400, 499);
 	}
 
@@ -45,7 +45,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isServerError() {
+	public ResponseAssert isServerError() {
 		return isStatusBetween(500, 599);
 	}
 
@@ -54,7 +54,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isOk() {
+	public ResponseAssert isOk() {
 		return isStatusEqualTo(200);
 	}
 
@@ -63,7 +63,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isAccepted() {
+	public ResponseAssert isAccepted() {
 		return isStatusEqualTo(202);
 	}
 
@@ -72,7 +72,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isCreated() {
+	public ResponseAssert isCreated() {
 		return isStatusEqualTo(201);
 	}
 
@@ -81,7 +81,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isNonAuthoritativeInformation() {
+	public ResponseAssert isNonAuthoritativeInformation() {
 		return isStatusEqualTo(203);
 	}
 
@@ -90,7 +90,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isNoContent() {
+	public ResponseAssert isNoContent() {
 		return isStatusEqualTo(204);
 	}
 
@@ -99,7 +99,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isResetContent() {
+	public ResponseAssert isResetContent() {
 		return isStatusEqualTo(205);
 	}
 
@@ -108,7 +108,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isPartialContent() {
+	public ResponseAssert isPartialContent() {
 		return isStatusEqualTo(206);
 	}
 
@@ -117,7 +117,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isMultipleChoice() {
+	public ResponseAssert isMultipleChoice() {
 		return isStatusEqualTo(300);
 	}
 
@@ -126,7 +126,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isMovedPermanently() {
+	public ResponseAssert isMovedPermanently() {
 		return isStatusEqualTo(301);
 	}
 
@@ -135,7 +135,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isMovedTemporarily() {
+	public ResponseAssert isMovedTemporarily() {
 		return isStatusEqualTo(302);
 	}
 
@@ -144,7 +144,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isSeeOther() {
+	public ResponseAssert isSeeOther() {
 		return isStatusEqualTo(303);
 	}
 
@@ -153,7 +153,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isNotModified() {
+	public ResponseAssert isNotModified() {
 		return isStatusEqualTo(304);
 	}
 
@@ -162,7 +162,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isBadRequest() {
+	public ResponseAssert isBadRequest() {
 		return isStatusEqualTo(400);
 	}
 
@@ -171,7 +171,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isUnauthorized() {
+	public ResponseAssert isUnauthorized() {
 		return isStatusEqualTo(401);
 	}
 
@@ -180,7 +180,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isForbidden() {
+	public ResponseAssert isForbidden() {
 		return isStatusEqualTo(403);
 	}
 
@@ -189,7 +189,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isNotFound() {
+	public ResponseAssert isNotFound() {
 		return isStatusEqualTo(404);
 	}
 
@@ -198,7 +198,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isMethodNotAllowed() {
+	public ResponseAssert isMethodNotAllowed() {
 		return isStatusEqualTo(405);
 	}
 
@@ -207,7 +207,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isInternalServerError() {
+	public ResponseAssert isInternalServerError() {
 		return isStatusEqualTo(500);
 	}
 
@@ -216,7 +216,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isNotImplemented() {
+	public ResponseAssert isNotImplemented() {
 		return isStatusEqualTo(501);
 	}
 
@@ -226,7 +226,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 * @param expected Expected value.
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isStatusEqualTo(int expected) {
+	public ResponseAssert isStatusEqualTo(int expected) {
 		isNotNull();
 		Assertions.assertThat(actual.getStatusCode())
 				.overridingErrorMessage("Expected status code to be <%s> but was <%s>", expected, actual.getStatusCode())
@@ -240,7 +240,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 * @param expected Expected value.
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isStatusNotEqualTo(int expected) {
+	public ResponseAssert isStatusNotEqualTo(int expected) {
 		isNotNull();
 		Assertions.assertThat(actual.getStatusCode())
 				.overridingErrorMessage("Expected status code not to be <%s> but was <%s>", expected, actual.getStatusCode())
@@ -255,7 +255,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 * @param end End value (inclusive).
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isStatusBetween(int start, int end) {
+	public ResponseAssert isStatusBetween(int start, int end) {
 		isNotNull();
 		Assertions.assertThat(actual.getStatusCode())
 				.overridingErrorMessage("Expected status code to be between <%s> and <%s> but was <%s>", start, end, actual.getStatusCode())
@@ -271,7 +271,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 * @param end End value (inclusive).
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isStatusNotBetween(int start, int end) {
+	public ResponseAssert isStatusNotBetween(int start, int end) {
 		isNotNull();
 		Assertions.assertThat(actual.getStatusCode() < start || actual.getStatusCode() > end)
 				.overridingErrorMessage("Expected status code not to be between <%s> and <%s> but was <%s>", start, end, actual.getStatusCode())
@@ -279,7 +279,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 		return this;
 	}
 
-	public HttpResponseAssert hasHeader(String headerName) {
+	public ResponseAssert hasHeader(String headerName) {
 		isNotNull();
 
 		Assertions.assertThat(actual.getHeaders().containsKey(headerName))
@@ -295,7 +295,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isOctetStream() {
+	public ResponseAssert isOctetStream() {
 		return isMimeTypeTypeEqualTo("application/octet-stream");
 	}
 
@@ -305,7 +305,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isJson() {
+	public ResponseAssert isJson() {
 		return isMimeTypeTypeEqualTo("application/json");
 	}
 
@@ -315,7 +315,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isXml() {
+	public ResponseAssert isXml() {
 		return isMimeTypeIn("application/xml", "text/xml");
 	}
 
@@ -325,7 +325,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isCss() {
+	public ResponseAssert isCss() {
 		return isMimeTypeTypeEqualTo("text/css");
 	}
 
@@ -336,7 +336,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isJavascript() {
+	public ResponseAssert isJavascript() {
 		return isMimeTypeIn("application/javascript", "text/javascript");
 	}
 
@@ -346,7 +346,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isTextPlain() {
+	public ResponseAssert isTextPlain() {
 		return isMimeTypeTypeEqualTo("text/plain");
 	}
 
@@ -356,7 +356,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isHtml() {
+	public ResponseAssert isHtml() {
 		return isMimeTypeTypeEqualTo("text/html");
 	}
 
@@ -366,7 +366,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isXhtml() {
+	public ResponseAssert isXhtml() {
 		return isMimeTypeTypeEqualTo("application/xhtml+xml");
 	}
 
@@ -376,7 +376,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isHtmlOrXhtml() {
+	public ResponseAssert isHtmlOrXhtml() {
 		return isMimeTypeIn("text/html", "application/xhtml+xml");
 	}
 
@@ -386,7 +386,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isPdf() {
+	public ResponseAssert isPdf() {
 		return isMimeTypeTypeEqualTo("application/pdf");
 	}
 
@@ -396,7 +396,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isCsv() {
+	public ResponseAssert isCsv() {
 		return isMimeTypeTypeEqualTo("text/csv");
 	}
 
@@ -405,7 +405,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isZip() {
+	public ResponseAssert isZip() {
 		return isMimeTypeTypeEqualTo("application/zip");
 	}
 
@@ -414,7 +414,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isFlashContent() {
+	public ResponseAssert isFlashContent() {
 		return isMimeTypeIn("application/x-shockwave-flash", "video/x-flv");
 	}
 
@@ -423,7 +423,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert hasContentType() {
+	public ResponseAssert hasContentType() {
 		isNotNull();
 		String contentType = actual.getContentType();
 		Assertions.assertThat(contentType)
@@ -438,7 +438,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 * @param expected Expected value.
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isMimeTypeTypeEqualTo(String expected) {
+	public ResponseAssert isMimeTypeTypeEqualTo(String expected) {
 		hasContentType();
 		String type = actual.getContentType().split(";")[0].toLowerCase();
 		Assertions.assertThat(type)
@@ -453,7 +453,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 * @param expecteds Expected values.
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isMimeTypeIn(String... expecteds) {
+	public ResponseAssert isMimeTypeIn(String... expecteds) {
 		hasContentType();
 		String type = actual.getContentType().split(";")[0].toLowerCase();
 		Assertions.assertThat(type)
@@ -467,7 +467,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert hasCharset() {
+	public ResponseAssert hasCharset() {
 		hasContentType();
 		String[] type = actual.getContentType().split(";");
 		Assertions.assertThat(type)
@@ -489,7 +489,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 * @param expected Expected value.
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isCharsetEqualTo(String expected) {
+	public ResponseAssert isCharsetEqualTo(String expected) {
 		hasCharset();
 		String charset = actual.getContentType().split(";")[1].trim().replace(" ", "").replace("charset=", "");
 		Assertions.assertThat(charset)
@@ -503,7 +503,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isUtf8() {
+	public ResponseAssert isUtf8() {
 		return isCharsetEqualTo("utf-8");
 	}
 
@@ -512,7 +512,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isJsonUtf8() {
+	public ResponseAssert isJsonUtf8() {
 		return isJson().isUtf8();
 	}
 
@@ -521,7 +521,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isXmlUtf8() {
+	public ResponseAssert isXmlUtf8() {
 		return isXml().isUtf8();
 	}
 
@@ -530,11 +530,11 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 	 *
 	 * @return {@code this} the assertion object.
 	 */
-	public HttpResponseAssert isHtmlUtf8() {
+	public ResponseAssert isHtmlUtf8() {
 		return isHtmlOrXhtml().isUtf8();
 	}
 
-	public HttpResponseAssert hasETag() {
+	public ResponseAssert hasETag() {
 		isNotNull();
 		String header = actual.getHeader("ETag");
 		Assertions.assertThat(header)
@@ -544,7 +544,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 		return this;
 	}
 
-	public HttpResponseAssert hasETagEquals(String etag) {
+	public ResponseAssert hasETagEquals(String etag) {
 		hasETag();
 		String header = actual.getHeader("ETag");
 		Assertions.assertThat(header)
@@ -565,7 +565,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 		return cookie;
 	}
 
-	public HttpResponseAssert hasCookie(String cookieName) {
+	public ResponseAssert hasCookie(String cookieName) {
 		isNotNull();
 
 		Cookie cookie = cookie(cookieName);
@@ -576,7 +576,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 		return this;
 	}
 
-	public HttpResponseAssert hasCookieEqualsTo(String cookieName, String value) {
+	public ResponseAssert hasCookieEqualsTo(String cookieName, String value) {
 		hasCookie(cookieName);
 
 		Cookie cookie = cookie(cookieName);
@@ -587,7 +587,7 @@ public class HttpResponseAssert extends AbstractAssert<HttpResponseAssert, HttpR
 		return this;
 	}
 
-	public HttpResponseAssert hasCookieEqualsTo(String cookieName, String value, String domain, String path, int maxAge, boolean secure) {
+	public ResponseAssert hasCookieEqualsTo(String cookieName, String value, String domain, String path, int maxAge, boolean secure) {
 		hasCookieEqualsTo(cookieName, value);
 
 		Cookie cookie = cookie(cookieName);

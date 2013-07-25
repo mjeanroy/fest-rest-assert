@@ -7,22 +7,22 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 
-import org.fest.assertions.util.HttpResponse;
+import org.fest.assertions.util.Response;
 import org.fest.assertions.utils.VoidClojure;
 import org.junit.Before;
 import org.junit.Test;
 
 import com.google.common.base.Joiner;
 
-public class HttpResponseAssertTest {
+public class ResponseAssertTest {
 
-	private HttpResponse response;
-	private HttpResponseAssert assertion;
+	private Response response;
+	private ResponseAssert assertion;
 
 	@Before
 	public void setUp() {
-		response = mock(HttpResponse.class);
-		assertion = new HttpResponseAssert(response);
+		response = mock(Response.class);
+		assertion = new ResponseAssert(response);
 	}
 
 	@Test
