@@ -643,6 +643,20 @@ public class ResponseAssertTest {
 		}
 	}
 
+	@Test
+	public void test_hasCookieEqualTo() {
+		when(response.getCookie("foo")).thenReturn(new Cookie("foo", "bar"));
+		assertion.hasCookieEqualTo("foo", "bar");
+
+		try {
+			when(response.getCookie("foo")).thenReturn(new Cookie("foo", "quix"));
+			assertion.hasCookieEqualTo("foo", "bar");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected cookie <foo> to be <bar> but was <quix>");
+		}
+	}
+
 	private void checkHeader(String name, String expected, VoidClojure hasCheck, OneParameterClojure<String> fn) {
 		when(response.getHeader(name.toLowerCase())).thenReturn(expected);
 		hasCheck.apply();

@@ -614,7 +614,14 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 		return this;
 	}
 
-	public ResponseAssert hasCookieEqualsTo(String cookieName, String value) {
+	/**
+	 * Check if a cookie is defined in the response headers and its value is equal to an expected string.
+	 *
+	 * @param cookieName Cookie name.
+	 * @param value Expeced value.
+	 * @return {@code this} the assertion object.
+	 */
+	public ResponseAssert hasCookieEqualTo(String cookieName, String value) {
 		hasCookie(cookieName);
 		Cookie cookie = actual.getCookie(cookieName);
 		Assertions.assertThat(cookie.getValue())

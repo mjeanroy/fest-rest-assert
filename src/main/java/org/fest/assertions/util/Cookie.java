@@ -16,6 +16,11 @@ public class Cookie {
 	public Cookie() {
 	}
 
+	public Cookie(String name, String value) {
+		this.name = name;
+		this.value = value;
+	}
+
 	public Cookie(javax.servlet.http.Cookie cookie) {
 		this(cookie.getName(), cookie.getValue(), cookie.getDomain(), cookie.getPath(), cookie.getMaxAge(), cookie.getSecure(), cookie.isHttpOnly());
 	}
