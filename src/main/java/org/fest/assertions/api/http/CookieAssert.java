@@ -10,7 +10,13 @@ public class CookieAssert extends AbstractAssert<CookieAssert, Cookie> {
 		super(actual, CookieAssert.class);
 	}
 
-	public CookieAssert hasName(String name) {
+	/**
+	 * Check if cookie has a name equal to an expected value.
+	 *
+	 * @param name Expected name of cookie.
+	 * @return {@code this} the assertion object.
+	 */
+	public CookieAssert isNameEqualTo(String name) {
 		isNotNull();
 		Assertions.assertThat(actual.getName())
 				.overridingErrorMessage("Expected name of cookie to be <%s> but was <%s>", name, actual.getName())
