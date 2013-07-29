@@ -423,7 +423,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	 */
 	public ResponseAssert hasContentType() {
 		isNotNull();
-		String contentType = actual.getContentType();
+		String contentType = trim(actual.getContentType());
 		Assertions.assertThat(contentType)
 				.overridingErrorMessage("Expect Content-Type to be defined and not empty")
 				.isNotNull().isNotEmpty();
@@ -467,6 +467,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	 */
 	public ResponseAssert hasCharset() {
 		hasContentType();
+
 		String[] type = actual.getContentType().split(";");
 		Assertions.assertThat(type)
 				.overridingErrorMessage("Expect charset to be defined in Content-Type value")
@@ -540,7 +541,8 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	 */
 	public ResponseAssert hasHeader(String headerName) {
 		isNotNull();
-		Assertions.assertThat(actual.getHeader(headerName.toLowerCase()))
+		String val = trim(actual.getHeader(headerName.toLowerCase()));
+		Assertions.assertThat(val)
 				.overridingErrorMessage("Expected header <%s> to be defined", headerName)
 				.isNotNull().isNotEmpty();
 		return this;
@@ -636,5 +638,9 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 			result += value + on;
 		}
 		return result.substring(0, result.length() - on.length());
+	}
+
+	private String trim(String val) {
+		return val == null ? val : val.trim();
 	}
 }

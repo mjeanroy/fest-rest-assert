@@ -1,6 +1,7 @@
 package org.fest.assertions.api.http;
 
 import static org.fest.assertions.api.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -35,6 +36,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getStatusCode()).thenReturn(200);
 			assertion.isStatusNotEqualTo(200);
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expected status code not to be <200>");
@@ -50,6 +52,7 @@ public class ResponseAssertTest {
 			try {
 				when(response.getStatusCode()).thenReturn(i);
 				assertion.isStatusNotBetween(200, 299);
+				fail("Expected AssertionError to be thrown");
 			}
 			catch (AssertionError error) {
 				assertThat(error.getMessage()).isEqualTo("Expected status code not to be between <200> and <299> but was <" + i + ">");
@@ -425,6 +428,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getContentType()).thenReturn(null);
 			assertion.hasContentType();
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expect Content-Type to be defined and not empty");
@@ -433,6 +437,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getContentType()).thenReturn("  ");
 			assertion.hasContentType();
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expect Content-Type to be defined and not empty");
@@ -447,6 +452,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getContentType()).thenReturn("application/json");
 			assertion.hasCharset();
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expect charset to be defined in Content-Type value");
@@ -454,7 +460,8 @@ public class ResponseAssertTest {
 
 		try {
 			when(response.getContentType()).thenReturn("application/json;foo");
-			assertion.hasContentType();
+			assertion.hasCharset();
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expect charset not to be empty in Content-Type value");
@@ -470,6 +477,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getContentType()).thenReturn("application/json; charset=iso8859-1");
 			assertion.isCharsetEqualTo("utf-8");
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expect charset to be <utf-8> but was <iso8859-1>");
@@ -484,6 +492,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getContentType()).thenReturn("application/json; charset=iso8859-1");
 			assertion.isUtf8();
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expect charset to be <utf-8> but was <iso8859-1>");
@@ -498,6 +507,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getContentType()).thenReturn("application/xml; charset=utf-8");
 			assertion.isJsonUtf8();
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expect Content-Type to be <application/json> but was <application/xml>");
@@ -506,6 +516,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getContentType()).thenReturn("application/json; charset=iso8859-1");
 			assertion.isJsonUtf8();
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expect charset to be <utf-8> but was <iso8859-1>");
@@ -520,6 +531,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getContentType()).thenReturn("application/json; charset=utf-8");
 			assertion.isXmlUtf8();
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expect Content-Type to be one of <application/xml, text/xml> but was <application/json>");
@@ -528,6 +540,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getContentType()).thenReturn("application/xml; charset=iso8859-1");
 			assertion.isXmlUtf8();
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expect charset to be <utf-8> but was <iso8859-1>");
@@ -542,6 +555,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getContentType()).thenReturn("application/json; charset=utf-8");
 			assertion.isHtmlUtf8();
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expect Content-Type to be one of <text/html, application/xhtml+xml> but was <application/json>");
@@ -550,6 +564,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getContentType()).thenReturn("text/html; charset=iso8859-1");
 			assertion.isHtmlUtf8();
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expect charset to be <utf-8> but was <iso8859-1>");
@@ -565,6 +580,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getHeader("foo")).thenReturn(null);
 			assertion.hasHeader("foo");
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expected header <foo> to be defined");
@@ -573,6 +589,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getHeader("foo")).thenReturn("  ");
 			assertion.hasHeader("foo");
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expected header <foo> to be defined");
@@ -587,6 +604,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getHeader("foo")).thenReturn("quix");
 			assertion.hasHeaderEqualTo("foo", "bar");
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expected header <foo> to be <bar> but was <quix>");
@@ -637,6 +655,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getCookie("bar")).thenReturn(null);
 			assertion.hasCookie("bar");
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expected cookie <bar> to be defined");
@@ -651,6 +670,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getCookie("foo")).thenReturn(new Cookie("foo", "quix"));
 			assertion.hasCookieEqualTo("foo", "bar");
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expected cookie <foo> to be <bar> but was <quix>");
@@ -663,16 +683,18 @@ public class ResponseAssertTest {
 		fn.apply(expected);
 
 		try {
-			when(response.getHeader(name)).thenReturn(null);
+			when(response.getHeader(name.toLowerCase())).thenReturn(null);
 			hasCheck.apply();
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expected header <" + name + "> to be defined");
 		}
 
 		try {
-			when(response.getHeader(name)).thenReturn("  ");
+			when(response.getHeader(name.toLowerCase())).thenReturn("  ");
 			hasCheck.apply();
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expected header <" + name + "> to be defined");
@@ -681,6 +703,7 @@ public class ResponseAssertTest {
 		try {
 			when(response.getHeader(name.toLowerCase())).thenReturn(expected + "foo");
 			fn.apply(expected);
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expected header <" + name + "> to be <" + expected + "> but was <" + (expected + "foo") + ">");
@@ -701,6 +724,7 @@ public class ResponseAssertTest {
 		when(response.getContentType()).thenReturn("foo; charset=utf-8");
 		try {
 			fn.apply();
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expect Content-Type to be " + oneOf + "<" + Joiner.on(", ").join(expecteds) + "> but was <foo>");
@@ -717,6 +741,7 @@ public class ResponseAssertTest {
 		when(response.getStatusCode()).thenReturn(test);
 		try {
 			fn.apply();
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expected status code to be between <" + start + "> and <" + end + "> but was <" + test + ">");
@@ -731,6 +756,7 @@ public class ResponseAssertTest {
 		when(response.getStatusCode()).thenReturn(errorStatus);
 		try {
 			fn.apply();
+			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expected status code to be <" + status + "> but was <" + errorStatus + ">");
