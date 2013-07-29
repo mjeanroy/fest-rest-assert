@@ -52,7 +52,13 @@ public class CookieAssert extends AbstractAssert<CookieAssert, Cookie> {
 		return this;
 	}
 
-	public CookieAssert hasPath(String path) {
+	/**
+	 * Check if cookie has a path equal to an expected value.
+	 *
+	 * @param path Expected path of cookie.
+	 * @return {@code this} the assertion object.
+	 */
+	public CookieAssert isPathEqualTo(String path) {
 		isNotNull();
 		Assertions.assertThat(actual.getPath())
 				.overridingErrorMessage("Expected path of cookie to be <%s> but was <%s>", path, actual.getPath())
