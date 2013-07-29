@@ -24,7 +24,13 @@ public class CookieAssert extends AbstractAssert<CookieAssert, Cookie> {
 		return this;
 	}
 
-	public CookieAssert hasValue(String value) {
+	/**
+	 * Check if cookie has a value equal to an expected value.
+	 *
+	 * @param value Expected value of cookie.
+	 * @return {@code this} the assertion object.
+	 */
+	public CookieAssert isValueEqualTo(String value) {
 		isNotNull();
 		Assertions.assertThat(actual.getValue())
 				.overridingErrorMessage("Expected value of cookie to be <%s> but was <%s>", value, actual.getValue())

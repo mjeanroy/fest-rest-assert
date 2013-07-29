@@ -34,4 +34,19 @@ public class CookieAssertTest {
 			assertThat(error.getMessage()).isEqualTo("Expected name of cookie to be <foo> but was <bar>");
 		}
 	}
+
+	@Test
+	public void test_isValueEqualTo() {
+		when(cookie.getValue()).thenReturn("foo");
+		assertion.isValueEqualTo("foo");
+
+		try {
+			when(cookie.getValue()).thenReturn("bar");
+			assertion.isValueEqualTo("foo");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected value of cookie to be <foo> but was <bar>");
+		}
+	}
 }
