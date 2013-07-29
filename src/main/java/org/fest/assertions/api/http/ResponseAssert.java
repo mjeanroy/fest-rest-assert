@@ -9,10 +9,14 @@ import org.fest.assertions.util.Response;
 
 public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 
-	/** Etag header name */
+	/**
+	 * Etag header name
+	 */
 	private static final String ETAG = "ETag";
 
-	/** Location header name */
+	/**
+	 * Location header name
+	 */
 	private static final String LOCATION = "Location";
 
 	public ResponseAssert(Response actual) {
@@ -249,7 +253,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	public ResponseAssert isStatusNotEqualTo(int expected) {
 		isNotNull();
 		Assertions.assertThat(actual.getStatusCode())
-				.overridingErrorMessage("Expected status code not to be <%s> but was <%s>", expected, actual.getStatusCode())
+				.overridingErrorMessage("Expected status code not to be <%s>", expected)
 				.isNotEqualTo(expected);
 		return this;
 	}

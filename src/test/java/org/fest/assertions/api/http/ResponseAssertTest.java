@@ -27,6 +27,20 @@ public class ResponseAssertTest {
 	}
 
 	@Test
+	public void test_isStatusNotEqualTo() {
+		when(response.getStatusCode()).thenReturn(300);
+		assertion.isStatusNotEqualTo(200);
+
+		try {
+			when(response.getStatusCode()).thenReturn(200);
+			assertion.isStatusNotEqualTo(200);
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected status code not to be <200>");
+		}
+	}
+
+	@Test
 	public void test_isSuccess() {
 		checkRange(200, 299, new VoidClojure() {
 			@Override
