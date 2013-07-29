@@ -41,6 +41,22 @@ public class ResponseAssertTest {
 	}
 
 	@Test
+	public void test_isStatusNotBetween() {
+		when(response.getStatusCode()).thenReturn(300);
+		assertion.isStatusNotBetween(200, 299);
+
+		for (int i = 200; i <= 299; i++) {
+			try {
+				when(response.getStatusCode()).thenReturn(i);
+				assertion.isStatusNotBetween(200, 299);
+			}
+			catch (AssertionError error) {
+				assertThat(error.getMessage()).isEqualTo("Expected status code not to be between <200> and <299> but was <" + i + ">");
+			}
+		}
+	}
+
+	@Test
 	public void test_isSuccess() {
 		checkRange(200, 299, new VoidClojure() {
 			@Override
