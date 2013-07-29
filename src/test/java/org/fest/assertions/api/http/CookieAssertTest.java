@@ -49,4 +49,19 @@ public class CookieAssertTest {
 			assertThat(error.getMessage()).isEqualTo("Expected value of cookie to be <foo> but was <bar>");
 		}
 	}
+
+	@Test
+	public void test_isDomainEqualTo() {
+		when(cookie.getDomain()).thenReturn("foo");
+		assertion.isDomainEqualTo("foo");
+
+		try {
+			when(cookie.getDomain()).thenReturn("bar");
+			assertion.isDomainEqualTo("foo");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected domain of cookie to be <foo> but was <bar>");
+		}
+	}
 }

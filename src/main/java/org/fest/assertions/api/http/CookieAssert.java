@@ -38,7 +38,13 @@ public class CookieAssert extends AbstractAssert<CookieAssert, Cookie> {
 		return this;
 	}
 
-	public CookieAssert hasDomain(String domain) {
+	/**
+	 * Check if cookie has a domain equal to an expected value.
+	 *
+	 * @param domain Expected domain of cookie.
+	 * @return {@code this} the assertion object.
+	 */
+	public CookieAssert isDomainEqualTo(String domain) {
 		isNotNull();
 		Assertions.assertThat(actual.getDomain())
 				.overridingErrorMessage("Expected domain of cookie to be <%s> but was <%s>", domain, actual.getDomain())
