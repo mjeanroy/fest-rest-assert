@@ -1,7 +1,5 @@
 package org.fest.assertions.api.http;
 
-import java.util.List;
-
 import org.fest.assertions.api.AbstractAssert;
 import org.fest.assertions.api.Assertions;
 import org.fest.assertions.util.Cookie;
@@ -602,61 +600,26 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 		return hasHeaderEqualTo(LOCATION, value);
 	}
 
-	private Cookie cookie(String name) {
-		List<Cookie> cookies = actual.getCookies();
-		Cookie cookie = null;
-		for (Cookie c : cookies) {
-			if (c.getName().equals(name)) {
-				cookie = c;
-				break;
-			}
-		}
-		return cookie;
-	}
-
+	/**
+	 * Check if a cookie is defined in the response headers.
+	 *
+	 * @param cookieName Cookie name.
+	 * @return {@code this} the assertion object.
+	 */
 	public ResponseAssert hasCookie(String cookieName) {
 		isNotNull();
-
-		Cookie cookie = cookie(cookieName);
-		Assertions.assertThat(cookie)
+		Assertions.assertThat(actual.getCookie(cookieName))
 				.overridingErrorMessage("Expected cookie <%s> to be defined", cookieName)
 				.isNotNull();
-
 		return this;
 	}
 
 	public ResponseAssert hasCookieEqualsTo(String cookieName, String value) {
 		hasCookie(cookieName);
-
-		Cookie cookie = cookie(cookieName);
-		Assertions.assertThat(cookie.getName())
+		Cookie cookie = actual.getCookie(cookieName);
+		Assertions.assertThat(cookie.getValue())
 				.overridingErrorMessage("Expected cookie <%s> to be <%s> but was <%s>", cookieName, value, cookie.getValue())
 				.isEqualTo(value);
-
-		return this;
-	}
-
-	public ResponseAssert hasCookieEqualsTo(String cookieName, String value, String domain, String path, int maxAge, boolean secure) {
-		hasCookieEqualsTo(cookieName, value);
-
-		Cookie cookie = cookie(cookieName);
-
-		Assertions.assertThat(cookie.getDomain())
-				.overridingErrorMessage("Expected cookie <%s> to have domain equals to <%s> but was <%s>", cookieName, domain, cookie.getDomain())
-				.isEqualTo(domain);
-
-		Assertions.assertThat(cookie.getPath())
-				.overridingErrorMessage("Expected cookie <%s> to have path equals to <%s> but was <%s>", cookieName, path, cookie.getPath())
-				.isEqualTo(path);
-
-		Assertions.assertThat(cookie.getMaxAge())
-				.overridingErrorMessage("Expected cookie <%s> to have max-age equals to <%s> but was <%s>", cookieName, maxAge, cookie.getMaxAge())
-				.isEqualTo(maxAge);
-
-		Assertions.assertThat(cookie.isSecure())
-				.overridingErrorMessage("Expected cookie <%s> to have secure equals to <%s> but was <%s>", cookieName, secure, cookie.isSecure())
-				.isEqualTo(secure);
-
 		return this;
 	}
 

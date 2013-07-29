@@ -73,4 +73,21 @@ public class Response {
 	public void setCookies(List<Cookie> cookies) {
 		this.cookies = cookies;
 	}
+
+	/**
+	 * Find cookie by its name.
+	 *
+	 * @param cookieName Cookie name.
+	 * @return Cookie, null if cookie does not exist.
+	 */
+	public Cookie getCookie(String cookieName) {
+		if (cookies != null && !cookies.isEmpty()) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equalsIgnoreCase(cookieName)) {
+					return cookie;
+				}
+			}
+		}
+		return null;
+	}
 }

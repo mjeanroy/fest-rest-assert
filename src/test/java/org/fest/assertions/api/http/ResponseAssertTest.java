@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 
+import org.fest.assertions.util.Cookie;
 import org.fest.assertions.util.Response;
 import org.fest.assertions.utils.OneParameterClojure;
 import org.fest.assertions.utils.VoidClojure;
@@ -626,6 +627,20 @@ public class ResponseAssertTest {
 					}
 				}
 		);
+	}
+
+	@Test
+	public void test_hasCookie() {
+		when(response.getCookie("foo")).thenReturn(new Cookie());
+		assertion.hasCookie("foo");
+
+		try {
+			when(response.getCookie("bar")).thenReturn(null);
+			assertion.hasCookie("bar");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected cookie <bar> to be defined");
+		}
 	}
 
 	private void checkHeader(String name, String expected, VoidClojure hasCheck, OneParameterClojure<String> fn) {
