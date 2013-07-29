@@ -79,4 +79,34 @@ public class CookieAssertTest {
 			assertThat(error.getMessage()).isEqualTo("Expected path of cookie to be <foo> but was <bar>");
 		}
 	}
+
+	@Test
+	public void test_isSecure() {
+		when(cookie.isSecure()).thenReturn(true);
+		assertion.isSecure();
+
+		try {
+			when(cookie.isSecure()).thenReturn(false);
+			assertion.isSecure();
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected cookie to be secure");
+		}
+	}
+
+	@Test
+	public void test_isNotSecure() {
+		when(cookie.isSecure()).thenReturn(false);
+		assertion.isNotSecure();
+
+		try {
+			when(cookie.isSecure()).thenReturn(true);
+			assertion.isNotSecure();
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected cookie not to be secure");
+		}
+	}
 }

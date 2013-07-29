@@ -66,6 +66,32 @@ public class CookieAssert extends AbstractAssert<CookieAssert, Cookie> {
 		return this;
 	}
 
+	/**
+	 * Check if cookie has a secure flag.
+	 *
+	 * @return {@code this} the assertion object.
+	 */
+	public CookieAssert isSecure() {
+		isNotNull();
+		Assertions.assertThat(actual.isSecure())
+				.overridingErrorMessage("Expected cookie to be secure")
+				.isTrue();
+		return this;
+	}
+
+	/**
+	 * Check if cookie does not have a secure flag.
+	 *
+	 * @return {@code this} the assertion object.
+	 */
+	public CookieAssert isNotSecure() {
+		isNotNull();
+		Assertions.assertThat(actual.isSecure())
+				.overridingErrorMessage("Expected cookie not to be secure")
+				.isFalse();
+		return this;
+	}
+
 	public CookieAssert hasMaxAge(int maxAge) {
 		isNotNull();
 		Assertions.assertThat(actual.getMaxAge())
@@ -95,22 +121,6 @@ public class CookieAssert extends AbstractAssert<CookieAssert, Cookie> {
 		Assertions.assertThat(actual.getMaxAge())
 				.overridingErrorMessage("Expected cookie to be deleted but max-age is equal to <%s>", actual.getMaxAge())
 				.isEqualTo(0);
-		return this;
-	}
-
-	public CookieAssert isSecure() {
-		isNotNull();
-		Assertions.assertThat(actual.isSecure())
-				.overridingErrorMessage("Expected cookie to be secure")
-				.isTrue();
-		return this;
-	}
-
-	public CookieAssert isNotSecure() {
-		isNotNull();
-		Assertions.assertThat(actual.isSecure())
-				.overridingErrorMessage("Expected cookie not to be secure")
-				.isFalse();
 		return this;
 	}
 
