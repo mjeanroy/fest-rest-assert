@@ -7,14 +7,53 @@ import org.fest.assertions.util.Response;
 
 public class REST {
 
-	public static ResponseAssert from(com.ning.http.client.Response response) {
+	/**
+	 * Build new assertion object from {@link com.ning.http.client.Response} object.
+	 *
+	 * @param response Original response object.
+	 * @return Assertion object.
+	 */
+	public static ResponseAssert assertThat(com.ning.http.client.Response response) {
 		return new ResponseAssert(new Response(response));
 	}
 
-	public static ResponseAssert from(org.apache.http.HttpResponse response) {
+	/**
+	 * Build new assertion object from {@link org.apache.http.HttpResponse} object.
+	 *
+	 * @param response Original response object.
+	 * @return Assertion object.
+	 */
+	public static ResponseAssert assertThat(org.apache.http.HttpResponse response) {
 		return new ResponseAssert(new Response(response));
 	}
 
+	/**
+	 * Build new cookie assertion object.
+	 *
+	 * @param cookie Cookie object.
+	 * @return Assertion object.
+	 */
+	public static CookieAssert assertThat(Cookie cookie) {
+		return new CookieAssert(cookie);
+	}
+
+	/**
+	 * Build new cookie assertion object from {@link org.apache.http.HttpResponse} object.
+	 *
+	 * @param response Original response object.
+	 * @return Assertion object.
+	 */
+	public static CookieAssert assertCookieThat(String cookieName, com.ning.http.client.Response response) {
+		return new CookieAssert(extractCookie(cookieName, response));
+	}
+
+	/**
+	 * Extract cookie from {@link org.apache.http.HttpResponse} object.
+	 *
+	 * @param name Name of cookie to extract.
+	 * @param response Original response object.
+	 * @return Cookie object.
+	 */
 	public static Cookie extractCookie(String name, com.ning.http.client.Response response) {
 		List<com.ning.http.client.Cookie> cookies = response.getCookies();
 		for (com.ning.http.client.Cookie cookie : cookies) {
