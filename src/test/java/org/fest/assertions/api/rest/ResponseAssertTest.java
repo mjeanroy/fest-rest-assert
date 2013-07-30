@@ -1,4 +1,4 @@
-package org.fest.assertions.api.http;
+package org.fest.assertions.api.rest;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.Assertions.fail;

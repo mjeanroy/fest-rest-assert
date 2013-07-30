@@ -1,4 +1,4 @@
-package org.fest.assertions.api.http;
+package org.fest.assertions.api.rest;
 
 import org.fest.assertions.api.AbstractAssert;
 import org.fest.assertions.api.Assertions;
@@ -92,6 +92,32 @@ public class CookieAssert extends AbstractAssert<CookieAssert, Cookie> {
 		return this;
 	}
 
+	/**
+	 * Check if cookie has a 'rest only' flag.
+	 *
+	 * @return {@code this} the assertion object.
+	 */
+	public CookieAssert isHttpOnly() {
+		isNotNull();
+		Assertions.assertThat(actual.isHttpOnly())
+				.overridingErrorMessage("Expected cookie to be rest only")
+				.isTrue();
+		return this;
+	}
+
+	/**
+	 * Check if cookie does not have a 'rest only' flag.
+	 *
+	 * @return {@code this} the assertion object.
+	 */
+	public CookieAssert isNotHttpOnly() {
+		isNotNull();
+		Assertions.assertThat(actual.isHttpOnly())
+				.overridingErrorMessage("Expected cookie not to be rest only")
+				.isFalse();
+		return this;
+	}
+
 	public CookieAssert hasMaxAge(int maxAge) {
 		isNotNull();
 		Assertions.assertThat(actual.getMaxAge())
@@ -121,22 +147,6 @@ public class CookieAssert extends AbstractAssert<CookieAssert, Cookie> {
 		Assertions.assertThat(actual.getMaxAge())
 				.overridingErrorMessage("Expected cookie to be deleted but max-age is equal to <%s>", actual.getMaxAge())
 				.isEqualTo(0);
-		return this;
-	}
-
-	public CookieAssert isHttpOnly() {
-		isNotNull();
-		Assertions.assertThat(actual.isHttpOnly())
-				.overridingErrorMessage("Expected cookie to be http only")
-				.isTrue();
-		return this;
-	}
-
-	public CookieAssert isNotHttpOnly() {
-		isNotNull();
-		Assertions.assertThat(actual.isHttpOnly())
-				.overridingErrorMessage("Expected cookie not to be http only")
-				.isFalse();
 		return this;
 	}
 }

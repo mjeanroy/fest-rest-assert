@@ -1,4 +1,4 @@
-package org.fest.assertions.api.http;
+package org.fest.assertions.api.rest;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.Assertions.fail;
@@ -107,6 +107,36 @@ public class CookieAssertTest {
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expected cookie not to be secure");
+		}
+	}
+
+	@Test
+	public void test_isHttpOnly() {
+		when(cookie.isHttpOnly()).thenReturn(true);
+		assertion.isHttpOnly();
+
+		try {
+			when(cookie.isHttpOnly()).thenReturn(false);
+			assertion.isHttpOnly();
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected cookie to be rest only");
+		}
+	}
+
+	@Test
+	public void test_isNotHttpOnly() {
+		when(cookie.isHttpOnly()).thenReturn(false);
+		assertion.isNotHttpOnly();
+
+		try {
+			when(cookie.isHttpOnly()).thenReturn(true);
+			assertion.isNotHttpOnly();
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected cookie not to be rest only");
 		}
 	}
 }

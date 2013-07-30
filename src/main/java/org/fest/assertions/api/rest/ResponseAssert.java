@@ -1,4 +1,4 @@
-package org.fest.assertions.api.http;
+package org.fest.assertions.api.rest;
 
 import org.fest.assertions.api.AbstractAssert;
 import org.fest.assertions.api.Assertions;
@@ -22,7 +22,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is between 200 and 299 (which means success status).
+	 * Check if rest code status is between 200 and 299 (which means success status).
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -31,7 +31,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is between 300 and 399 (which means redirection status).
+	 * Check if rest code status is between 300 and 399 (which means redirection status).
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -40,7 +40,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is between 400 and 499 (which means client-side error).
+	 * Check if rest code status is between 400 and 499 (which means client-side error).
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -49,7 +49,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is between 500 and 599 (which means server error).
+	 * Check if rest code status is between 500 and 599 (which means server error).
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -58,7 +58,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 200 (a.k.a 'OK').
+	 * Check if rest code status is 200 (a.k.a 'OK').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -67,7 +67,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 202 (a.k.a 'ACCEPTED').
+	 * Check if rest code status is 202 (a.k.a 'ACCEPTED').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -76,7 +76,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 201 (a.k.a 'CREATED').
+	 * Check if rest code status is 201 (a.k.a 'CREATED').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -85,7 +85,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 203 (a.k.a 'NON-AUTHORITATIVE INFORMATION').
+	 * Check if rest code status is 203 (a.k.a 'NON-AUTHORITATIVE INFORMATION').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -94,7 +94,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 204 (a.k.a 'NO CONTENT').
+	 * Check if rest code status is 204 (a.k.a 'NO CONTENT').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -103,7 +103,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 205 (a.k.a 'RESET CONTENT').
+	 * Check if rest code status is 205 (a.k.a 'RESET CONTENT').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -112,7 +112,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 206 (a.k.a 'PARTIAL CONTENT').
+	 * Check if rest code status is 206 (a.k.a 'PARTIAL CONTENT').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -121,7 +121,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 300 (a.k.a 'MULTIPLE CHOICES').
+	 * Check if rest code status is 300 (a.k.a 'MULTIPLE CHOICES').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -130,7 +130,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 301 (a.k.a 'MOVED PERMANENTLY').
+	 * Check if rest code status is 301 (a.k.a 'MOVED PERMANENTLY').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -139,7 +139,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 302 (a.k.a 'MOVED TEMPORARILY').
+	 * Check if rest code status is 302 (a.k.a 'MOVED TEMPORARILY').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -148,7 +148,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 303 (a.k.a 'SEE OTHER').
+	 * Check if rest code status is 303 (a.k.a 'SEE OTHER').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -157,7 +157,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 304 (a.k.a 'NOT MODIFIED').
+	 * Check if rest code status is 304 (a.k.a 'NOT MODIFIED').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -166,7 +166,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 400 (a.k.a 'BAD REQUEST').
+	 * Check if rest code status is 400 (a.k.a 'BAD REQUEST').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -175,7 +175,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 401 (a.k.a 'UNAUTHORIZED').
+	 * Check if rest code status is 401 (a.k.a 'UNAUTHORIZED').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -184,7 +184,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 403 (a.k.a 'FORBIDDEN').
+	 * Check if rest code status is 403 (a.k.a 'FORBIDDEN').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -193,7 +193,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 404 (a.k.a 'NOT FOUND').
+	 * Check if rest code status is 404 (a.k.a 'NOT FOUND').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -202,7 +202,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 405 (a.k.a 'METHOD NOT ALLOWED').
+	 * Check if rest code status is 405 (a.k.a 'METHOD NOT ALLOWED').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -211,7 +211,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 500 (a.k.a 'INTERNAL SERVER ERROR').
+	 * Check if rest code status is 500 (a.k.a 'INTERNAL SERVER ERROR').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -220,7 +220,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is 501 (a.k.a 'NOT IMPLEMENTED').
+	 * Check if rest code status is 501 (a.k.a 'NOT IMPLEMENTED').
 	 *
 	 * @return {@code this} the assertion object.
 	 */
@@ -229,7 +229,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is equal to expected value.
+	 * Check if rest code status is equal to expected value.
 	 *
 	 * @param expected Expected value.
 	 * @return {@code this} the assertion object.
@@ -243,7 +243,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is equal to expected value.
+	 * Check if rest code status is equal to expected value.
 	 *
 	 * @param expected Expected value.
 	 * @return {@code this} the assertion object.
@@ -257,7 +257,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is between expected values.
+	 * Check if rest code status is between expected values.
 	 *
 	 * @param start Start value (inclusive).
 	 * @param end End value (inclusive).
@@ -273,7 +273,7 @@ public class ResponseAssert extends AbstractAssert<ResponseAssert, Response> {
 	}
 
 	/**
-	 * Check if http code status is between expected values.
+	 * Check if rest code status is between expected values.
 	 *
 	 * @param start Start value (inclusive).
 	 * @param end End value (inclusive).
