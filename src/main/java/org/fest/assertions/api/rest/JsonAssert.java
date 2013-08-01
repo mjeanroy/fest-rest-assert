@@ -44,6 +44,26 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		return this;
 	}
 
+	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and if value stored at expected path is equal to {@code true}.
+	 *
+	 * @param path Path to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public <T> JsonAssert isTrue(String path) {
+		return isPathEqualTo(path, true);
+	}
+
+	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and if value stored at expected path is equal to {@code false}.
+	 *
+	 * @param path Path to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public <T> JsonAssert isFalse(String path) {
+		return isPathEqualTo(path, false);
+	}
+
 	private String formatPath(String path) {
 		if (!path.startsWith("$.")) {
 			return "$." + path;

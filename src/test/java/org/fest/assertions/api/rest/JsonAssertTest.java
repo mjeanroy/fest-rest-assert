@@ -67,4 +67,26 @@ public class JsonAssertTest {
 			assertThat(error.getMessage()).isEqualTo("Expect path <flag> to be <false> but was <true>");
 		}
 	}
+
+	@Test
+	public void test_isTrue() {
+		simpleJsonAssertion.isTrue("flag");
+		nestedJsonAssertion.isFalse("flag");
+
+		try {
+			simpleJsonAssertion.isFalse("flag");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect path <flag> to be <false> but was <true>");
+		}
+
+		try {
+			nestedJsonAssertion.isTrue("flag");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect path <flag> to be <true> but was <false>");
+		}
+	}
 }
