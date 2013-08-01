@@ -102,4 +102,58 @@ public class JsonAssertTest {
 			assertThat(error.getMessage()).isEqualTo("Expect path <id> to be <0> but was <1>");
 		}
 	}
+
+	@Test
+	public void test_isGreaterThan() {
+		simpleJsonAssertion.isGreaterThan("id", 0);
+
+		try {
+			simpleJsonAssertion.isGreaterThan("id", 1);
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect path <id> to be greater than <1> but was <1>");
+		}
+	}
+
+	@Test
+	public void test_isGreaterThanOrEqualTo() {
+		simpleJsonAssertion.isGreaterThanOrEqualTo("id", 0);
+		simpleJsonAssertion.isGreaterThanOrEqualTo("id", 1);
+
+		try {
+			simpleJsonAssertion.isGreaterThanOrEqualTo("id", 2);
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect path <id> to be greater than or equal to <2> but was <1>");
+		}
+	}
+
+	@Test
+	public void test_isLessThan() {
+		simpleJsonAssertion.isLessThan("id", 10);
+
+		try {
+			simpleJsonAssertion.isLessThan("id", 1);
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect path <id> to be less than <1> but was <1>");
+		}
+	}
+
+	@Test
+	public void test_isLessThanOrEqualTo() {
+		simpleJsonAssertion.isLessThanOrEqualTo("id", 2);
+		simpleJsonAssertion.isLessThanOrEqualTo("id", 1);
+
+		try {
+			simpleJsonAssertion.isLessThanOrEqualTo("id", 0);
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect path <id> to be less than or equal to <0> but was <1>");
+		}
+	}
 }

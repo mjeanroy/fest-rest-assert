@@ -74,6 +74,70 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		return isPathEqualTo(path, 0);
 	}
 
+	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and if value stored at expected path is greater than an expected value.
+	 *
+	 * @param path Path to look for.
+	 * @param value Bound value.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isGreaterThan(String path, int value) {
+		hasPath(path);
+		int result = JsonPath.read(actual, path);
+		Assertions.assertThat(result)
+				.overridingErrorMessage("Expect path <%s> to be greater than <%s> but was <%s>", path, value, result)
+				.isGreaterThan(value);
+		return this;
+	}
+
+	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and if value stored at expected path is greater than or equal to an expected value.
+	 *
+	 * @param path Path to look for.
+	 * @param value Bound value.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isGreaterThanOrEqualTo(String path, int value) {
+		hasPath(path);
+		int result = JsonPath.read(actual, path);
+		Assertions.assertThat(result)
+				.overridingErrorMessage("Expect path <%s> to be greater than or equal to <%s> but was <%s>", path, value, result)
+				.isGreaterThanOrEqualTo(value);
+		return this;
+	}
+
+	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and if value stored at expected path is less than an expected value.
+	 *
+	 * @param path Path to look for.
+	 * @param value Bound value.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isLessThan(String path, int value) {
+		hasPath(path);
+		int result = JsonPath.read(actual, path);
+		Assertions.assertThat(result)
+				.overridingErrorMessage("Expect path <%s> to be less than <%s> but was <%s>", path, value, result)
+				.isLessThan(value);
+		return this;
+	}
+
+	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and if value stored at expected path is less than or equal to an expected value.
+	 *
+	 * @param path Path to look for.
+	 * @param value Bound value.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isLessThanOrEqualTo(String path, int value) {
+		hasPath(path);
+		int result = JsonPath.read(actual, path);
+		Assertions.assertThat(result)
+				.overridingErrorMessage("Expect path <%s> to be less than or equal to <%s> but was <%s>", path, value, result)
+				.isLessThanOrEqualTo(value);
+		return this;
+	}
+
 	private String formatPath(String path) {
 		if (!path.startsWith("$.")) {
 			return "$." + path;
