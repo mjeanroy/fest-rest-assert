@@ -16,7 +16,7 @@ public class JsonAssertTest {
 
 	@Before
 	public void setUp() {
-		simpleJson = "{\"id\": 1, \"name\": \"foo\", \"nickname\": \"bar\", \"flag\": true }";
+		simpleJson = "{\"id\": 1, \"name\": \"foo\", \"nickname\": \"bar\", \"flag\": true, \"zero\": 0 }";
 		nestedJson = "{\"id\": 1, \"name\": { \"firstName\": \"foo\", \"lastName\": \"bar\" }, \"nickname\": \"bar\", \"flag\": false }";
 
 		simpleJsonAssertion = new JsonAssert(simpleJson);
@@ -33,7 +33,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expected path <foo> to be find in json <{\"id\": 1, \"name\": \"foo\", \"nickname\": \"bar\", \"flag\": true }>");
+			assertThat(error.getMessage()).isEqualTo("Expected path <foo> to be find in json <{\"id\": 1, \"name\": \"foo\", \"nickname\": \"bar\", \"flag\": true, \"zero\": 0 }>");
 		}
 
 		try {
@@ -87,6 +87,19 @@ public class JsonAssertTest {
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expect path <flag> to be <true> but was <false>");
+		}
+	}
+
+	@Test
+	public void test_isZero() {
+		simpleJsonAssertion.isZero("zero");
+
+		try {
+			simpleJsonAssertion.isZero("id");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect path <id> to be <0> but was <1>");
 		}
 	}
 }
