@@ -138,6 +138,26 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		return this;
 	}
 
+	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and if value stored at expected path is positive (a.k.a greater than zero).
+	 *
+	 * @param path Path to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isPositive(String path) {
+		return isGreaterThan(path, 0);
+	}
+
+	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and if value stored at expected path is negative (a.k.a lower than zero).
+	 *
+	 * @param path Path to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isNegative(String path) {
+		return isLessThan(path, 0);
+	}
+
 	private String formatPath(String path) {
 		if (!path.startsWith("$.")) {
 			return "$." + path;

@@ -16,7 +16,7 @@ public class JsonAssertTest {
 
 	@Before
 	public void setUp() {
-		simpleJson = "{\"id\": 1, \"name\": \"foo\", \"nickname\": \"bar\", \"flag\": true, \"zero\": 0 }";
+		simpleJson = "{\"id\": 1, \"name\": \"foo\", \"nickname\": \"bar\", \"flag\": true, \"zero\": 0, \"negative\": -1 }";
 		nestedJson = "{\"id\": 1, \"name\": { \"firstName\": \"foo\", \"lastName\": \"bar\" }, \"nickname\": \"bar\", \"flag\": false }";
 
 		simpleJsonAssertion = new JsonAssert(simpleJson);
@@ -33,7 +33,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expected path <foo> to be find in json <{\"id\": 1, \"name\": \"foo\", \"nickname\": \"bar\", \"flag\": true, \"zero\": 0 }>");
+			assertThat(error.getMessage()).isEqualTo("Expected path <foo> to be find in json <{\"id\": 1, \"name\": \"foo\", \"nickname\": \"bar\", \"flag\": true, \"zero\": 0, \"negative\": -1 }>");
 		}
 
 		try {
@@ -154,6 +154,32 @@ public class JsonAssertTest {
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expect path <id> to be less than or equal to <0> but was <1>");
+		}
+	}
+
+	@Test
+	public void test_isPositive() {
+		simpleJsonAssertion.isPositive("id");
+
+		try {
+			simpleJsonAssertion.isPositive("negative");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect path <negative> to be greater than <0> but was <-1>");
+		}
+	}
+
+	@Test
+	public void test_isNegative() {
+		simpleJsonAssertion.isNegative("negative");
+
+		try {
+			simpleJsonAssertion.isNegative("id");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect path <id> to be less than <0> but was <1>");
 		}
 	}
 }
