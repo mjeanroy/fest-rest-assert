@@ -6,10 +6,10 @@ import org.fest.assertions.api.Assertions;
 import com.jayway.jsonpath.InvalidPathException;
 import com.jayway.jsonpath.JsonPath;
 
-public class JsonAssert extends AbstractAssert<JsonAssert, String> {
+public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 
-	public JsonAssert(String actual) {
-		super(actual, JsonAssert.class);
+	public ObjectJsonAssert(String actual) {
+		super(actual, ObjectJsonAssert.class);
 	}
 
 	/**
@@ -18,7 +18,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @param path Path to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert hasPath(String path) {
+	public ObjectJsonAssert hasPath(String path) {
 		try {
 			JsonPath.read(actual, formatPath(path));
 		}
@@ -35,7 +35,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @param obj Expected value.
 	 * @return {@code this} the assertion object.
 	 */
-	public <T> JsonAssert isPathEqualTo(String path, T obj) {
+	public <T> ObjectJsonAssert isPathEqualTo(String path, T obj) {
 		hasPath(path);
 		T result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
@@ -50,7 +50,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @param path Path to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert isTrue(String path) {
+	public ObjectJsonAssert isTrue(String path) {
 		return isPathEqualTo(path, true);
 	}
 
@@ -60,7 +60,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @param path Path to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert isFalse(String path) {
+	public ObjectJsonAssert isFalse(String path) {
 		return isPathEqualTo(path, false);
 	}
 
@@ -70,7 +70,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @param path Path to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert isZero(String path) {
+	public ObjectJsonAssert isZero(String path) {
 		return isPathEqualTo(path, 0);
 	}
 
@@ -81,7 +81,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @param value Bound value.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert isGreaterThan(String path, int value) {
+	public ObjectJsonAssert isGreaterThan(String path, int value) {
 		hasPath(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
@@ -97,7 +97,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @param value Bound value.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert isGreaterThanOrEqualTo(String path, int value) {
+	public ObjectJsonAssert isGreaterThanOrEqualTo(String path, int value) {
 		hasPath(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
@@ -113,7 +113,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @param value Bound value.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert isLessThan(String path, int value) {
+	public ObjectJsonAssert isLessThan(String path, int value) {
 		hasPath(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
@@ -129,7 +129,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @param value Bound value.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert isLessThanOrEqualTo(String path, int value) {
+	public ObjectJsonAssert isLessThanOrEqualTo(String path, int value) {
 		hasPath(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
@@ -144,7 +144,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @param path Path to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert isPositive(String path) {
+	public ObjectJsonAssert isPositive(String path) {
 		return isGreaterThan(path, 0);
 	}
 
@@ -154,7 +154,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @param path Path to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert isNegative(String path) {
+	public ObjectJsonAssert isNegative(String path) {
 		return isLessThan(path, 0);
 	}
 

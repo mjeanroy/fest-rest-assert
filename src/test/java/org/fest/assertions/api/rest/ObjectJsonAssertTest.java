@@ -6,21 +6,21 @@ import static org.fest.assertions.api.Assertions.fail;
 import org.junit.Before;
 import org.junit.Test;
 
-public class JsonAssertTest {
+public class ObjectJsonAssertTest {
 
 	private String simpleJson;
 	private String nestedJson;
 
-	private JsonAssert simpleJsonAssertion;
-	private JsonAssert nestedJsonAssertion;
+	private ObjectJsonAssert simpleJsonAssertion;
+	private ObjectJsonAssert nestedJsonAssertion;
 
 	@Before
 	public void setUp() {
 		simpleJson = "{\"id\": 1, \"name\": \"foo\", \"nickname\": \"bar\", \"flag\": true, \"zero\": 0, \"negative\": -1 }";
 		nestedJson = "{\"id\": 1, \"name\": { \"firstName\": \"foo\", \"lastName\": \"bar\" }, \"nickname\": \"bar\", \"flag\": false }";
 
-		simpleJsonAssertion = new JsonAssert(simpleJson);
-		nestedJsonAssertion = new JsonAssert(nestedJson);
+		simpleJsonAssertion = new ObjectJsonAssert(simpleJson);
+		nestedJsonAssertion = new ObjectJsonAssert(nestedJson);
 	}
 
 	@Test
