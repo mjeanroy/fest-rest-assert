@@ -20,6 +20,7 @@
 		<httpclient.version>4.2.5</httpclient.version>
 		<geronimo-servlet_3.0_spec.version>1.0</geronimo-servlet_3.0_spec.version>
 		<json-path.version>0.8.1</json-path.version>
+		<jackson-databind.version>2.2.3</jackson-databind.version>
 
 		<junit.version>4.11</junit.version>
 		<mockito.version>1.9.5</mockito.version>
@@ -62,6 +63,17 @@
 			<groupId>com.jayway.jsonpath</groupId>
 			<artifactId>json-path</artifactId>
 			<version>${json-path.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson-databind.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson-databind.version}</version>
 		</dependency>
 
 		<dependency>
