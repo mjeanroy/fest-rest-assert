@@ -1,7 +1,11 @@
 package org.fest.assertions.api.rest;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.fest.assertions.api.AbstractAssert;
 import org.fest.assertions.api.Assertions;
+import org.fest.assertions.data.JsonEntry;
 
 import com.jayway.jsonpath.InvalidPathException;
 import com.jayway.jsonpath.JsonPath;
@@ -19,13 +23,99 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * @return {@code this} the assertion object.
 	 */
 	public ObjectJsonAssert hasPath(String path) {
-		try {
-			JsonPath.read(actual, formatPath(path));
-		}
-		catch (InvalidPathException ex) {
+		if (!hasKey(path)) {
 			throw new AssertionError("Expected path <" + path + "> to be find in json <" + actual + ">");
 		}
 		return this;
+	}
+
+	/**
+	 * Check if a list of paths exist in json representation (support JSONPath specification).
+	 *
+	 * @param paths List of path to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public ObjectJsonAssert containsPaths(String... paths) {
+		List<String> errors = new ArrayList<String>(paths.length);
+		for (String path : paths) {
+			if (!hasKey(path)) {
+				errors.add(path);
+			}
+		}
+
+		if (!errors.isEmpty()) {
+			String msg = "Expected keys <";
+			for (String error : errors) {
+				msg += error + ", ";
+			}
+			msg = msg.substring(0, msg.length() - 2);
+			msg += "> to be find in json <" + actual + ">";
+			throw new AssertionError(msg);
+		}
+
+		return this;
+	}
+
+	/**
+	 * Check if an entry exist in json representation (support JSONPath specification).
+	 *
+	 * @param entry Entry to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public ObjectJsonAssert containsEntry(JsonEntry entry) {
+		String path = entry.key();
+		Object value = entry.value();
+		return isPathEqualTo(path, value);
+	}
+
+	/**
+	 * Check if a list of entries exist in json representation (support JSONPath specification).
+	 *
+	 * @param entries Entries to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public ObjectJsonAssert containsEntries(JsonEntry... entries) {
+		List<JsonEntry> errors = new ArrayList<JsonEntry>(entries.length);
+		for (JsonEntry entry : entries) {
+			try {
+				containsEntry(entry);
+			}
+			catch (AssertionError assertionError) {
+				errors.add(entry);
+			}
+		}
+
+		if (!errors.isEmpty()) {
+			String paths = "";
+			String expectedValues = "";
+			for (JsonEntry error : errors) {
+				paths += error.key() + ", ";
+				expectedValues += error.value() + ", ";
+			}
+			paths = paths.substring(0, paths.length() - 2);
+			expectedValues = expectedValues.substring(0, expectedValues.length() - 2);
+
+			String msg = "Expect following paths <" + paths + "> to be <" + expectedValues + "> in json <" + actual + ">";
+			throw new AssertionError(msg);
+		}
+
+		return this;
+	}
+
+	/**
+	 * Check if a key/path exist in json representation (support JSONPath specification).
+	 *
+	 * @param path Path to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	private boolean hasKey(String path) {
+		try {
+			JsonPath.read(actual, formatPath(path));
+			return true;
+		}
+		catch (InvalidPathException ex) {
+			return false;
+		}
 	}
 
 	/**

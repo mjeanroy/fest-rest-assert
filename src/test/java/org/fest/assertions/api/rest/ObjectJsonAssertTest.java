@@ -3,6 +3,7 @@ package org.fest.assertions.api.rest;
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.Assertions.fail;
 
+import org.fest.assertions.data.JsonEntry;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,6 +43,56 @@ public class ObjectJsonAssertTest {
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expected path <name.foo> to be find in json <{\"id\": 1, \"name\": { \"firstName\": \"foo\", \"lastName\": \"bar\" }, \"nickname\": \"bar\", \"flag\": false }>");
+		}
+	}
+
+	@Test
+	public void test_containsPaths() {
+		simpleJsonAssertion.containsPaths("id", "name", "nickname", "flag", "zero");
+		nestedJsonAssertion.containsPaths("id", "name.firstName");
+
+		try {
+			simpleJsonAssertion.containsPaths("id", "idfoo", "idbar");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected keys <idfoo, idbar> to be find in json <{\"id\": 1, \"name\": \"foo\", \"nickname\": \"bar\", \"flag\": true, \"zero\": 0, \"negative\": -1 }>");
+		}
+	}
+
+	@Test
+	public void test_containsEntry() {
+		simpleJsonAssertion.containsEntry(JsonEntry.entry("id", 1));
+		simpleJsonAssertion.containsEntry(JsonEntry.entry("name", "foo"));
+		simpleJsonAssertion.containsEntry(JsonEntry.entry("flag", true));
+
+		try {
+			simpleJsonAssertion.containsEntry(JsonEntry.entry("flag", false));
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect path <flag> to be <false> but was <true>");
+		}
+	}
+
+	@Test
+	public void test_containsEntries() {
+		simpleJsonAssertion.containsEntries(
+				JsonEntry.entry("id", 1),
+				JsonEntry.entry("name", "foo"),
+				JsonEntry.entry("flag", true)
+		);
+
+		try {
+			simpleJsonAssertion.containsEntries(
+					JsonEntry.entry("flag", false),
+					JsonEntry.entry("name", "bar"),
+					JsonEntry.entry("id", 1)
+			);
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect following paths <flag, name> to be <false, bar> in json <{\"id\": 1, \"name\": \"foo\", \"nickname\": \"bar\", \"flag\": true, \"zero\": 0, \"negative\": -1 }>");
 		}
 	}
 
