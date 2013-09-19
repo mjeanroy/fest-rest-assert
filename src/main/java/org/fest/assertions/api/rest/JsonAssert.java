@@ -1,5 +1,15 @@
 package org.fest.assertions.api.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.InvalidPathException;
+import com.jayway.jsonpath.JsonPath;
+import org.fest.assertions.api.AbstractAssert;
+import org.fest.assertions.api.Assertions;
+import org.fest.assertions.data.JsonEntry;
+import org.fest.assertions.util.JsonComparator;
+import org.fest.util.FilesException;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,24 +19,74 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import org.fest.assertions.api.AbstractAssert;
-import org.fest.assertions.api.Assertions;
-import org.fest.assertions.data.JsonEntry;
-import org.fest.assertions.util.JsonComparator;
-import org.fest.util.FilesException;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.InvalidPathException;
-import com.jayway.jsonpath.JsonPath;
-
 @SuppressWarnings("unchecked")
-public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
+public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 
-	public ObjectJsonAssert(String actual) {
-		super(actual, ObjectJsonAssert.class);
+	public JsonAssert(String actual) {
+		super(actual.trim(), JsonAssert.class);
+		if (!JsonComparator.isValid(actual)) {
+			throw new AssertionError("Expect json to be valid");
+		}
+	}
+
+	/**
+	 * Check if json is an array.
+	 *
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isArray() {
+		if (!JsonComparator.isArray(actual)) {
+			throw new AssertionError("Expect json to be an array");
+		}
+		return this;
+	}
+
+	/**
+	 * Check if json is an array with expected size.
+	 *
+	 * @param size Expected size.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isArrayWithSize(int size) {
+		isArray();
+		int actualSize = 0;
+		try {
+			Collection c = new ObjectMapper().readValue(actual, Collection.class);
+			actualSize = c.size();
+		}
+		catch (Throwable ex) {
+			// Should not happen because json is valid and is an array
+		}
+
+		if (actualSize != size) {
+			String msg = String.format("Expect json to be an array with size <%s> but was <%s>", size, actualSize);
+			throw new AssertionError(msg);
+		}
+
+		return this;
+	}
+
+	/**
+	 * Check if json is an empty array.
+	 */
+	public void isEmptyArray() {
+		isArrayWithSize(0);
+	}
+
+	/**
+	 * Check if json is an object.
+	 *
+	 * @return {@code this} the assertion object.
+	 */
+
+	public JsonAssert isObject() {
+		if (!JsonComparator.isObject(actual)) {
+			throw new AssertionError("Expect json to be an object");
+		}
+		return this;
 	}
 
 	/**
@@ -35,7 +95,7 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * @param path Path to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert hasPath(String path) {
+	public JsonAssert hasPath(String path) {
 		if (!hasKey(path)) {
 			String msg = String.format("Expected path <%s> to be find", path);
 			throw new AssertionError(msg);
@@ -49,7 +109,7 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * @param paths List of path to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert containsPaths(String... paths) {
+	public JsonAssert containsPaths(String... paths) {
 		List<String> errors = new ArrayList<String>(paths.length);
 		for (String path : paths) {
 			if (!hasKey(path)) {
@@ -72,7 +132,7 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * @param entry Entry to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert containsEntry(JsonEntry entry) {
+	public JsonAssert containsEntry(JsonEntry entry) {
 		String path = entry.key();
 		Object value = entry.value();
 		return isPathEqualTo(path, value);
@@ -84,7 +144,7 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * @param entries Entries to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert containsEntries(JsonEntry... entries) {
+	public JsonAssert containsEntries(JsonEntry... entries) {
 		List<JsonEntry> errors = new ArrayList<JsonEntry>(entries.length);
 		for (JsonEntry entry : entries) {
 			try {
@@ -131,10 +191,10 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * Check if a path exist in json representation (support JSONPath specification) and if value stored at expected path is equal to an expected value.
 	 *
 	 * @param path Path to look for.
-	 * @param obj Expected value.
+	 * @param obj  Expected value.
 	 * @return {@code this} the assertion object.
 	 */
-	public <T> ObjectJsonAssert isPathEqualTo(String path, T obj) {
+	public <T> JsonAssert isPathEqualTo(String path, T obj) {
 		hasPath(path);
 		T result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
@@ -149,7 +209,7 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * @param path Path to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert isTrue(String path) {
+	public JsonAssert isTrue(String path) {
 		return isPathEqualTo(path, true);
 	}
 
@@ -159,7 +219,7 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * @param path Path to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert isFalse(String path) {
+	public JsonAssert isFalse(String path) {
 		return isPathEqualTo(path, false);
 	}
 
@@ -169,18 +229,18 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * @param path Path to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert isZero(String path) {
+	public JsonAssert isZero(String path) {
 		return isPathEqualTo(path, 0);
 	}
 
 	/**
 	 * Check if a path exist in json representation (support JSONPath specification) and if value stored at expected path is greater than an expected value.
 	 *
-	 * @param path Path to look for.
+	 * @param path  Path to look for.
 	 * @param value Bound value.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert isGreaterThan(String path, int value) {
+	public JsonAssert isGreaterThan(String path, int value) {
 		hasPath(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
@@ -192,11 +252,11 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	/**
 	 * Check if a path exist in json representation (support JSONPath specification) and if value stored at expected path is greater than or equal to an expected value.
 	 *
-	 * @param path Path to look for.
+	 * @param path  Path to look for.
 	 * @param value Bound value.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert isGreaterThanOrEqualTo(String path, int value) {
+	public JsonAssert isGreaterThanOrEqualTo(String path, int value) {
 		hasPath(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
@@ -208,11 +268,11 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	/**
 	 * Check if a path exist in json representation (support JSONPath specification) and if value stored at expected path is less than an expected value.
 	 *
-	 * @param path Path to look for.
+	 * @param path  Path to look for.
 	 * @param value Bound value.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert isLessThan(String path, int value) {
+	public JsonAssert isLessThan(String path, int value) {
 		hasPath(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
@@ -224,11 +284,11 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	/**
 	 * Check if a path exist in json representation (support JSONPath specification) and if value stored at expected path is less than or equal to an expected value.
 	 *
-	 * @param path Path to look for.
+	 * @param path  Path to look for.
 	 * @param value Bound value.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert isLessThanOrEqualTo(String path, int value) {
+	public JsonAssert isLessThanOrEqualTo(String path, int value) {
 		hasPath(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
@@ -243,7 +303,7 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * @param path Path to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert isPositive(String path) {
+	public JsonAssert isPositive(String path) {
 		return isGreaterThan(path, 0);
 	}
 
@@ -253,7 +313,7 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * @param path Path to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert isNegative(String path) {
+	public JsonAssert isNegative(String path) {
 		return isLessThan(path, 0);
 	}
 
@@ -263,7 +323,7 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * @param file Expected json representation.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert isStrictlyEqualsTo(File file) {
+	public JsonAssert isStrictlyEqualsTo(File file) {
 		BufferedReader br;
 
 		try {
@@ -308,7 +368,7 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * @param url Expected json representation.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert isStrictlyEqualsTo(URL url) throws IOException {
+	public JsonAssert isStrictlyEqualsTo(URL url) throws IOException {
 		try {
 			URI uri = url.toURI();
 			return isStrictlyEqualsTo(uri);
@@ -325,7 +385,7 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * @param uri Expected json representation.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert isStrictlyEqualsTo(URI uri) throws IOException {
+	public JsonAssert isStrictlyEqualsTo(URI uri) throws IOException {
 		File file = new File(uri);
 		return isStrictlyEqualsTo(file);
 	}
@@ -337,7 +397,7 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * @param object Expected json representation.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert isStrictlyEqualsTo(Object object) {
+	public JsonAssert isStrictlyEqualsTo(Object object) {
 		return isStrictlyEqualsTo(object, new ObjectMapper());
 	}
 
@@ -348,7 +408,7 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * @param object Expected json representation.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert isStrictlyEqualsTo(Object object, ObjectMapper mapper) {
+	public JsonAssert isStrictlyEqualsTo(Object object, ObjectMapper mapper) {
 		try {
 			String json = mapper.writeValueAsString(object);
 			return isStrictlyEqualsTo(json);
@@ -364,7 +424,7 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	 * @param json Expected json representation.
 	 * @return {@code this} the assertion object.
 	 */
-	public ObjectJsonAssert isStrictlyEqualsTo(String json) {
+	public JsonAssert isStrictlyEqualsTo(String json) {
 		List<String> errors = JsonComparator.compareJson(actual, json);
 		if (!errors.isEmpty()) {
 			String msg = join(errors, ",\n");
@@ -376,7 +436,7 @@ public class ObjectJsonAssert extends AbstractAssert<ObjectJsonAssert, String> {
 	/**
 	 * Join a list of string with given delimiter.
 	 *
-	 * @param strings Strings to join.
+	 * @param strings   Strings to join.
 	 * @param delimiter Delimiter.
 	 * @return Formatted string.
 	 */

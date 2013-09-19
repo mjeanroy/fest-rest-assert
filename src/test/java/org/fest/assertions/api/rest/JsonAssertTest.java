@@ -1,24 +1,24 @@
 package org.fest.assertions.api.rest;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.fest.assertions.api.Assertions.fail;
-
-import java.io.File;
-import java.net.URI;
-import java.net.URL;
-
 import org.fest.assertions.data.JsonEntry;
 import org.fest.assertions.utils.FooBar;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ObjectJsonAssertTest {
+import java.io.File;
+import java.net.URI;
+import java.net.URL;
+
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.fail;
+
+public class JsonAssertTest {
 
 	private String simpleJson;
 	private String nestedJson;
 
-	private ObjectJsonAssert simpleJsonAssertion;
-	private ObjectJsonAssert nestedJsonAssertion;
+	private JsonAssert simpleJsonAssertion;
+	private JsonAssert nestedJsonAssertion;
 
 	@Before
 	public void setUp() {
@@ -44,8 +44,92 @@ public class ObjectJsonAssertTest {
 		nestedJson += "  \"flag\": false";
 		nestedJson += "}";
 
-		simpleJsonAssertion = new ObjectJsonAssert(simpleJson);
-		nestedJsonAssertion = new ObjectJsonAssert(nestedJson);
+		simpleJsonAssertion = new JsonAssert(simpleJson);
+		nestedJsonAssertion = new JsonAssert(nestedJson);
+	}
+
+	@Test
+	public void test_isObject() {
+		String array = "";
+		array += "{";
+		array += "  \"foo\": 1";
+		array += "}";
+		new JsonAssert(array).isObject();
+
+		array = "";
+		array += "[";
+		array += "  {";
+		array += "    \"foo\": 1";
+		array += "  }";
+		array += "]";
+		new JsonAssert(array).isArray();
+
+		try {
+			array = "";
+			array += "[";
+			array += "  {";
+			array += "    \"foo\": 1";
+			array += "  }";
+			array += "]";
+			new JsonAssert(array).isObject();
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect json to be an object");
+		}
+	}
+
+	@Test
+	public void test_isArray() {
+		String array = "[1, 2, 3]";
+		new JsonAssert(array).isArray();
+
+		array = "";
+		array += "[";
+		array += "  {";
+		array += "    \"foo\": 1";
+		array += "  }";
+		array += "]";
+		new JsonAssert(array).isArray();
+
+		try {
+			array = "";
+			array += "{";
+			array += "  \"foo\": 1";
+			array += "}";
+			new JsonAssert(array).isArray();
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect json to be an array");
+		}
+	}
+
+	@Test
+	public void test_isArrayWithSize() {
+		String array = "[1, 2, 3]";
+		new JsonAssert(array).isArrayWithSize(3);
+
+		try {
+			new JsonAssert(array).isArrayWithSize(2);
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect json to be an array with size <2> but was <3>");
+		}
+	}
+
+	@Test
+	public void test_isEmptyArray() {
+		String array = "[]";
+		new JsonAssert(array).isEmptyArray();
+
+		try {
+			array = "[1, 2, 3]";
+			new JsonAssert(array).isEmptyArray();
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect json to be an array with size <0> but was <3>");
+		}
 	}
 
 	@Test
@@ -270,7 +354,7 @@ public class ObjectJsonAssertTest {
 		URI uri = url.toURI();
 		File file = new File(uri);
 
-		ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+		JsonAssert assertion = new JsonAssert(json);
 		assertion.isStrictlyEqualsTo(file);
 	}
 
@@ -282,7 +366,7 @@ public class ObjectJsonAssertTest {
 		json += "  \"bar\": 1";
 		json += "}";
 
-		ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+		JsonAssert assertion = new JsonAssert(json);
 		assertion.isStrictlyEqualsTo(getClass().getResource("/expectedStrictlyEqual.json"));
 	}
 
@@ -294,7 +378,7 @@ public class ObjectJsonAssertTest {
 		json += "  \"bar\": 1";
 		json += "}";
 
-		ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+		JsonAssert assertion = new JsonAssert(json);
 		assertion.isStrictlyEqualsTo(new FooBar(1L, 1L));
 	}
 
@@ -312,7 +396,7 @@ public class ObjectJsonAssertTest {
 		expectedJson += "  \"bar\": 1";
 		expectedJson += "}";
 
-		ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+		JsonAssert assertion = new JsonAssert(json);
 		assertion.isStrictlyEqualsTo(expectedJson);
 	}
 
@@ -332,7 +416,7 @@ public class ObjectJsonAssertTest {
 		expectedJson += "}";
 
 		try {
-			ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+			JsonAssert assertion = new JsonAssert(json);
 			assertion.isStrictlyEqualsTo(expectedJson);
 			fail("Expected AssertionError to be thrown");
 		}
@@ -356,7 +440,7 @@ public class ObjectJsonAssertTest {
 		expectedJson += "}";
 
 		try {
-			ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+			JsonAssert assertion = new JsonAssert(json);
 			assertion.isStrictlyEqualsTo(expectedJson);
 			fail("Expected AssertionError to be thrown");
 		}
@@ -385,7 +469,7 @@ public class ObjectJsonAssertTest {
 		expectedJson += "}";
 
 		try {
-			ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+			JsonAssert assertion = new JsonAssert(json);
 			assertion.isStrictlyEqualsTo(expectedJson);
 			fail("Expected AssertionError to be thrown");
 		}
@@ -410,7 +494,7 @@ public class ObjectJsonAssertTest {
 		expectedJson += "}";
 
 		try {
-			ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+			JsonAssert assertion = new JsonAssert(json);
 			assertion.isStrictlyEqualsTo(expectedJson);
 			fail("Expected AssertionError to be thrown");
 		}
@@ -434,7 +518,7 @@ public class ObjectJsonAssertTest {
 		expectedJson += "}";
 
 		try {
-			ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+			JsonAssert assertion = new JsonAssert(json);
 			assertion.isStrictlyEqualsTo(expectedJson);
 			fail("Expected AssertionError to be thrown");
 		}
@@ -463,7 +547,7 @@ public class ObjectJsonAssertTest {
 		expectedJson += "}";
 
 		try {
-			ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+			JsonAssert assertion = new JsonAssert(json);
 			assertion.isStrictlyEqualsTo(expectedJson);
 			fail("Expected AssertionError to be thrown");
 		}
@@ -487,7 +571,7 @@ public class ObjectJsonAssertTest {
 		expectedJson += "}";
 
 		try {
-			ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+			JsonAssert assertion = new JsonAssert(json);
 			assertion.isStrictlyEqualsTo(expectedJson);
 			fail("Expected AssertionError to be thrown");
 		}
@@ -511,7 +595,7 @@ public class ObjectJsonAssertTest {
 		expectedJson += "}";
 
 		try {
-			ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+			JsonAssert assertion = new JsonAssert(json);
 			assertion.isStrictlyEqualsTo(expectedJson);
 			fail("Expected AssertionError to be thrown");
 		}
@@ -535,7 +619,7 @@ public class ObjectJsonAssertTest {
 		expectedJson += "}";
 
 		try {
-			ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+			JsonAssert assertion = new JsonAssert(json);
 			assertion.isStrictlyEqualsTo(expectedJson);
 			fail("Expected AssertionError to be thrown");
 		}
@@ -559,7 +643,7 @@ public class ObjectJsonAssertTest {
 		expectedJson += "}";
 
 		try {
-			ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+			JsonAssert assertion = new JsonAssert(json);
 			assertion.isStrictlyEqualsTo(expectedJson);
 			fail("Expected AssertionError to be thrown");
 		}
@@ -593,7 +677,7 @@ public class ObjectJsonAssertTest {
 		expectedJson += "}";
 
 		try {
-			ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+			JsonAssert assertion = new JsonAssert(json);
 			assertion.isStrictlyEqualsTo(expectedJson);
 			fail("Expected AssertionError to be thrown");
 		}
@@ -626,7 +710,7 @@ public class ObjectJsonAssertTest {
 		expectedJson += "}";
 
 		try {
-			ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+			JsonAssert assertion = new JsonAssert(json);
 			assertion.isStrictlyEqualsTo(expectedJson);
 			fail("Expected AssertionError to be thrown");
 		}
@@ -660,7 +744,7 @@ public class ObjectJsonAssertTest {
 		expectedJson += "}";
 
 		try {
-			ObjectJsonAssert assertion = new ObjectJsonAssert(json);
+			JsonAssert assertion = new JsonAssert(json);
 			assertion.isStrictlyEqualsTo(expectedJson);
 			fail("Expected AssertionError to be thrown");
 		}

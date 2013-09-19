@@ -54,8 +54,8 @@ public class REST {
 	 * @param response Original response object.
 	 * @return Assertion object.
 	 */
-	public static ObjectJsonAssert assertJsonThat(com.ning.http.client.Response response) {
-		return new ObjectJsonAssert(extractJson(response));
+	public static JsonAssert assertJsonThat(com.ning.http.client.Response response) {
+		return new JsonAssert(extractJson(response));
 	}
 
 	/**
