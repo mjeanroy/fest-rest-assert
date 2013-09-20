@@ -69,9 +69,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		return this;
 	}
 
-	/**
-	 * Check if json is an empty array.
-	 */
+	/** Check if json is an empty array. */
 	public void isEmptyArray() {
 		isArrayWithSize(0);
 	}
@@ -201,6 +199,88 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 				.overridingErrorMessage("Expect path <%s> to be <%s> but was <%s>", path, obj, result)
 				.isEqualTo(obj);
 		return this;
+	}
+
+	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and is an array.
+	 *
+	 * @param path Path to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isArray(String path) {
+		contain(path);
+		try {
+			Collection result = JsonPath.read(actual, path);
+		}
+		catch (Throwable e) {
+			String msg = String.format("Expect <%s> to be an array", path);
+			throw new AssertionError(msg);
+		}
+		return this;
+	}
+
+	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and is an object (i.e. not an array).
+	 *
+	 * @param path Path to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isObject(String path) {
+		contain(path);
+
+		boolean isObject = false;
+		try {
+			Collection result = JsonPath.read(actual, path);
+		}
+		catch (Throwable e) {
+			// Expected case
+			isObject = true;
+		}
+
+		if (!isObject) {
+			String msg = String.format("Expect <%s> to be an object", path);
+			throw new AssertionError(msg);
+		}
+
+		return this;
+	}
+
+	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and is an array with expected size.
+	 *
+	 * @param path Path to look for.
+	 * @param size Expected size.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isArrayWithSize(String path, int size) {
+		isArray(path);
+
+		int actualSize = 0;
+
+		try {
+			Collection result = JsonPath.read(actual, path);
+			actualSize = result.size();
+		}
+		catch (Throwable e) {
+			// Should not happen
+		}
+
+		if (actualSize != size) {
+			String msg = String.format("Expect <%s> to be an array with size <%s> but was <%s>", path, size, actualSize);
+			throw new AssertionError(msg);
+		}
+
+		return this;
+	}
+
+	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and is an empty array.
+	 *
+	 * @param path Path to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isEmptyArray(String path) {
+		return isArrayWithSize(path, 0);
 	}
 
 	/**

@@ -49,6 +49,22 @@ public class JsonAssertTest {
 	}
 
 	@Test
+	public void test_isValid() {
+		String array = "";
+		array += "{";
+		array += "  \"foo\": 1,";
+		array += "}";
+
+		try {
+			new JsonAssert(array);
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect json to be valid");
+		}
+	}
+
+	@Test
 	public void test_isObject() {
 		String array = "";
 		array += "{";
@@ -224,6 +240,82 @@ public class JsonAssertTest {
 		}
 		catch (AssertionError error) {
 			assertThat(error.getMessage()).isEqualTo("Expect path <flag> to be <false> but was <true>");
+		}
+	}
+
+	@Test
+	public void test_isValueAnArray() {
+		String array = "";
+		array += "{";
+		array += "  \"foo\": [1, 2, 3],";
+		array += "  \"bar\": 1";
+		array += "}";
+		new JsonAssert(array).isArray("foo");
+
+		try {
+			new JsonAssert(array).isArray("bar");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect <bar> to be an array");
+		}
+	}
+
+	@Test
+	public void test_isValueAnObject() {
+		String array = "";
+		array += "{";
+		array += "  \"foo\": [1, 2, 3],";
+		array += "  \"bar\": 1,";
+		array += "  \"quix\": {";
+		array += "    \"bar\": 1";
+		array += "  }";
+		array += "}";
+		new JsonAssert(array).isObject("bar");
+		new JsonAssert(array).isObject("quix");
+
+		try {
+			new JsonAssert(array).isObject("foo");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect <foo> to be an object");
+		}
+	}
+
+	@Test
+	public void test_isValueAnArrayWithExpectedSize() {
+		String array = "";
+		array += "{";
+		array += "  \"foo\": [1, 2, 3],";
+		array += "  \"bar\": 1";
+		array += "}";
+		new JsonAssert(array).isArrayWithSize("foo", 3);
+
+		try {
+			new JsonAssert(array).isArrayWithSize("foo", 2);
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect <foo> to be an array with size <2> but was <3>");
+		}
+	}
+
+	@Test
+	public void test_isValueAnEmptyArray() {
+		String array = "";
+		array += "{";
+		array += "  \"foo\": [1, 2, 3],";
+		array += "  \"bar\": []";
+		array += "}";
+		new JsonAssert(array).isEmptyArray("bar");
+
+		try {
+			new JsonAssert(array).isEmptyArray("foo");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect <foo> to be an array with size <0> but was <3>");
 		}
 	}
 
