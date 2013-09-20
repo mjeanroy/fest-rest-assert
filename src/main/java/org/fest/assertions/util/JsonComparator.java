@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -24,10 +25,22 @@ public class JsonComparator {
 	 * Compare two json representation.
 	 *
 	 * @param json     Json to check.
-	 * @param expected Expected json.
+	 * @param expected Expected to json.
 	 * @return List of errors.
 	 */
 	public static List<String> compareJson(String json, String expected) {
+		return compareJson(json, expected, Collections.EMPTY_LIST);
+	}
+
+	/**
+	 * Compare two json representation and ignore some fields during comparison.
+	 *
+	 * @param json           Json to check.
+	 * @param expected       Expected json.
+	 * @param ignoringFields List of fields to ignore during comparison.
+	 * @return List of errors.
+	 */
+	public static List<String> compareJson(String json, String expected, List<String> ignoringFields) {
 		String json1 = json.trim();
 		String json2 = expected.trim();
 
@@ -50,8 +63,8 @@ public class JsonComparator {
 
 		try {
 			return json1IsArray ?
-					compareJsonArrays(json1, json2) :
-					compareJsonMap(json1, json2);
+					compareJsonArrays(json1, json2, ignoringFields) :
+					compareJsonMap(json1, json2, ignoringFields);
 		}
 		catch (JsonMappingException ex) {
 			throw new AssertionError(ex.getMessage());
@@ -105,30 +118,32 @@ public class JsonComparator {
 	/**
 	 * Compare two json objects.
 	 *
-	 * @param json1 First json.
-	 * @param json2 Second json.
+	 * @param json1          First json.
+	 * @param json2          Second json.
+	 * @param ignoringFields List of fields to ignore during comparison.
 	 * @return List of found errors.
 	 * @throws IOException
 	 */
-	private static List<String> compareJsonMap(String json1, String json2) throws IOException {
+	private static List<String> compareJsonMap(String json1, String json2, List<String> ignoringFields) throws IOException {
 		TypeReference<HashMap<String, Object>> typeRef = new TypeReference<HashMap<String, Object>>() {
 		};
 
 		ObjectMapper mapper = new ObjectMapper();
 		HashMap<String, Object> actualJson = mapper.readValue(json1, typeRef);
 		HashMap<String, Object> expectedJson = mapper.readValue(json2, typeRef);
-		return compareMaps(actualJson, expectedJson);
+		return compareMaps(actualJson, expectedJson, ignoringFields);
 	}
 
 	/**
 	 * Compare two json (arrays).
 	 *
-	 * @param json1 First json.
-	 * @param json2 Second json.
+	 * @param json1          First json.
+	 * @param json2          Second json.
+	 * @param ignoringFields Fields to ignore during comparison.
 	 * @return List of found errors.
 	 * @throws IOException
 	 */
-	private static List<String> compareJsonArrays(String json1, String json2) throws IOException {
+	private static List<String> compareJsonArrays(String json1, String json2, List<String> ignoringFields) throws IOException {
 		boolean json1IsArrayOfObjects = isArrayOfObjects(json1);
 		boolean json2IsArrayOfObjects = isArrayOfObjects(json2);
 
@@ -143,8 +158,8 @@ public class JsonComparator {
 		}
 
 		return json1IsArrayOfObjects ?
-				compareJsonArraysOfObject(json1, json2) :
-				compareJsonArraysOfSimpleValues(json1, json2);
+				compareJsonArraysOfObject(json1, json2, ignoringFields) :
+				compareJsonArraysOfSimpleValues(json1, json2, ignoringFields);
 	}
 
 	/**
@@ -163,35 +178,54 @@ public class JsonComparator {
 		return false;
 	}
 
-	private static List<String> compareJsonArraysOfSimpleValues(String json1, String json2) throws IOException {
+	/**
+	 * Compare two arrays of simple values (not object, i.e. numbers, strings, boolean).
+	 *
+	 * @param json1          First json.
+	 * @param json2          Second json.
+	 * @param ignoringFields List of fields to ignore during comparison.
+	 * @return List of found errors.
+	 * @throws IOException
+	 */
+	private static List<String> compareJsonArraysOfSimpleValues(String json1, String json2, List<String> ignoringFields) throws IOException {
 		TypeReference<ArrayList<Object>> typeRef = new TypeReference<ArrayList<Object>>() {
 		};
 
 		ObjectMapper mapper = new ObjectMapper();
 		ArrayList<HashMap<String, Object>> actualJson = mapper.readValue(json1, typeRef);
 		ArrayList<HashMap<String, Object>> expectedJson = mapper.readValue(json2, typeRef);
-		return compareCollections(actualJson, expectedJson);
+		return compareCollections(actualJson, expectedJson, ignoringFields);
 	}
 
-	private static List<String> compareJsonArraysOfObject(String json1, String json2) throws IOException {
+	/**
+	 * Compare two arrays of objects.
+	 *
+	 * @param json1          First json.
+	 * @param json2          Second json.
+	 * @param ignoringFields List of fields to ignore during comparison.
+	 * @return List of found errors.
+	 * @throws IOException
+	 */
+	private static List<String> compareJsonArraysOfObject(String json1, String json2, List<String> ignoringFields) throws IOException {
 		TypeReference<ArrayList<HashMap<String, Object>>> typeRef = new TypeReference<ArrayList<HashMap<String, Object>>>() {
 		};
 
 		ObjectMapper mapper = new ObjectMapper();
 		ArrayList<HashMap<String, Object>> actualJson = mapper.readValue(json1, typeRef);
 		ArrayList<HashMap<String, Object>> expectedJson = mapper.readValue(json2, typeRef);
-		return compareCollections(actualJson, expectedJson);
+		return compareCollections(actualJson, expectedJson, ignoringFields);
 	}
 
 	/**
 	 * Compare two maps obtained from two json representation.
 	 *
-	 * @param map1 First map.
-	 * @param map2 Expected map.
+	 * @param map1           First map.
+	 * @param map2           Expected map.
+	 * @param ignoringFields List of fields to ignore during comparison.
 	 * @return List of errors during comparison.
 	 */
-	private static List<String> compareMaps(Map<String, Object> map1, Map<String, Object> map2) {
-		return compareMaps(map1, map2, "", new ArrayList<String>(50));
+	private static List<String> compareMaps(Map<String, Object> map1, Map<String, Object> map2, List<String> ignoringFields) {
+		return compareMaps(map1, map2, "", new ArrayList<String>(), ignoringFields);
 	}
 
 	/**
@@ -203,22 +237,45 @@ public class JsonComparator {
 	 * @param currentErrors Previously founded errors.
 	 * @return List of errors during comparison.
 	 */
-	private static List<String> compareMaps(Map<String, Object> map1, Map<String, Object> map2, String currentKey, List<String> currentErrors) {
+	private static List<String> compareMaps(
+			Map<String, Object> map1,
+			Map<String, Object> map2,
+			String currentKey,
+			List<String> currentErrors,
+			List<String> ignoringFields) {
+
 		List<String> errors = new ArrayList<String>();
 
 		// Check entries of first map
 		Set<Map.Entry<String, Object>> entries = map1.entrySet();
 		for (Map.Entry<String, Object> entry : entries) {
-			errors.addAll(compareMapEntry(map1, map2, entry.getKey(), currentKey));
-			if (map2.containsKey(entry.getKey())) {
-				map2.remove(entry.getKey());
+			String key = entry.getKey();
+
+			String fullKey = formatKeyName(currentKey, key);
+			if (match(fullKey, ignoringFields)) {
+				continue;
+			}
+
+			List<String> errs = compareMapEntry(map1, map2, key, currentKey, ignoringFields);
+			errors.addAll(errs);
+
+			if (map2.containsKey(key)) {
+				map2.remove(key);
 			}
 		}
 
 		// Check entries of second map
 		Set<Map.Entry<String, Object>> entries2 = map2.entrySet();
 		for (Map.Entry<String, Object> entry : entries2) {
-			errors.addAll(compareMapEntry(map1, map2, entry.getKey(), currentKey));
+			String key = entry.getKey();
+
+			String fullKey = formatKeyName(currentKey, key);
+			if (match(fullKey, ignoringFields)) {
+				continue;
+			}
+
+			List<String> errs = compareMapEntry(map1, map2, key, currentKey, ignoringFields);
+			errors.addAll(errs);
 		}
 
 		currentErrors.addAll(errors);
@@ -234,7 +291,13 @@ public class JsonComparator {
 	 * @param currentKey Current context in json representation.
 	 * @return Errors found during comparison.
 	 */
-	private static List<String> compareMapEntry(Map<String, Object> map1, Map<String, Object> map2, String key, String currentKey) {
+	private static List<String> compareMapEntry(
+			Map<String, Object> map1,
+			Map<String, Object> map2,
+			String key,
+			String currentKey,
+			List<String> ignoringFields) {
+
 		List<String> errors = new ArrayList<String>();
 
 		// First map does not contain expected key
@@ -255,7 +318,7 @@ public class JsonComparator {
 		Object v1 = map1.get(key);
 		Object v2 = map2.get(key);
 
-		List<String> foundErrors = compareValue(v1, v2, currentKey, key);
+		List<String> foundErrors = compareValue(v1, v2, currentKey, key, ignoringFields);
 		errors.addAll(foundErrors);
 		return errors;
 	}
@@ -269,7 +332,7 @@ public class JsonComparator {
 	 * @param key         Current key.
 	 * @return List of found errors.
 	 */
-	private static List<String> compareValue(Object v1, Object v2, String previousKey, String key) {
+	private static List<String> compareValue(Object v1, Object v2, String previousKey, String key, List<String> ignoringFields) {
 		List<String> errors = new ArrayList<String>();
 
 		if (v1 == v2) {
@@ -277,23 +340,25 @@ public class JsonComparator {
 			return errors;
 		}
 
+		String formattedKey = formatKeyName(previousKey, key);
+
 		// Error cases
 
 		// Check for null differences
 		if (v1 == null && v2 != null) {
-			String msg = String.format("Key <%s> was null but expected value was <%s>", formatKeyName(previousKey, key), v2.toString());
+			String msg = String.format("Key <%s> was null but expected value was <%s>", formattedKey, v2.toString());
 			errors.add(msg);
 			return errors;
 		}
 		if (v1 != null && v2 == null) {
-			String msg = String.format("Key <%s> was expected to be null but found value was <%s>", formatKeyName(previousKey, key), v1.toString());
+			String msg = String.format("Key <%s> was expected to be null but found value was <%s>", formattedKey, v1.toString());
 			errors.add(msg);
 			return errors;
 		}
 
 		// Check for type difference
 		if (v1.getClass() != v2.getClass()) {
-			String msg = String.format("Expect type <%s> but was <%s> for key <%s>", v2.getClass().getSimpleName(), v1.getClass().getSimpleName(), formatKeyName(previousKey, key));
+			String msg = String.format("Expect type <%s> but was <%s> for key <%s>", v2.getClass().getSimpleName(), v1.getClass().getSimpleName(), formattedKey);
 			errors.add(msg);
 			return errors;
 		}
@@ -301,15 +366,15 @@ public class JsonComparator {
 		// Check values
 		if (v1 instanceof Map) {
 			// Recursive call to check both maps
-			errors = compareMaps((Map<String, Object>) v1, (Map<String, Object>) v2, key, errors);
+			errors = compareMaps((Map<String, Object>) v1, (Map<String, Object>) v2, formattedKey, errors, ignoringFields);
 		}
 		else if (v1 instanceof Collection) {
 			// Need to check each item of collection
-			errors = compareCollections((Collection) v1, (Collection) v2, previousKey, key);
+			errors = compareCollections((Collection) v1, (Collection) v2, previousKey, key, ignoringFields);
 		}
 		else if (!v1.equals(v2)) {
 			// Values are different
-			String msg = String.format("Expect <%s> to be <%s> but was <%s>", formatKeyName(previousKey, key), v1, v2);
+			String msg = String.format("Expect <%s> to be <%s> but was <%s>", formattedKey, v1, v2);
 			errors.add(msg);
 		}
 
@@ -319,11 +384,12 @@ public class JsonComparator {
 	/**
 	 * Compare two collections of Object.
 	 *
-	 * @param c1 First collection.
-	 * @param c2 Second collection.
+	 * @param c1             First collection.
+	 * @param c2             Second collection.
+	 * @param ignoringFields Fields to ignore during comparison.
 	 * @return List of found errors.
 	 */
-	private static List<String> compareCollections(Collection c1, Collection c2) {
+	private static List<String> compareCollections(Collection c1, Collection c2, List<String> ignoringFields) {
 		List<String> errors = new ArrayList<String>();
 
 		int size1 = c1.size();
@@ -336,19 +402,26 @@ public class JsonComparator {
 			return errors;
 		}
 
-		return compareCollections(c1, c2, "", "");
+		return compareCollections(c1, c2, "", "", ignoringFields);
 	}
 
 	/**
 	 * Compare two collections of Object.
 	 *
-	 * @param previousKey Current context in json representation.
-	 * @param key         Current key.
-	 * @param c1          First collection.
-	 * @param c2          Second collection.
+	 * @param previousKey    Current context in json representation.
+	 * @param key            Current key.
+	 * @param c1             First collection.
+	 * @param c2             Second collection.
+	 * @param ignoringFields Fields to ignore during comparison.
 	 * @return List of found errors.
 	 */
-	private static List<String> compareCollections(Collection c1, Collection c2, String previousKey, String key) {
+	private static List<String> compareCollections(
+			Collection c1,
+			Collection c2,
+			String previousKey,
+			String key,
+			List<String> ignoringFields) {
+
 		List<String> errors = new ArrayList<String>();
 
 		int size1 = c1.size();
@@ -367,7 +440,14 @@ public class JsonComparator {
 		for (int i = 0; i < size1; ++i) {
 			Object o1 = i1.next();
 			Object o2 = i2.next();
-			List<String> objectErrors = compareValue(o1, o2, previousKey, key + "[" + i + "]");
+			String currentItemKey = key + "[" + i + "]";
+
+			String formattedKey = formatKeyName(previousKey, currentItemKey);
+			if (match(formattedKey, ignoringFields)) {
+				continue;
+			}
+
+			List<String> objectErrors = compareValue(o1, o2, previousKey, currentItemKey, ignoringFields);
 			errors.addAll(objectErrors);
 		}
 
@@ -376,5 +456,9 @@ public class JsonComparator {
 
 	private static String formatKeyName(String previous, String key) {
 		return previous == null || previous.isEmpty() ? key : previous + "." + key;
+	}
+
+	private static boolean match(String key, List<String> ignoringKeys) {
+		return ignoringKeys.contains(key);
 	}
 }

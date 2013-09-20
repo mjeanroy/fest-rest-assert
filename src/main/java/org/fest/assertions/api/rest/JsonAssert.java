@@ -20,6 +20,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @SuppressWarnings("unchecked")
@@ -398,12 +399,43 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	}
 
 	/**
+	 * Check if actual json is strictly equals to an expected json representation accessible at given URL.
+	 *
+	 * @param url            Expected json representation.
+	 * @param ignoringFields Fields to ignore during comparison.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isStrictlyEqualsToIgnoringFields(URL url, List<String> ignoringFields) throws IOException {
+		try {
+			URI uri = url.toURI();
+			return isStrictlyEqualsToIgnoringFields(uri, ignoringFields);
+		}
+		catch (URISyntaxException ex) {
+			String msg = String.format("Unable to read content of url:<%s>", url.getPath());
+			throw new FilesException(msg, ex);
+		}
+	}
+
+	/**
+	 * Check if actual json is strictly equals to an expected json representation accessible at given URI.
+	 *
+	 * @param uri Expected json representation.
+	 * @param ignoringFields Fields to ignore during comparison.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isStrictlyEqualsToIgnoringFields(URI uri, List<String> ignoringFields) throws IOException {
+		File file = new File(uri);
+		return isStrictlyEqualsToIgnoringFields(file, ignoringFields);
+	}
+
+	/**
 	 * Check if actual json is strictly equals to an expected json representation stored in the given file.
 	 *
 	 * @param file Expected json representation.
+	 * @param ignoringFields Fields to ignore during comparison.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert isStrictlyEqualsTo(File file) {
+	public JsonAssert isStrictlyEqualsToIgnoringFields(File file, List<String> ignoringFields) {
 		BufferedReader br;
 
 		try {
@@ -418,7 +450,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 				}
 
 				String content = sb.toString();
-				return isStrictlyEqualsTo(content);
+				return isStrictlyEqualsToIgnoringFields(content, ignoringFields);
 			}
 			catch (FileNotFoundException ex) {
 				String msg = String.format("Unable to get content of file:<%s>", file.getPath());
@@ -443,42 +475,15 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	}
 
 	/**
-	 * Check if actual json is strictly equals to an expected json representation accessible at given URL.
-	 *
-	 * @param url Expected json representation.
-	 * @return {@code this} the assertion object.
-	 */
-	public JsonAssert isStrictlyEqualsTo(URL url) throws IOException {
-		try {
-			URI uri = url.toURI();
-			return isStrictlyEqualsTo(uri);
-		}
-		catch (URISyntaxException ex) {
-			String msg = String.format("Unable to read content of url:<%s>", url.getPath());
-			throw new FilesException(msg, ex);
-		}
-	}
-
-	/**
-	 * Check if actual json is strictly equals to an expected json representation accessible at given URI.
-	 *
-	 * @param uri Expected json representation.
-	 * @return {@code this} the assertion object.
-	 */
-	public JsonAssert isStrictlyEqualsTo(URI uri) throws IOException {
-		File file = new File(uri);
-		return isStrictlyEqualsTo(file);
-	}
-
-	/**
 	 * Check if actual json is strictly equals to an expected object (automatically serialized to a json representation
 	 * using a default {@link ObjectMapper}).
 	 *
 	 * @param object Expected json representation.
+	 * @param ignoringFields Fields to ignore during comparison.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert isStrictlyEqualsTo(Object object) {
-		return isStrictlyEqualsTo(object, new ObjectMapper());
+	public JsonAssert isStrictlyEqualsToIgnoringFields(Object object, List<String> ignoringFields) {
+		return isStrictlyEqualsToIgnoringFields(object, new ObjectMapper(), ignoringFields);
 	}
 
 	/**
@@ -486,12 +491,13 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * using given {@link ObjectMapper}).
 	 *
 	 * @param object Expected json representation.
+	 * @param ignoringFields Fields to ignore during comparison.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert isStrictlyEqualsTo(Object object, ObjectMapper mapper) {
+	public JsonAssert isStrictlyEqualsToIgnoringFields(Object object, ObjectMapper mapper, List<String> ignoringFields) {
 		try {
 			String json = mapper.writeValueAsString(object);
-			return isStrictlyEqualsTo(json);
+			return isStrictlyEqualsToIgnoringFields(json, ignoringFields);
 		}
 		catch (JsonProcessingException ex) {
 			throw new AssertionError(ex.getMessage());
@@ -502,15 +508,78 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * Check if actual json is strictly equals to an expected json representation.
 	 *
 	 * @param json Expected json representation.
+	 * @param ignoringFields Fields to ignore during comparison.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert isStrictlyEqualsTo(String json) {
-		List<String> errors = JsonComparator.compareJson(actual, json);
+	public JsonAssert isStrictlyEqualsToIgnoringFields(String json, List<String> ignoringFields) {
+		List<String> errors = JsonComparator.compareJson(actual, json, ignoringFields);
 		if (!errors.isEmpty()) {
 			String msg = join(errors, ",\n");
 			throw new AssertionError(msg);
 		}
 		return this;
+	}
+
+	/**
+	 * Check if actual json is strictly equals to an expected json representation accessible at given URL.
+	 *
+	 * @param url Expected json representation.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isStrictlyEqualsTo(URL url) throws IOException {
+		return isStrictlyEqualsToIgnoringFields(url, Collections.EMPTY_LIST);
+	}
+
+	/**
+	 * Check if actual json is strictly equals to an expected json representation accessible at given URI.
+	 *
+	 * @param uri Expected json representation.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isStrictlyEqualsTo(URI uri) throws IOException {
+		return isStrictlyEqualsToIgnoringFields(uri, Collections.EMPTY_LIST);
+	}
+
+	/**
+	 * Check if actual json is strictly equals to an expected json representation stored in the given file.
+	 *
+	 * @param file Expected json representation.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isStrictlyEqualsTo(File file) {
+		return isStrictlyEqualsToIgnoringFields(file, Collections.EMPTY_LIST);
+	}
+
+	/**
+	 * Check if actual json is strictly equals to an expected object (automatically serialized to a json representation
+	 * using a default {@link ObjectMapper}).
+	 *
+	 * @param object Expected json representation.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isStrictlyEqualsTo(Object object) {
+		return isStrictlyEqualsToIgnoringFields(object, Collections.EMPTY_LIST);
+	}
+
+	/**
+	 * Check if actual json is strictly equals to an expected object (automatically serialized to a json representation
+	 * using given {@link ObjectMapper}).
+	 *
+	 * @param object Expected json representation.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isStrictlyEqualsTo(Object object, ObjectMapper mapper) {
+		return isStrictlyEqualsToIgnoringFields(object, mapper, Collections.EMPTY_LIST);
+	}
+
+	/**
+	 * Check if actual json is strictly equals to an expected json representation.
+	 *
+	 * @param json Expected json representation.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isStrictlyEqualsTo(String json) {
+		return isStrictlyEqualsToIgnoringFields(json, Collections.EMPTY_LIST);
 	}
 
 	/**
