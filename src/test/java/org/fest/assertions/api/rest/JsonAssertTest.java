@@ -133,12 +133,12 @@ public class JsonAssertTest {
 	}
 
 	@Test
-	public void test_hasPath() {
-		simpleJsonAssertion.hasPath("id");
-		nestedJsonAssertion.hasPath("name.firstName");
+	public void test_Contain() {
+		simpleJsonAssertion.contain("id");
+		nestedJsonAssertion.contain("name.firstName");
 
 		try {
-			simpleJsonAssertion.hasPath("foo");
+			simpleJsonAssertion.contain("foo");
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
@@ -146,7 +146,7 @@ public class JsonAssertTest {
 		}
 
 		try {
-			nestedJsonAssertion.hasPath("name.foo");
+			nestedJsonAssertion.contain("name.foo");
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
@@ -155,12 +155,12 @@ public class JsonAssertTest {
 	}
 
 	@Test
-	public void test_containsPaths() {
-		simpleJsonAssertion.containsPaths("id", "name", "nickname", "flag", "zero");
-		nestedJsonAssertion.containsPaths("id", "name.firstName");
+	public void test_contains() {
+		simpleJsonAssertion.contains("id", "name", "nickname", "flag", "zero");
+		nestedJsonAssertion.contains("id", "name.firstName");
 
 		try {
-			simpleJsonAssertion.containsPaths("id", "idfoo", "idbar");
+			simpleJsonAssertion.contains("id", "idfoo", "idbar");
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
@@ -205,13 +205,13 @@ public class JsonAssertTest {
 	}
 
 	@Test
-	public void test_isPathEqualTo() {
-		simpleJsonAssertion.isPathEqualTo("id", 1);
-		simpleJsonAssertion.isPathEqualTo("name", "foo");
-		simpleJsonAssertion.isPathEqualTo("flag", true);
+	public void test_contain() {
+		simpleJsonAssertion.contain("id", 1);
+		simpleJsonAssertion.contain("name", "foo");
+		simpleJsonAssertion.contain("flag", true);
 
 		try {
-			simpleJsonAssertion.isPathEqualTo("name", "bar");
+			simpleJsonAssertion.contain("name", "bar");
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
@@ -219,7 +219,7 @@ public class JsonAssertTest {
 		}
 
 		try {
-			simpleJsonAssertion.isPathEqualTo("flag", false);
+			simpleJsonAssertion.contain("flag", false);
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {

@@ -95,7 +95,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @param path Path to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert hasPath(String path) {
+	public JsonAssert contain(String path) {
 		if (!hasKey(path)) {
 			String msg = String.format("Expected path <%s> to be find", path);
 			throw new AssertionError(msg);
@@ -109,7 +109,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @param paths List of path to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert containsPaths(String... paths) {
+	public JsonAssert contains(String... paths) {
 		List<String> errors = new ArrayList<String>(paths.length);
 		for (String path : paths) {
 			if (!hasKey(path)) {
@@ -135,7 +135,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	public JsonAssert containsEntry(JsonEntry entry) {
 		String path = entry.key();
 		Object value = entry.value();
-		return isPathEqualTo(path, value);
+		return contain(path, value);
 	}
 
 	/**
@@ -194,8 +194,8 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @param obj  Expected value.
 	 * @return {@code this} the assertion object.
 	 */
-	public <T> JsonAssert isPathEqualTo(String path, T obj) {
-		hasPath(path);
+	public <T> JsonAssert contain(String path, T obj) {
+		contain(path);
 		T result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
 				.overridingErrorMessage("Expect path <%s> to be <%s> but was <%s>", path, obj, result)
@@ -210,7 +210,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @return {@code this} the assertion object.
 	 */
 	public JsonAssert isTrue(String path) {
-		return isPathEqualTo(path, true);
+		return contain(path, true);
 	}
 
 	/**
@@ -220,7 +220,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @return {@code this} the assertion object.
 	 */
 	public JsonAssert isFalse(String path) {
-		return isPathEqualTo(path, false);
+		return contain(path, false);
 	}
 
 	/**
@@ -230,7 +230,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @return {@code this} the assertion object.
 	 */
 	public JsonAssert isZero(String path) {
-		return isPathEqualTo(path, 0);
+		return contain(path, 0);
 	}
 
 	/**
@@ -241,7 +241,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @return {@code this} the assertion object.
 	 */
 	public JsonAssert isGreaterThan(String path, int value) {
-		hasPath(path);
+		contain(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
 				.overridingErrorMessage("Expect path <%s> to be greater than <%s> but was <%s>", path, value, result)
@@ -257,7 +257,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @return {@code this} the assertion object.
 	 */
 	public JsonAssert isGreaterThanOrEqualTo(String path, int value) {
-		hasPath(path);
+		contain(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
 				.overridingErrorMessage("Expect path <%s> to be greater than or equal to <%s> but was <%s>", path, value, result)
@@ -273,7 +273,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @return {@code this} the assertion object.
 	 */
 	public JsonAssert isLessThan(String path, int value) {
-		hasPath(path);
+		contain(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
 				.overridingErrorMessage("Expect path <%s> to be less than <%s> but was <%s>", path, value, result)
@@ -289,7 +289,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @return {@code this} the assertion object.
 	 */
 	public JsonAssert isLessThanOrEqualTo(String path, int value) {
-		hasPath(path);
+		contain(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
 				.overridingErrorMessage("Expect path <%s> to be less than or equal to <%s> but was <%s>", path, value, result)
