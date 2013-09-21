@@ -1,13 +1,6 @@
 package org.fest.assertions.api.rest;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.fest.assertions.api.Assertions.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.List;
-
+import com.google.common.base.Joiner;
 import org.fest.assertions.util.Cookie;
 import org.fest.assertions.util.Response;
 import org.fest.assertions.utils.OneParameterClojure;
@@ -15,7 +8,13 @@ import org.fest.assertions.utils.VoidClojure;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.common.base.Joiner;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.fest.assertions.api.Assertions.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ResponseAssertTest {
 
@@ -649,7 +648,7 @@ public class ResponseAssertTest {
 
 	@Test
 	public void test_hasCookie() {
-		when(response.getCookie("foo")).thenReturn(new Cookie());
+		when(response.getCookie("foo")).thenReturn(new Cookie("foo", "foo"));
 		assertion.hasCookie("foo");
 
 		try {
