@@ -387,6 +387,38 @@ public class JsonAssertTest {
 	}
 
 	@Test
+	public void test_isBoolean() {
+		String array = "";
+		array += "{";
+		array += "  \"foo\": [1, true, 3],";
+		array += "  \"bar\": \"false\",";
+		array += "  \"nb\": 1,";
+		array += "  \"quix\": {";
+		array += "    \"bar\": false";
+		array += "  }";
+		array += "}";
+
+		new JsonAssert(array).isBoolean("foo[1]");
+		new JsonAssert(array).isBoolean("quix.bar");
+
+		try {
+			new JsonAssert(array).isBoolean("nb");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect <nb> to be a boolean");
+		}
+
+		try {
+			new JsonAssert(array).isBoolean("bar");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect <bar> to be a boolean");
+		}
+	}
+
+	@Test
 	public void test_isValueNull() {
 		String array = "";
 		array += "{";

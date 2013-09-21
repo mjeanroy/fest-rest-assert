@@ -335,6 +335,16 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	}
 
 	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and is a boolean.
+	 *
+	 * @param path Path to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isBoolean(String path) {
+		return isOfType(path, Boolean.class, "boolean");
+	}
+
+	/**
 	 * Check if a path exist in json representation (support JSONPath specification) and is of expected type.
 	 *
 	 * @param path    Path to look for.
@@ -366,6 +376,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @return {@code this} the assertion object.
 	 */
 	public JsonAssert isTrue(String path) {
+		isBoolean(path);
 		return contain(path, true);
 	}
 
@@ -376,6 +387,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @return {@code this} the assertion object.
 	 */
 	public JsonAssert isFalse(String path) {
+		isBoolean(path);
 		return contain(path, false);
 	}
 
