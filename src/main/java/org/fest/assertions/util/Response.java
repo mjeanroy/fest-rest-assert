@@ -7,9 +7,16 @@ import java.util.Map;
 
 public class Response {
 
+	/** Status code of response */
 	private int statusCode;
+
+	/** Content Type of response */
 	private String contentType;
+
+	/** Headers contained in response */
 	private Map<String, String> headers;
+
+	/** Cookies stored in response */
 	private List<Cookie> cookies;
 
 	public Response() {
@@ -17,7 +24,28 @@ public class Response {
 		this.cookies = new ArrayList<Cookie>();
 	}
 
+	public Response(int statusCode, String contentType) {
+		this();
+		this.statusCode = statusCode;
+		this.contentType = contentType;
+	}
+
+	public Response(int statusCode, String contentType, Map<String, String> headers, List<Cookie> cookies) {
+		this.statusCode = statusCode;
+		this.contentType = contentType;
+
+		this.headers = new HashMap<String, String>();
+		if (headers != null) {
+			for (Map.Entry<String, String> entries : headers.entrySet()) {
+				this.headers.put(entries.getKey().toLowerCase(), entries.getValue());
+			}
+		}
+
+		this.cookies = cookies == null ? new ArrayList<Cookie>() : cookies;
+	}
+
 	public Response(com.ning.http.client.Response response) {
+		this();
 		statusCode = response.getStatusCode();
 		contentType = response.getContentType();
 
@@ -31,6 +59,7 @@ public class Response {
 	}
 
 	public Response(org.apache.http.HttpResponse response) {
+		this();
 		statusCode = response.getStatusLine().getStatusCode();
 		contentType = response.getEntity().getContentType().getValue();
 
@@ -42,36 +71,26 @@ public class Response {
 		return statusCode;
 	}
 
-	public void setStatusCode(int statusCode) {
-		this.statusCode = statusCode;
-	}
-
 	public String getContentType() {
 		return contentType;
-	}
-
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
 	}
 
 	public Map<String, String> getHeaders() {
 		return headers;
 	}
 
-	public void setHeaders(Map<String, String> headers) {
-		this.headers = headers;
-	}
-
-	public String getHeader(String name) {
-		return this.headers.get(name.toLowerCase());
-	}
-
 	public List<Cookie> getCookies() {
 		return cookies;
 	}
 
-	public void setCookies(List<Cookie> cookies) {
-		this.cookies = cookies;
+	/**
+	 * Get header value by its name.
+	 *
+	 * @param name Name of header.
+	 * @return Value of header.
+	 */
+	public String getHeader(String name) {
+		return this.headers.get(name.toLowerCase());
 	}
 
 	/**
