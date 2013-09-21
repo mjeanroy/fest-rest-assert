@@ -474,6 +474,29 @@ public class JsonAssertTest {
 	}
 
 	@Test
+	public void test_notContainOrIsNull() {
+		String array = "";
+		array += "{";
+		array += "  \"foo\": [1, 2, 3],";
+		array += "  \"bar\": null,";
+		array += "  \"quix\": {";
+		array += "    \"bar\": 1";
+		array += "  }";
+		array += "}";
+
+		new JsonAssert(array).notContainOrIsNull("bar");
+		new JsonAssert(array).notContainOrIsNull("keynotexist");
+
+		try {
+			new JsonAssert(array).notContainOrIsNull("foo");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected <foo> not to be find or to be be null but was <[1,2,3]>");
+		}
+	}
+
+	@Test
 	public void test_isValueNull() {
 		String array = "";
 		array += "{";
