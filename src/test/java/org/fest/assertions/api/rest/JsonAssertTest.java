@@ -320,6 +320,50 @@ public class JsonAssertTest {
 	}
 
 	@Test
+	public void test_isValueNull() {
+		String array = "";
+		array += "{";
+		array += "  \"foo\": [1, 2, 3],";
+		array += "  \"bar\": null,";
+		array += "  \"quix\": {";
+		array += "    \"bar\": 1";
+		array += "  }";
+		array += "}";
+		new JsonAssert(array).isNull("bar");
+
+		try {
+			new JsonAssert(array).isNull("foo");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect <foo> to be null");
+		}
+	}
+
+	@Test
+	public void test_isValueNotNull() {
+		String array = "";
+		array += "{";
+		array += "  \"foo\": [1, 2, 3],";
+		array += "  \"bar\": null,";
+		array += "  \"quix\": {";
+		array += "    \"bar\": 1";
+		array += "  }";
+		array += "}";
+		new JsonAssert(array).isNotNull("foo");
+		new JsonAssert(array).isNotNull("quix");
+		new JsonAssert(array).isNotNull("quix.bar");
+
+		try {
+			new JsonAssert(array).isNotNull("bar");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect <bar> not to be null");
+		}
+	}
+
+	@Test
 	public void test_isTrue() {
 		simpleJsonAssertion.isTrue("flag");
 		nestedJsonAssertion.isFalse("flag");

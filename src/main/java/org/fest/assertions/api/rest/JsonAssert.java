@@ -285,6 +285,36 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	}
 
 	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and is null.
+	 *
+	 * @param path Path to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isNull(String path) {
+		contain(path);
+		Object result = JsonPath.read(actual, path);
+		Assertions.assertThat(result)
+				.overridingErrorMessage("Expect <%s> to be null", path)
+				.isNull();
+		return this;
+	}
+
+	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and is not null.
+	 *
+	 * @param path Path to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isNotNull(String path) {
+		contain(path);
+		Object result = JsonPath.read(actual, path);
+		Assertions.assertThat(result)
+				.overridingErrorMessage("Expect <%s> not to be null", path)
+				.isNotNull();
+		return this;
+	}
+
+	/**
 	 * Check if a path exist in json representation (support JSONPath specification) and if value stored at expected path is equal to {@code true}.
 	 *
 	 * @param path Path to look for.
