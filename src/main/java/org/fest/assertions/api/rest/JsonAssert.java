@@ -29,7 +29,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	public JsonAssert(String actual) {
 		super(actual.trim(), JsonAssert.class);
 		if (!JsonComparator.isValid(actual)) {
-			throw new AssertionError("Expect json to be valid");
+			throw new AssertionError("Expecting json to be valid");
 		}
 	}
 
@@ -40,7 +40,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 */
 	public JsonAssert isArray() {
 		if (!JsonComparator.isArray(actual)) {
-			throw new AssertionError("Expect json to be an array");
+			throw new AssertionError("Expecting json to be an array");
 		}
 		return this;
 	}
@@ -63,7 +63,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		}
 
 		if (actualSize != size) {
-			String msg = String.format("Expect json to be an array with size <%s> but was <%s>", size, actualSize);
+			String msg = String.format("Expecting json to be an array with size <%s> but was <%s>", size, actualSize);
 			throw new AssertionError(msg);
 		}
 
@@ -83,7 +83,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 
 	public JsonAssert isObject() {
 		if (!JsonComparator.isObject(actual)) {
-			throw new AssertionError("Expect json to be an object");
+			throw new AssertionError("Expecting json to be an object");
 		}
 		return this;
 	}
@@ -96,7 +96,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 */
 	public JsonAssert contain(String path) {
 		if (!hasKey(path)) {
-			String msg = String.format("Expected path <%s> to be find", path);
+			String msg = String.format("Expecting <%s> to be find", path);
 			throw new AssertionError(msg);
 		}
 		return this;
@@ -110,7 +110,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 */
 	public JsonAssert notContain(String path) {
 		if (hasKey(path)) {
-			String msg = String.format("Expected <%s> not to be find", path);
+			String msg = String.format("Expecting <%s> not to be find", path);
 			throw new AssertionError(msg);
 		}
 		return this;
@@ -126,7 +126,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		if (hasKey(path)) {
 			Object result = JsonPath.read(actual, path);
 			if (result != null) {
-				String msg = String.format("Expected <%s> not to be find or to be be null but was <%s>", path, result);
+				String msg = String.format("Expecting <%s> not to be find or to be be null but was <%s>", path, result);
 				throw new AssertionError(msg);
 			}
 		}
@@ -149,7 +149,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 
 		if (!errors.isEmpty()) {
 			String errs = join(errors, ", ");
-			String msg = String.format("Expected keys <%s> to be find", errs);
+			String msg = String.format("Expecting <%s> to be find", errs);
 			throw new AssertionError(msg);
 		}
 
@@ -194,7 +194,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 				String val = error.value() == null ? null : error.value().toString();
 				expectedValues.add(val);
 			}
-			String msg = String.format("Expect following paths <%s> to be <%s>", join(paths, ", "), join(expectedValues, ", "));
+			String msg = String.format("Expecting following <%s> to be <%s>", join(paths, ", "), join(expectedValues, ", "));
 			throw new AssertionError(msg);
 		}
 
@@ -228,7 +228,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		contain(path);
 		T result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
-				.overridingErrorMessage("Expect path <%s> to be <%s> but was <%s>", path, obj, result)
+				.overridingErrorMessage("Expecting <%s> to be <%s> but was <%s>", path, obj, result)
 				.isEqualTo(obj);
 		return this;
 	}
@@ -245,7 +245,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 			Collection result = JsonPath.read(actual, path);
 		}
 		catch (Throwable e) {
-			String msg = String.format("Expect <%s> to be an array", path);
+			String msg = String.format("Expecting <%s> to be an array", path);
 			throw new AssertionError(msg);
 		}
 		return this;
@@ -270,7 +270,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		}
 
 		if (!isObject) {
-			String msg = String.format("Expect <%s> to be an object", path);
+			String msg = String.format("Expecting <%s> to be an object", path);
 			throw new AssertionError(msg);
 		}
 
@@ -298,7 +298,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		}
 
 		if (actualSize != size) {
-			String msg = String.format("Expect <%s> to be an array with size <%s> but was <%s>", path, size, actualSize);
+			String msg = String.format("Expecting <%s> to be an array with size <%s> but was <%s>", path, size, actualSize);
 			throw new AssertionError(msg);
 		}
 
@@ -325,7 +325,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		contain(path);
 		Object result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
-				.overridingErrorMessage("Expect <%s> to be null", path)
+				.overridingErrorMessage("Expecting <%s> to be null", path)
 				.isNull();
 		return this;
 	}
@@ -340,7 +340,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		contain(path);
 		Object result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
-				.overridingErrorMessage("Expect <%s> not to be null", path)
+				.overridingErrorMessage("Expecting <%s> not to be null", path)
 				.isNotNull();
 		return this;
 	}
@@ -393,7 +393,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 			}
 		}
 		catch (Throwable e) {
-			String msg = String.format("Expect <%s> to be a %s", path, typeStr);
+			String msg = String.format("Expecting <%s> to be a %s", path, typeStr);
 			throw new AssertionError(msg);
 		}
 
@@ -410,7 +410,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		isString(path);
 		String result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
-				.overridingErrorMessage("Expect <%s> to be an empty string", path)
+				.overridingErrorMessage("Expecting <%s> to be an empty string", path)
 				.isEmpty();
 		return this;
 	}
@@ -425,7 +425,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		isString(path);
 		String result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
-				.overridingErrorMessage("Expect <%s> not to be an empty string", path)
+				.overridingErrorMessage("Expecting <%s> not to be an empty string", path)
 				.isNotEmpty();
 		return this;
 	}
@@ -474,7 +474,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		isNumber(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
-				.overridingErrorMessage("Expect path <%s> to be greater than <%s> but was <%s>", path, value, result)
+				.overridingErrorMessage("Expecting <%s> to be greater than <%s> but was <%s>", path, value, result)
 				.isGreaterThan(value);
 		return this;
 	}
@@ -490,7 +490,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		isNumber(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
-				.overridingErrorMessage("Expect path <%s> to be greater than or equal to <%s> but was <%s>", path, value, result)
+				.overridingErrorMessage("Expecting <%s> to be greater than or equal to <%s> but was <%s>", path, value, result)
 				.isGreaterThanOrEqualTo(value);
 		return this;
 	}
@@ -506,7 +506,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		isNumber(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
-				.overridingErrorMessage("Expect path <%s> to be less than <%s> but was <%s>", path, value, result)
+				.overridingErrorMessage("Expecting <%s> to be less than <%s> but was <%s>", path, value, result)
 				.isLessThan(value);
 		return this;
 	}
@@ -522,7 +522,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		isNumber(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
-				.overridingErrorMessage("Expect path <%s> to be less than or equal to <%s> but was <%s>", path, value, result)
+				.overridingErrorMessage("Expecting <%s> to be less than or equal to <%s> but was <%s>", path, value, result)
 				.isLessThanOrEqualTo(value);
 		return this;
 	}

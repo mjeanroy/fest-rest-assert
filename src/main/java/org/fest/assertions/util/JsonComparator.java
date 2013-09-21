@@ -55,7 +55,7 @@ public class JsonComparator {
 				typeExpected = "Array";
 			}
 
-			String msg = String.format("Expect json to be <%s> but was <%s>", typeExpected, typeFound);
+			String msg = String.format("Expecting json to be <%s> but was <%s>", typeExpected, typeFound);
 			List<String> errors = new ArrayList<String>();
 			errors.add(msg);
 			return errors;
@@ -149,8 +149,8 @@ public class JsonComparator {
 
 		if (json1IsArrayOfObjects != json2IsArrayOfObjects) {
 			String msg = json1IsArrayOfObjects ?
-					"Expect json not to be an array of objects" :
-					"Expect json to be an array of objects";
+					"Expecting json not to be an array of objects" :
+					"Expecting json to be an array of objects";
 
 			List<String> errors = new ArrayList<String>();
 			errors.add(msg);
@@ -302,7 +302,7 @@ public class JsonComparator {
 
 		// First map does not contain expected key
 		if (!map1.containsKey(key)) {
-			String msg = String.format("Expect json to contain <%s>", formatKeyName(currentKey, key));
+			String msg = String.format("Expecting json to contain <%s>", formatKeyName(currentKey, key));
 			errors.add(msg);
 			return errors;
 		}
@@ -358,7 +358,7 @@ public class JsonComparator {
 
 		// Check for type difference
 		if (v1.getClass() != v2.getClass()) {
-			String msg = String.format("Expect type <%s> but was <%s> for key <%s>", v2.getClass().getSimpleName(), v1.getClass().getSimpleName(), formattedKey);
+			String msg = String.format("Expecting type <%s> but was <%s> for key <%s>", v2.getClass().getSimpleName(), v1.getClass().getSimpleName(), formattedKey);
 			errors.add(msg);
 			return errors;
 		}
@@ -374,7 +374,7 @@ public class JsonComparator {
 		}
 		else if (!v1.equals(v2)) {
 			// Values are different
-			String msg = String.format("Expect <%s> to be <%s> but was <%s>", formattedKey, v1, v2);
+			String msg = String.format("Expecting <%s> to be <%s> but was <%s>", formattedKey, v1, v2);
 			errors.add(msg);
 		}
 
@@ -397,7 +397,7 @@ public class JsonComparator {
 
 		// First check size of both collections
 		if (size1 != size2) {
-			String msg = String.format("Expect size of array to be <%s> but was <%s>", size2, size1);
+			String msg = String.format("Expecting size of array to be <%s> but was <%s>", size2, size1);
 			errors.add(msg);
 			return errors;
 		}

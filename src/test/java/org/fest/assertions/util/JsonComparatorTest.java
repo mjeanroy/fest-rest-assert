@@ -118,7 +118,7 @@ public class JsonComparatorTest {
 		String json2 = "[1, 2, 3, 4]";
 		List<String> errors = JsonComparator.compareJson(json1, json2);
 		assertThat(errors).isNotNull().hasSize(1)
-				.contains("Expect size of array to be <4> but was <3>");
+				.contains("Expecting size of array to be <4> but was <3>");
 	}
 
 	@Test
@@ -127,7 +127,7 @@ public class JsonComparatorTest {
 		String json2 = "[1, 2, 3]";
 		List<String> errors = JsonComparator.compareJson(json1, json2);
 		assertThat(errors).isNotNull().hasSize(1)
-				.contains("Expect size of array to be <3> but was <4>");
+				.contains("Expecting size of array to be <3> but was <4>");
 	}
 
 	@Test
@@ -176,8 +176,8 @@ public class JsonComparatorTest {
 
 		List<String> errors = JsonComparator.compareJson(json1, json2);
 		assertThat(errors).isNotNull().hasSize(2)
-				.contains("Expect <[0].bar> to be <2> but was <3>")
-				.contains("Expect <[1].foo> to be <3> but was <5>");
+				.contains("Expecting <[0].bar> to be <2> but was <3>")
+				.contains("Expecting <[1].foo> to be <3> but was <5>");
 	}
 
 	@Test
@@ -208,7 +208,7 @@ public class JsonComparatorTest {
 
 		List<String> errors = JsonComparator.compareJson(json1, json2, Arrays.asList("[0].bar"));
 		assertThat(errors).isNotNull().hasSize(1)
-				.contains("Expect <[1].foo> to be <3> but was <5>");
+				.contains("Expecting <[1].foo> to be <3> but was <5>");
 	}
 
 	@Test
@@ -229,7 +229,7 @@ public class JsonComparatorTest {
 
 		List<String> errors = JsonComparator.compareJson(json1, json2);
 		assertThat(errors).isNotNull().isNotEmpty().hasSize(1)
-				.contains("Expect json to be <Array> but was <Object>");
+				.contains("Expecting json to be <Array> but was <Object>");
 	}
 
 	@Test
@@ -250,7 +250,7 @@ public class JsonComparatorTest {
 
 		List<String> errors = JsonComparator.compareJson(json1, json2);
 		assertThat(errors).isNotNull().isNotEmpty().hasSize(1)
-				.contains("Expect json to be <Array> but was <Object>");
+				.contains("Expecting json to be <Array> but was <Object>");
 	}
 
 	@Test
@@ -269,8 +269,8 @@ public class JsonComparatorTest {
 
 		List<String> errors = JsonComparator.compareJson(json1, json2);
 		assertThat(errors).isNotNull().isNotEmpty().hasSize(2)
-				.contains("Expect <foo> to be <1> but was <2>")
-				.contains("Expect <bar> to be <2> but was <3>");
+				.contains("Expecting <foo> to be <1> but was <2>")
+				.contains("Expecting <bar> to be <2> but was <3>");
 	}
 
 	@Test
@@ -289,7 +289,7 @@ public class JsonComparatorTest {
 
 		List<String> errors = JsonComparator.compareJson(json1, json2);
 		assertThat(errors).isNotNull().isNotEmpty().hasSize(1)
-				.contains("Expect type <String> but was <Integer> for key <foo>");
+				.contains("Expecting type <String> but was <Integer> for key <foo>");
 	}
 
 	@Test
@@ -307,7 +307,7 @@ public class JsonComparatorTest {
 
 		List<String> errors = JsonComparator.compareJson(json1, json2);
 		assertThat(errors).isNotNull().isNotEmpty().hasSize(1)
-				.contains("Expect json to contain <bar>");
+				.contains("Expecting json to contain <bar>");
 	}
 
 	@Test
@@ -478,7 +478,7 @@ public class JsonComparatorTest {
 
 		List<String> errors = JsonComparator.compareJson(json1, json2);
 		assertThat(errors).isNotNull().isNotEmpty().hasSize(1)
-				.contains("Expect <bar.bar1> to be <1> but was <0>");
+				.contains("Expecting <bar.bar1> to be <1> but was <0>");
 	}
 
 	@Test
@@ -528,7 +528,7 @@ public class JsonComparatorTest {
 
 		List<String> errors = JsonComparator.compareJson(json1, json2);
 		assertThat(errors).isNotNull().isNotEmpty().hasSize(1)
-				.contains("Expect <foo[2]> to be <3> but was <4>");
+				.contains("Expecting <foo[2]> to be <3> but was <4>");
 	}
 
 	@Test
@@ -595,7 +595,7 @@ public class JsonComparatorTest {
 
 		List<String> errors = JsonComparator.compareJson(json1, json2);
 		assertThat(errors).isNotNull().isNotEmpty().hasSize(1)
-				.contains("Expect <foo[1].bar1> to be <4> but was <5>");
+				.contains("Expecting <foo[1].bar1> to be <4> but was <5>");
 	}
 
 	@Test

@@ -60,7 +60,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect json to be valid");
+			assertThat(error.getMessage()).isEqualTo("Expecting json to be valid");
 		}
 	}
 
@@ -91,7 +91,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect json to be an object");
+			assertThat(error.getMessage()).isEqualTo("Expecting json to be an object");
 		}
 	}
 
@@ -117,7 +117,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect json to be an array");
+			assertThat(error.getMessage()).isEqualTo("Expecting json to be an array");
 		}
 	}
 
@@ -130,7 +130,7 @@ public class JsonAssertTest {
 			new JsonAssert(array).isArrayWithSize(2);
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect json to be an array with size <2> but was <3>");
+			assertThat(error.getMessage()).isEqualTo("Expecting json to be an array with size <2> but was <3>");
 		}
 	}
 
@@ -144,7 +144,7 @@ public class JsonAssertTest {
 			new JsonAssert(array).isEmptyArray();
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect json to be an array with size <0> but was <3>");
+			assertThat(error.getMessage()).isEqualTo("Expecting json to be an array with size <0> but was <3>");
 		}
 	}
 
@@ -158,7 +158,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expected path <foo> to be find");
+			assertThat(error.getMessage()).isEqualTo("Expecting <foo> to be find");
 		}
 
 		try {
@@ -166,7 +166,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expected path <name.foo> to be find");
+			assertThat(error.getMessage()).isEqualTo("Expecting <name.foo> to be find");
 		}
 	}
 
@@ -179,7 +179,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expected <id> not to be find");
+			assertThat(error.getMessage()).isEqualTo("Expecting <id> not to be find");
 		}
 	}
 
@@ -193,7 +193,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expected keys <idfoo, idbar> to be find");
+			assertThat(error.getMessage()).isEqualTo("Expecting <idfoo, idbar> to be find");
 		}
 	}
 
@@ -208,7 +208,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect path <flag> to be <false> but was <true>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <flag> to be <false> but was <true>");
 		}
 	}
 
@@ -229,7 +229,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect following paths <flag, name> to be <false, bar>");
+			assertThat(error.getMessage()).isEqualTo("Expecting following <flag, name> to be <false, bar>");
 		}
 	}
 
@@ -244,7 +244,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect path <name> to be <bar> but was <foo>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <name> to be <bar> but was <foo>");
 		}
 
 		try {
@@ -252,7 +252,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect path <flag> to be <false> but was <true>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <flag> to be <false> but was <true>");
 		}
 	}
 
@@ -270,7 +270,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect <bar> to be an array");
+			assertThat(error.getMessage()).isEqualTo("Expecting <bar> to be an array");
 		}
 	}
 
@@ -292,7 +292,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect <foo> to be an object");
+			assertThat(error.getMessage()).isEqualTo("Expecting <foo> to be an object");
 		}
 	}
 
@@ -310,7 +310,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect <foo> to be an array with size <2> but was <3>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <foo> to be an array with size <2> but was <3>");
 		}
 	}
 
@@ -328,7 +328,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect <foo> to be an array with size <0> but was <3>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <foo> to be an array with size <0> but was <3>");
 		}
 	}
 
@@ -355,7 +355,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect <bar> to be a number");
+			assertThat(error.getMessage()).isEqualTo("Expecting <bar> to be a number");
 		}
 
 		try {
@@ -363,7 +363,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect <quix> to be a number");
+			assertThat(error.getMessage()).isEqualTo("Expecting <quix> to be a number");
 		}
 	}
 
@@ -387,7 +387,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect <nb> to be a string");
+			assertThat(error.getMessage()).isEqualTo("Expecting <nb> to be a string");
 		}
 
 		try {
@@ -395,7 +395,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect <foo[0]> to be a string");
+			assertThat(error.getMessage()).isEqualTo("Expecting <foo[0]> to be a string");
 		}
 	}
 
@@ -416,7 +416,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect <quix.bar> to be an empty string");
+			assertThat(error.getMessage()).isEqualTo("Expecting <quix.bar> to be an empty string");
 		}
 	}
 
@@ -437,7 +437,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect <bar> not to be an empty string");
+			assertThat(error.getMessage()).isEqualTo("Expecting <bar> not to be an empty string");
 		}
 	}
 
@@ -461,7 +461,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect <nb> to be a boolean");
+			assertThat(error.getMessage()).isEqualTo("Expecting <nb> to be a boolean");
 		}
 
 		try {
@@ -469,7 +469,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect <bar> to be a boolean");
+			assertThat(error.getMessage()).isEqualTo("Expecting <bar> to be a boolean");
 		}
 	}
 
@@ -492,7 +492,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expected <foo> not to be find or to be be null but was <[1,2,3]>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <foo> not to be find or to be be null but was <[1,2,3]>");
 		}
 	}
 
@@ -513,7 +513,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect <foo> to be null");
+			assertThat(error.getMessage()).isEqualTo("Expecting <foo> to be null");
 		}
 	}
 
@@ -536,7 +536,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect <bar> not to be null");
+			assertThat(error.getMessage()).isEqualTo("Expecting <bar> not to be null");
 		}
 	}
 
@@ -550,7 +550,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect path <flag> to be <false> but was <true>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <flag> to be <false> but was <true>");
 		}
 
 		try {
@@ -558,7 +558,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect path <flag> to be <true> but was <false>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <flag> to be <true> but was <false>");
 		}
 	}
 
@@ -571,7 +571,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect path <id> to be <0> but was <1>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <id> to be <0> but was <1>");
 		}
 	}
 
@@ -584,7 +584,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect path <id> to be greater than <1> but was <1>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <id> to be greater than <1> but was <1>");
 		}
 	}
 
@@ -598,7 +598,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect path <id> to be greater than or equal to <2> but was <1>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <id> to be greater than or equal to <2> but was <1>");
 		}
 	}
 
@@ -611,7 +611,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect path <id> to be less than <1> but was <1>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <id> to be less than <1> but was <1>");
 		}
 	}
 
@@ -625,7 +625,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect path <id> to be less than or equal to <0> but was <1>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <id> to be less than or equal to <0> but was <1>");
 		}
 	}
 
@@ -638,7 +638,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect path <negative> to be greater than <0> but was <-1>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <negative> to be greater than <0> but was <-1>");
 		}
 	}
 
@@ -651,7 +651,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect path <id> to be less than <0> but was <1>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <id> to be less than <0> but was <1>");
 		}
 	}
 
@@ -734,7 +734,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect json to contain <quix>");
+			assertThat(error.getMessage()).isEqualTo("Expecting json to contain <quix>");
 		}
 	}
 
@@ -787,7 +787,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect json to contain <bar.quix2>");
+			assertThat(error.getMessage()).isEqualTo("Expecting json to contain <bar.quix2>");
 		}
 	}
 
@@ -889,7 +889,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect type <String> but was <Integer> for key <foo>");
+			assertThat(error.getMessage()).isEqualTo("Expecting type <String> but was <Integer> for key <foo>");
 		}
 	}
 
@@ -961,7 +961,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect <foo[2]> to be <3> but was <4>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <foo[2]> to be <3> but was <4>");
 		}
 	}
 
@@ -995,7 +995,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect type <String> but was <Integer> for key <foo[0].id>");
+			assertThat(error.getMessage()).isEqualTo("Expecting type <String> but was <Integer> for key <foo[0].id>");
 		}
 	}
 
@@ -1062,7 +1062,7 @@ public class JsonAssertTest {
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
-			assertThat(error.getMessage()).isEqualTo("Expect <foo[0].id> to be <1> but was <2>");
+			assertThat(error.getMessage()).isEqualTo("Expecting <foo[0].id> to be <1> but was <2>");
 		}
 	}
 }
