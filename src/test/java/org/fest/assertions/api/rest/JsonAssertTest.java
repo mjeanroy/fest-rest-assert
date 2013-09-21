@@ -355,6 +355,38 @@ public class JsonAssertTest {
 	}
 
 	@Test
+	public void test_isString() {
+		String array = "";
+		array += "{";
+		array += "  \"foo\": [1, \"2\", 3],";
+		array += "  \"bar\": \"1\",";
+		array += "  \"nb\": 1,";
+		array += "  \"quix\": {";
+		array += "    \"bar\": 1";
+		array += "  }";
+		array += "}";
+
+		new JsonAssert(array).isString("bar");
+		new JsonAssert(array).isString("foo[1]");
+
+		try {
+			new JsonAssert(array).isString("nb");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect <nb> to be a string");
+		}
+
+		try {
+			new JsonAssert(array).isString("foo[0]");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect <foo[0]> to be a string");
+		}
+	}
+
+	@Test
 	public void test_isValueNull() {
 		String array = "";
 		array += "{";

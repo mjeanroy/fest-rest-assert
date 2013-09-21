@@ -314,14 +314,45 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		return this;
 	}
 
+	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and is a number.
+	 *
+	 * @param path Path to look for.
+	 * @return {@code this} the assertion object.
+	 */
 	public JsonAssert isNumber(String path) {
-		contain(path);
+		return isOfType(path, Number.class, "number");
+	}
+
+	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and is a string.
+	 *
+	 * @param path Path to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isString(String path) {
+		return isOfType(path, String.class, "string");
+	}
+
+	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and is of expected type.
+	 *
+	 * @param path    Path to look for.
+	 * @param klass   Expected type.
+	 * @param typeStr Type displayed in error message.
+	 * @return {@code this} the assertion object.
+	 */
+	private <T> JsonAssert isOfType(String path, Class<T> klass, String typeStr) {
+		isNotNull(path);
 
 		try {
-			Number nb = JsonPath.read(actual, path);
+			T obj = JsonPath.read(actual, path);
+			if (!klass.isAssignableFrom(obj.getClass())) {
+				throw new RuntimeException();
+			}
 		}
 		catch (Throwable e) {
-			String msg = String.format("Expect <%s> to be a number", path);
+			String msg = String.format("Expect <%s> to be a %s", path, typeStr);
 			throw new AssertionError(msg);
 		}
 
@@ -464,7 +495,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	/**
 	 * Check if actual json is strictly equals to an expected json representation accessible at given URI.
 	 *
-	 * @param uri Expected json representation.
+	 * @param uri            Expected json representation.
 	 * @param ignoringFields Fields to ignore during comparison.
 	 * @return {@code this} the assertion object.
 	 */
@@ -476,7 +507,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	/**
 	 * Check if actual json is strictly equals to an expected json representation stored in the given file.
 	 *
-	 * @param file Expected json representation.
+	 * @param file           Expected json representation.
 	 * @param ignoringFields Fields to ignore during comparison.
 	 * @return {@code this} the assertion object.
 	 */
@@ -523,7 +554,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * Check if actual json is strictly equals to an expected object (automatically serialized to a json representation
 	 * using a default {@link ObjectMapper}).
 	 *
-	 * @param object Expected json representation.
+	 * @param object         Expected json representation.
 	 * @param ignoringFields Fields to ignore during comparison.
 	 * @return {@code this} the assertion object.
 	 */
@@ -535,7 +566,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * Check if actual json is strictly equals to an expected object (automatically serialized to a json representation
 	 * using given {@link ObjectMapper}).
 	 *
-	 * @param object Expected json representation.
+	 * @param object         Expected json representation.
 	 * @param ignoringFields Fields to ignore during comparison.
 	 * @return {@code this} the assertion object.
 	 */
@@ -552,7 +583,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	/**
 	 * Check if actual json is strictly equals to an expected json representation.
 	 *
-	 * @param json Expected json representation.
+	 * @param json           Expected json representation.
 	 * @param ignoringFields Fields to ignore during comparison.
 	 * @return {@code this} the assertion object.
 	 */
