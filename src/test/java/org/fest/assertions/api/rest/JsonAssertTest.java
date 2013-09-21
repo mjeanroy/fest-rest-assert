@@ -320,6 +320,41 @@ public class JsonAssertTest {
 	}
 
 	@Test
+	public void test_isNumber() {
+		String array = "";
+		array += "{";
+		array += "  \"foo\": [1, 2, 3],";
+		array += "  \"bar\": \"1\",";
+		array += "  \"nb\": 1,";
+		array += "  \"quix\": {";
+		array += "    \"bar\": 1";
+		array += "  }";
+		array += "}";
+
+		new JsonAssert(array).isNumber("nb");
+		new JsonAssert(array).isNumber("quix.bar");
+		new JsonAssert(array).isNumber("foo[0]");
+		new JsonAssert(array).isNumber("foo[1]");
+		new JsonAssert(array).isNumber("foo[2]");
+
+		try {
+			new JsonAssert(array).isNumber("bar");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect <bar> to be a number");
+		}
+
+		try {
+			new JsonAssert(array).isNumber("quix");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect <quix> to be a number");
+		}
+	}
+
+	@Test
 	public void test_isValueNull() {
 		String array = "";
 		array += "{";

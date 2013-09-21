@@ -314,6 +314,20 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		return this;
 	}
 
+	public JsonAssert isNumber(String path) {
+		contain(path);
+
+		try {
+			Number nb = JsonPath.read(actual, path);
+		}
+		catch (Throwable e) {
+			String msg = String.format("Expect <%s> to be a number", path);
+			throw new AssertionError(msg);
+		}
+
+		return this;
+	}
+
 	/**
 	 * Check if a path exist in json representation (support JSONPath specification) and if value stored at expected path is equal to {@code true}.
 	 *
@@ -341,6 +355,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @return {@code this} the assertion object.
 	 */
 	public JsonAssert isZero(String path) {
+		isNumber(path);
 		return contain(path, 0);
 	}
 
@@ -352,7 +367,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @return {@code this} the assertion object.
 	 */
 	public JsonAssert isGreaterThan(String path, int value) {
-		contain(path);
+		isNumber(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
 				.overridingErrorMessage("Expect path <%s> to be greater than <%s> but was <%s>", path, value, result)
@@ -368,7 +383,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @return {@code this} the assertion object.
 	 */
 	public JsonAssert isGreaterThanOrEqualTo(String path, int value) {
-		contain(path);
+		isNumber(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
 				.overridingErrorMessage("Expect path <%s> to be greater than or equal to <%s> but was <%s>", path, value, result)
@@ -384,7 +399,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @return {@code this} the assertion object.
 	 */
 	public JsonAssert isLessThan(String path, int value) {
-		contain(path);
+		isNumber(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
 				.overridingErrorMessage("Expect path <%s> to be less than <%s> but was <%s>", path, value, result)
@@ -400,7 +415,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @return {@code this} the assertion object.
 	 */
 	public JsonAssert isLessThanOrEqualTo(String path, int value) {
-		contain(path);
+		isNumber(path);
 		int result = JsonPath.read(actual, path);
 		Assertions.assertThat(result)
 				.overridingErrorMessage("Expect path <%s> to be less than or equal to <%s> but was <%s>", path, value, result)
