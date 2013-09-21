@@ -370,6 +370,21 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	}
 
 	/**
+	 * Check if a path exist in json representation (support JSONPath specification) and is an empty string.
+	 *
+	 * @param path Path to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert isEmptyString(String path) {
+		isString(path);
+		String result = JsonPath.read(actual, path);
+		Assertions.assertThat(result)
+				.overridingErrorMessage("Expect <%s> to be an empty string", path)
+				.isEmpty();
+		return this;
+	}
+
+	/**
 	 * Check if a path exist in json representation (support JSONPath specification) and if value stored at expected path is equal to {@code true}.
 	 *
 	 * @param path Path to look for.

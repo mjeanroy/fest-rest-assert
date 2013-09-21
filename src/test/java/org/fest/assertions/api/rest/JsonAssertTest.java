@@ -387,6 +387,27 @@ public class JsonAssertTest {
 	}
 
 	@Test
+	public void test_isEmptyString() {
+		String array = "";
+		array += "{";
+		array += "  \"bar\": \"\",";
+		array += "  \"quix\": {";
+		array += "    \"bar\": \"une chaine de caractère\"";
+		array += "  }";
+		array += "}";
+
+		new JsonAssert(array).isEmptyString("bar");
+
+		try {
+			new JsonAssert(array).isEmptyString("quix.bar");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expect <quix.bar> to be an empty string");
+		}
+	}
+
+	@Test
 	public void test_isBoolean() {
 		String array = "";
 		array += "{";
