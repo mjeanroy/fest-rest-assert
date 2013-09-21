@@ -103,6 +103,20 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	}
 
 	/**
+	 * Check if a path does not exist in json representation (support JSONPath specification).
+	 *
+	 * @param path Path to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert notContain(String path) {
+		if (hasKey(path)) {
+			String msg = String.format("Expected <%s> not to be find", path);
+			throw new AssertionError(msg);
+		}
+		return this;
+	}
+
+	/**
 	 * Check if a list of paths exist in json representation (support JSONPath specification).
 	 *
 	 * @param paths List of path to look for.

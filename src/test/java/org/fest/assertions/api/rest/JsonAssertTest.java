@@ -171,6 +171,19 @@ public class JsonAssertTest {
 	}
 
 	@Test
+	public void test_notContain() {
+		simpleJsonAssertion.notContain("foo");
+
+		try {
+			simpleJsonAssertion.notContain("id");
+			fail("Expected AssertionError to be thrown");
+		}
+		catch (AssertionError error) {
+			assertThat(error.getMessage()).isEqualTo("Expected <id> not to be find");
+		}
+	}
+
+	@Test
 	public void test_contains() {
 		simpleJsonAssertion.contains("id", "name", "nickname", "flag", "zero");
 		nestedJsonAssertion.contains("id", "name.firstName");
