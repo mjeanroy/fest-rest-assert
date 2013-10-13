@@ -141,7 +141,17 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @return {@code this} the assertion object.
 	 */
 	public JsonAssert contains(String... paths) {
-		List<String> errors = new ArrayList<String>(paths.length);
+		return contains(Arrays.asList(paths));
+	}
+
+	/**
+	 * Check if a list of paths exist in json representation (support JSONPath specification).
+	 *
+	 * @param paths List of path to look for.
+	 * @return {@code this} the assertion object.
+	 */
+	public JsonAssert contains(List<String> paths) {
+		List<String> errors = new ArrayList<String>(paths.size());
 		for (String path : paths) {
 			if (!hasKey(path)) {
 				errors.add(path);
