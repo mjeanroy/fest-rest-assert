@@ -173,7 +173,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 	 * @param entry Entry to look for.
 	 * @return {@code this} the assertion object.
 	 */
-	public JsonAssert containsEntry(JsonEntry entry) {
+	public JsonAssert containEntry(JsonEntry entry) {
 		String path = entry.key();
 		Object value = entry.value();
 		return contain(path, value);
@@ -189,7 +189,7 @@ public class JsonAssert extends AbstractAssert<JsonAssert, String> {
 		List<JsonEntry> errors = new ArrayList<JsonEntry>(entries.length);
 		for (JsonEntry entry : entries) {
 			try {
-				containsEntry(entry);
+				containEntry(entry);
 			}
 			catch (AssertionError assertionError) {
 				errors.add(entry);

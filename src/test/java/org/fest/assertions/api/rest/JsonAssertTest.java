@@ -199,12 +199,12 @@ public class JsonAssertTest {
 
 	@Test
 	public void test_containsEntry() {
-		simpleJsonAssertion.containsEntry(JsonEntry.entry("id", 1));
-		simpleJsonAssertion.containsEntry(JsonEntry.entry("name", "foo"));
-		simpleJsonAssertion.containsEntry(JsonEntry.entry("flag", true));
+		simpleJsonAssertion.containEntry(JsonEntry.entry("id", 1));
+		simpleJsonAssertion.containEntry(JsonEntry.entry("name", "foo"));
+		simpleJsonAssertion.containEntry(JsonEntry.entry("flag", true));
 
 		try {
-			simpleJsonAssertion.containsEntry(JsonEntry.entry("flag", false));
+			simpleJsonAssertion.containEntry(JsonEntry.entry("flag", false));
 			fail("Expected AssertionError to be thrown");
 		}
 		catch (AssertionError error) {
