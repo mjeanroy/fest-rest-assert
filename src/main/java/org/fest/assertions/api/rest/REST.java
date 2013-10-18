@@ -69,6 +69,16 @@ public class REST {
 	}
 
 	/**
+	 * Build new cookie assertion object from {@link org.apache.http.HttpResponse} object.
+	 *
+	 * @param json Json to check.
+	 * @return Assertion object.
+	 */
+	public static JsonAssert assertJsonThat(String json) {
+		return new JsonAssert(json);
+	}
+
+	/**
 	 * Extract cookie from {@link org.apache.http.HttpResponse} object.
 	 *
 	 * @param name Name of cookie to extract.
