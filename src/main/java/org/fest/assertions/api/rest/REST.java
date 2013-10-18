@@ -29,6 +29,16 @@ public class REST {
 	}
 
 	/**
+	 * Build new assertion object from {@link Response} object.
+	 *
+	 * @param response Original response object.
+	 * @return Assertion object.
+	 */
+	public static ResponseAssert assertThat(Response response) {
+		return new ResponseAssert(response);
+	}
+
+	/**
 	 * Build new cookie assertion object.
 	 *
 	 * @param cookie Cookie object.
