@@ -216,8 +216,8 @@ REST.assertJsonThat(json)
 
     .isEmptyString(String key)                // Check json contain key and value is
                                               // an empty string
-    .isStringNotEmpty(String key)             // Check json contain key and value is not
-                                              // an empty string
+    .isStringNotEmpty(String key)             // Check json contain key and value is
+                                              // not an empty string
     .isTrue(String key)                       // Check json contain key
                                               // and value is true
     .isFalse(String key)                      // Check json contain key
