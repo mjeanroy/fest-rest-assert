@@ -20,11 +20,10 @@ REST.assertThat(response)
 // Check response body
 REST.assertJsonThat(response)
     .isObject()
-    .containsEntry(JsonEntry.entry("id", 1)) // Check a key is found with an
-                                             // expected value
-    .contains("otherValue")                  // Check a key is found
-    .isStrictlyEqualTo(myFile)               // Compare json in response with json in a given file
-    .isEqualToIgnoringFields(myFile, "id");  // Compare json ignoring field 'id'
+    .containsEntry(JsonEntry.entry("id", 1))
+    .contains("otherValue")
+    .isStrictlyEqualTo(myFile)
+    .isEqualToIgnoringFields(myFile, "id");
 ```
 
 # Api
@@ -52,12 +51,10 @@ ___
 
 REST.assertThat(response)
 
-    .isStatusEqualTo(int expected)          // Check statusCode == expected
-    .isStatusNotEqualTo(int expected)       // Check statusCode != expected
-
-    .isStatusBetween(int start, int end)    // Check start <= statusCode <= end
-    .isStatusNotBetween(int start, int end) // Check statusCode > start
-                                            //       || statusCode < end
+    .isStatusEqualTo(int expected)
+    .isStatusNotEqualTo(int expected)
+    .isStatusBetween(int start, int end)
+    .isStatusNotBetween(int start, int end)
 
     // Pre-Built assertions :
 
@@ -97,49 +94,33 @@ ___
 
 REST.assertThat(response)
 
-    .isMimeTypeTypeEqualTo(String expected)  // Check mime type == expected
-    .isMimeTypeIn(String... expecteds)       // Check mime type is in expecteds
-
-    .hasCharset()                            // Check charset is defined
-    .isCharsetEqualTo(String expected)       // Check charset == expected
+    .isMimeTypeTypeEqualTo(String expected)
+    .isMimeTypeIn(String... expecteds)
+    .hasCharset()
+    .isCharsetEqualTo(String expected)
 
     // Pre-Built assertions
 
-    .isUtf8()                                // Check charset is UTF-8
+    .isUtf8()
+    .isOctetStream()   // Check mime type is 'application/octet-stream' (RFC 2046)
+    .isJson()          // Check mime type is 'application/json' (RFC 4627)
+    .isXml()           // Check mime type is 'application/xml' (RFC 3023)
+    .isCss()           // Check mime type is 'text/css' (RFC 2318)
+    .isJavascript()    // Check mime type is 'application/javascript' or
+                       // 'text/javascript' (RFC 4329)
+    .isTextPlain()     // Check mime type is 'text/plain' (RFC 2049, RFC 3676)
+    .isHtml()          // Check mime type is 'text/html' (RFC 2854)
+    .isXhtml()         // Check mime type is 'application/xhtml+xml' (RFC 3023)
+    .isHtmlOrXhtml()   // Check mime type is html or xhtml
+    .isPdf()           // Check mime type is 'application/pdf' (RFC 3778)
+    .isCsv()           // Check mime type is 'application/csv' (RFC 4180)
+    .isZip()           // Check mime type is 'application/zip'
+    .isFlashContent()  // Check mime type is 'application/x-shockwave-flash'
+                       // or 'video/x-flv'
 
-    .isOctetStream()                         // Check mime type is
-                                             //   'application/octet-stream' (RFC 2046)
-    .isJson()                                // Check mime type is
-                                             //   'application/json' (RFC 4627)
-    .isXml()                                 // Check mime type is
-                                             //   'application/xml' (RFC 3023)
-    .isCss()                                 // Check mime type is
-                                             //   'text/css' (RFC 2318)
-    .isJavascript()                          // Check mime type is
-                                             //   'application/javascript' or
-                                             //   'text/javascript' (RFC 4329)
-    .isTextPlain()                           // Check mime type is
-                                             //   'text/plain' (RFC 2049, RFC 3676)
-    .isHtml()                                // Check mime type is
-                                             //   'text/html' (RFC 2854)
-    .isXhtml()                               // Check mime type is
-                                             //   'application/xhtml+xml' (RFC 3023)
-    .isHtmlOrXhtml()                         // Check mime type is html or xhtml
-    .isPdf()                                 // Check mime type is
-                                             //   'application/pdf' (RFC 3778)
-    .isCsv()                                 // Check mime type is
-                                             //   'application/csv' (RFC 4180)
-    .isZip()                                 // Check mime type is 'application/zip'
-    .isFlashContent()                        // Check mime type is
-                                             //   'application/x-shockwave-flash'
-                                             //   or 'video/x-flv'
-
-    .isJsonUtf8()                            // Check response is json
-                                             // with utf-8 charset
-    .isXmlUtf8()                             // Check response is xml
-                                             // with utf-8 charset
-    .isHtmlUtf8()                            // Check response is html
-                                             // with utf-8 charset
+    .isJsonUtf8()      // Check response is json with utf-8 charset
+    .isXmlUtf8()       // Check response is xml with utf-8 charset
+    .isHtmlUtf8()      // Check response is html with utf-8 charset
 ```
 ___
 #### Headers/Cookies Assertions :
@@ -148,19 +129,14 @@ ___
 
 REST.assertThat(response)
 
-    .hasHeader(String name)                        // Check header 'name' is defined
-    .hasHeaderEqualTo(String name, String value)   // Check header 'name' is defined
-                                                   // with an expected value
-    .hasETagHeader()                               // Check header 'ETag' is defined
-    .hasETagEqualTo(String value)                  // Check header 'ETag' is defined
-                                                   // with and expected value
-    .hasLocationHeader()                           // Check header 'Location' is
-                                                   // defined
-    .hasLocationEqualTo(String value)              // Check header 'Location'
-                                                   // defined with and expected value
-    .hasCookie(String name)                        // Check cookie 'name' is defined
-    .hasCookieEqualTo(String name, String value);  // Check cookie 'name' is defined
-                                                   // with an expected value
+    .hasHeader(String name)
+    .hasHeaderEqualTo(String name, String value)
+    .hasETagHeader()
+    .hasETagEqualTo(String value)
+    .hasLocationHeader()
+    .hasLocationEqualTo(String value)
+    .hasCookie(String name)
+    .hasCookieEqualTo(String name, String value)
 ```
 
 ### JSON Assertions:
@@ -181,58 +157,42 @@ REST.assertJsonThat(json);
 
 REST.assertJsonThat(json)
 
-    .isArray()                                // Check json is an array
-    .isObject()                               // Check json is an object
-    .isArrayWithSize()                        // Check json is an array
-                                              // with an expected size
-    .isEmptyArray()                           // Check json is an empty array
+    .isArray()
+    .isObject()
+    .isArrayWithSize()
+    .isEmptyArray()
 
-    .contain(String key)                      // Check json contains a key
-    .notContain(String key)                   // Check json does not contain a key
-    .notContainOrIsNull(String key)           // Check json does not contain a key
-                                              // or value for the key is null
-    .contains(String... keys)                 // Check json contains each keys
-    .contains(String... keys)                 // Check json contains each keys
-    .contains(List<String> keys)              // Check json contains each keys
-    .contain(String key, T value)             // Check json contain key with an
-                                              // expected value
-    .containEntry(JsonEntry entry)            // Check json contain an expected entry
-    .containsEntries(JsonEntry... entries)    // Check json contains expected entries
+    .contain(String key)
+    .notContain(String key)
+    .notContainOrIsNull(String key)
+    .contains(String... keys)
+    .contains(String... keys)
+    .contains(List<String> keys)
+    .contain(String key, T value)
+    .containEntry(JsonEntry entry)
+    .containsEntries(JsonEntry... entries)
 
-    .isNull(String key)                       // Check key is found and value for
-                                              // given key is null
-    .isNotNull(String key)                    // Check key is found and value for
-                                              // given key is not null
-    .isNumber(String key)                     // Check key is found and value for
-                                              // given key is a number
-    .isString(String key)                     // Check key is found and value for
-                                              // given key is a string
-    .isBoolean(String key)                    // Check key is found and value for
-                                              // given key is a string
-    .isArray(String key)                      // Check key in json is an array
-    .isArrayWithSize(String key, int size)    // Check key in json is an array
-                                              // with an expected size
-    .isEmptyArray(String key)                 // Check key in json is an empty array
+    // Pre-Built assertions:
 
-    .isEmptyString(String key)                // Check json contain key and value is
-                                              // an empty string
-    .isStringNotEmpty(String key)             // Check json contain key and value is
-                                              // not an empty string
-    .isTrue(String key)                       // Check json contain key
-                                              // and value is true
-    .isFalse(String key)                      // Check json contain key
-                                              // and value is false
-    .isZero(String key)                       // Check json contain key and value is 0
-
-    .isGreaterThan(String key, int value)     // Check json contain key and
-                                              // value is > an expected value
-    .isGreaterThanOrEqualTo(String key,
-                            int value)        // Check found value is >= value
-    .isLessThan(String key, int value)        // Check found value is < value
-    .isLessThanOrEqualTo(String key,
-                         int value)           // Check found value is <= value
-    .isPositive(String key)                   // Check value is >= 0
-    .isNegative(String key)                   // Check value is <= 0
+    .isNull(String key)
+    .isNotNull(String key)
+    .isNumber(String key)
+    .isString(String key)
+    .isBoolean(String key)
+    .isArray(String key)
+    .isArrayWithSize(String key, int size)
+    .isEmptyArray(String key)
+    .isEmptyString(String key)
+    .isStringNotEmpty(String key)
+    .isTrue(String key)
+    .isFalse(String key)
+    .isZero(String key)
+    .isGreaterThan(String key, int value)
+    .isGreaterThanOrEqualTo(String key, int value)
+    .isLessThan(String key, int value)
+    .isLessThanOrEqualTo(String key, int value)
+    .isPositive(String key)
+    .isNegative(String key)
 
      // Compare json representation
     .isStrictlyEqualsTo(String json)
@@ -273,17 +233,12 @@ REST.assertThat(javax.servlet.http.Cookie cookie);
 ```java
 REST.assertThat(cookie)
 
-    .isNameEqualTo(String name)     // Check that name of cookie is equal
-                                    // to an expected value
-    .isValueEqualTo(String value)   // Check that value of cookie is equal
-                                    // to an expected value
-    .isDomainEqualTo(String domain) // Check that domain of cookie is equal
-                                    // to an expected value
-    .isPathEqualTo(String path)     // Check that path of cookie is equal
-                                    // to an expected value
-    .isSecure()                     // Check that cookie is secure
-    .isNotSecure()                  // Check that cookie is not secure
-    .isHttpOnly()                   // Check that cookie is http only
-    .isNotHttpOnly()                // Check that cookie is not http only
-
+    .isNameEqualTo(String name)
+    .isValueEqualTo(String value)
+    .isDomainEqualTo(String domain)
+    .isPathEqualTo(String path)
+    .isSecure()
+    .isNotSecure()
+    .isHttpOnly()
+    .isNotHttpOnly()
 ```
