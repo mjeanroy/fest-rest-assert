@@ -20,7 +20,8 @@ REST.assertThat(response)
 // Check response body
 REST.assertJsonThat(response)
     .isObject()
-    .containsEntry(JsonEntry.entry("id", 1)) // Check a key is found with an expected value
+    .containsEntry(JsonEntry.entry("id", 1)) // Check a key is found with an
+                                             // expected value
     .contains("otherValue")                  // Check a key is found
     .isStrictlyEqualTo(myFile)               // Compare json in response with json in a given file
     .isEqualToIgnoringFields(myFile, "id");  // Compare json ignoring field 'id'
@@ -39,7 +40,8 @@ REST.assertThat(com.ning.http.client.Response response);
 // - Use apache http components:
 REST.assertThat(org.apache.http.HttpResponse response);
 
-// In case you use another client api, you can wrap your response in org.fest.assertions.util.Response:
+// In case you use another client api, you can wrap your
+// response in org.fest.assertions.util.Response:
 REST.assertThat(org.fest.assertions.util.Response response);
 
 ```
@@ -54,7 +56,8 @@ REST.assertThat(response)
     .isStatusNotEqualTo(int expected)       // Check statusCode != expected
 
     .isStatusBetween(int start, int end)    // Check start <= statusCode <= end
-    .isStatusNotBetween(int start, int end) // Check statusCode > start || statusCode < end
+    .isStatusNotBetween(int start, int end) // Check statusCode > start
+                                            //       || statusCode < end
 
     // Pre-Built assertions :
 
@@ -104,23 +107,39 @@ REST.assertThat(response)
 
     .isUtf8()                                // Check charset is UTF-8
 
-    .isOctetStream()                         // Check mime type is 'application/octet-stream' (RFC 2046)
-    .isJson()                                // Check mime type is 'application/json' (RFC 4627)
-    .isXml()                                 // Check mime type is 'application/xml' (RFC 3023)
-    .isCss()                                 // Check mime type is 'text/css' (RFC 2318)
-    .isJavascript()                          // Check mime type is 'application/javascript' or 'text/javascript' (RFC 4329)
-    .isTextPlain()                           // Check mime type is 'text/plain' (RFC 2049, RFC 3676)
-    .isHtml()                                // Check mime type is 'text/html' (RFC 2854)
-    .isXhtml()                               // Check mime type is 'application/xhtml+xml' (RFC 3023)
+    .isOctetStream()                         // Check mime type is
+                                             //   'application/octet-stream' (RFC 2046)
+    .isJson()                                // Check mime type is
+                                             //   'application/json' (RFC 4627)
+    .isXml()                                 // Check mime type is
+                                             //   'application/xml' (RFC 3023)
+    .isCss()                                 // Check mime type is
+                                             //   'text/css' (RFC 2318)
+    .isJavascript()                          // Check mime type is
+                                             //   'application/javascript' or
+                                             //   'text/javascript' (RFC 4329)
+    .isTextPlain()                           // Check mime type is
+                                             //   'text/plain' (RFC 2049, RFC 3676)
+    .isHtml()                                // Check mime type is
+                                             //   'text/html' (RFC 2854)
+    .isXhtml()                               // Check mime type is
+                                             //   'application/xhtml+xml' (RFC 3023)
     .isHtmlOrXhtml()                         // Check mime type is html or xhtml
-    .isPdf()                                 // Check mime type is 'application/pdf' (RFC 3778)
-    .isCsv()                                 // Check mime type is 'application/pdf' (RFC 4180)
+    .isPdf()                                 // Check mime type is
+                                             //   'application/pdf' (RFC 3778)
+    .isCsv()                                 // Check mime type is
+                                             //   'application/csv' (RFC 4180)
     .isZip()                                 // Check mime type is 'application/zip'
-    .isFlashContent()                        // Check mime type is 'application/x-shockwave-flash' or 'video/x-flv'
+    .isFlashContent()                        // Check mime type is
+                                             //   'application/x-shockwave-flash'
+                                             //   or 'video/x-flv'
 
-    .isJsonUtf8()                            // Check response is json with utf-8 charset
-    .isXmlUtf8()                             // Check response is xml with utf-8 charset
-    .isHtmlUtf8()                            // Check response is html with utf-8 charset
+    .isJsonUtf8()                            // Check response is json
+                                             // with utf-8 charset
+    .isXmlUtf8()                             // Check response is xml
+                                             // with utf-8 charset
+    .isHtmlUtf8()                            // Check response is html
+                                             // with utf-8 charset
 ```
 ___
 #### Headers/Cookies Assertions :
@@ -130,13 +149,18 @@ ___
 REST.assertThat(response)
 
     .hasHeader(String name)                        // Check header 'name' is defined
-    .hasHeaderEqualTo(String name, String value)   // Check header 'name' is defined with an expected value
+    .hasHeaderEqualTo(String name, String value)   // Check header 'name' is defined
+                                                   // with an expected value
     .hasETagHeader()                               // Check header 'ETag' is defined
-    .hasETagEqualTo(String value)                  // Check header 'ETag' is defined with and expected value
-    .hasLocationHeader()                           // Check header 'Location' is defined
-    .hasLocationEqualTo(String value)              // Check header 'Location' is defined with and expected value
+    .hasETagEqualTo(String value)                  // Check header 'ETag' is defined
+                                                   // with and expected value
+    .hasLocationHeader()                           // Check header 'Location' is
+                                                   // defined
+    .hasLocationEqualTo(String value)              // Check header 'Location'
+                                                   // defined with and expected value
     .hasCookie(String name)                        // Check cookie 'name' is defined
-    .hasCookieEqualTo(String name, String value);  // Check cookie 'name' is defined with an expected value
+    .hasCookieEqualTo(String name, String value);  // Check cookie 'name' is defined
+                                                   // with an expected value
 ```
 
 ### JSON Assertions:
@@ -157,70 +181,82 @@ REST.assertJsonThat(json);
 
 REST.assertJsonThat(json)
 
-    .isArray()                                               // Check json is an array
-    .isObject()                                              // Check json is an object
-    .isArrayWithSize()                                       // Check json is an array with an expected size
-    .isEmptyArray()                                          // Check json is an empty array
+    .isArray()                                // Check json is an array
+    .isObject()                               // Check json is an object
+    .isArrayWithSize()                        // Check json is an array
+                                              // with an expected size
+    .isEmptyArray()                           // Check json is an empty array
 
-    .contain(String key)                                     // Check json contains a key
-    .notContain(String key)                                  // Check json does not contain a key
-    .notContainOrIsNull(String key)                          // Check json does not contain a key or value for the key is null
-    .contains(String... keys)                                // Check json contains each keys
-    .contains(String... keys)                                // Check json contains each keys
-    .contains(List<String> keys)                             // Check json contains each keys
-    .contain(String key, T value)                            // Check json contain key with an expected value
-    .containEntry(JsonEntry entry)                           // Check json contain an expected entry
-    .containsEntries(JsonEntry... entries)                   // Check json contains expected entries
+    .contain(String key)                      // Check json contains a key
+    .notContain(String key)                   // Check json does not contain a key
+    .notContainOrIsNull(String key)           // Check json does not contain a key
+                                              // or value for the key is null
+    .contains(String... keys)                 // Check json contains each keys
+    .contains(String... keys)                 // Check json contains each keys
+    .contains(List<String> keys)              // Check json contains each keys
+    .contain(String key, T value)             // Check json contain key with an
+                                              // expected value
+    .containEntry(JsonEntry entry)            // Check json contain an expected entry
+    .containsEntries(JsonEntry... entries)    // Check json contains expected entries
 
-    .isNull(String key)                                      // Check key is found and value for given key is null
-    .isNotNull(String key)                                   // Check key is found and value for given key is not null
-    .isNumber(String key)                                    // Check key is found and value for given key is a number
-    .isString(String key)                                    // Check key is found and value for given key is a string
-    .isBoolean(String key)                                   // Check key is found and value for given key is a string
-    .isArray(String key)                                     // Check key in json is an array
-    .isArrayWithSize(String key, int size)                   // Check key in json is an array with an expected size
-    .isEmptyArray(String key)                                // Check key in json is an empty array
+    .isNull(String key)                       // Check key is found and value for
+                                              // given key is null
+    .isNotNull(String key)                    // Check key is found and value for
+                                              // given key is not null
+    .isNumber(String key)                     // Check key is found and value for
+                                              // given key is a number
+    .isString(String key)                     // Check key is found and value for
+                                              // given key is a string
+    .isBoolean(String key)                    // Check key is found and value for
+                                              // given key is a string
+    .isArray(String key)                      // Check key in json is an array
+    .isArrayWithSize(String key, int size)    // Check key in json is an array
+                                              // with an expected size
+    .isEmptyArray(String key)                 // Check key in json is an empty array
 
-    .isEmptyString(String key)                               // Check json contain key and value is an empty string
-    .isStringNotEmpty(String key)                            // Check json contain key and value is not an empty string
-    .isTrue(String key)                                      // Check json contain key and value is true
-    .isFalse(String key)                                     // Check json contain key and value is false
-    .isZero(String key)                                      // Check json contain key and value is 0
-    .isGreaterThan(String key, int value)                    // Check json contain key and value is > an expected value
-    .isGreaterThanOrEqualTo(String key, int value)           // Check json contain key and value is >= an expected value
-    .isLessThan(String key, int value)                       // Check json contain key and value is < an expected value
-    .isLessThanOrEqualTo(String key, int value)              // Check json contain key and value is <= an expected value
-    .isPositive(String key)                                  // Check json contain key and value is >= 0
-    .isNegative(String key)                                  // Check json contain key and value is <= 0
+    .isEmptyString(String key)                // Check json contain key and value is
+                                              // an empty string
+    .isStringNotEmpty(String key)             // Check json contain key and value is not
+                                              // an empty string
+    .isTrue(String key)                       // Check json contain key
+                                              // and value is true
+    .isFalse(String key)                      // Check json contain key
+                                              // and value is false
+    .isZero(String key)                       // Check json contain key and value is 0
 
-    .isStrictlyEqualsTo(String json)                         // Compare with expected json representation
-    .isStrictlyEqualsTo(File file)                           // Compare with expected json stored in file
-    .isStrictlyEqualsTo(URI uri)                             // Compare with json available at given uri
-    .isStrictlyEqualsTo(URL url)                             // Compare with json available at given url
-    .isStrictlyEqualsTo(Object object)                       // Compare with json, result of object serialization
-    .isStrictlyEqualsTo(Object object, ObjectMapper mapper)  // Compare with json, result of object serialization using a custom mapper (jackson)
+    .isGreaterThan(String key, int value)     // Check json contain key and
+                                              // value is > an expected value
+    .isGreaterThanOrEqualTo(String key,
+                            int value)        // Check found value is >= value
+    .isLessThan(String key, int value)        // Check found value is < value
+    .isLessThanOrEqualTo(String key,
+                         int value)           // Check found value is <= value
+    .isPositive(String key)                   // Check value is >= 0
+    .isNegative(String key)                   // Check value is <= 0
 
-    .isEqualsToIgnoringFields(String json,
-                              List<String> fields)           // Compare with expected json representation, ignoring given fields
-    .isEqualsToIgnoringFields(String json, List... fields)   // Compare with expected json representation, ignoring given fields
-    .isEqualsToIgnoringFields(File file,
-                              List<String> fields)           // Compare with expected json stored in file
-    .isEqualsToIgnoringFields(File file, List... fields)     // Compare with expected json stored in file
-    .isEqualsToIgnoringFields(URI uri,
-                              List<String> fields)           // Compare with json available at given uri
-    .isEqualsToIgnoringFields(URI uri, List... fields)       // Compare with json available at given uri
-    .isEqualsToIgnoringFields(URL url,
-                              List<String> fields)           // Compare with json available at given url
-    .isEqualsToIgnoringFields(URL url, List... fields)       // Compare with json available at given url
-    .isEqualsToIgnoringFields(Object object,
-                              List<String> fields)           // Compare with json, result of object serialization
-    .isEqualsToIgnoringFields(Object object, List... fields) // Compare with json, result of object serialization
-    .isEqualsToIgnoringFields(Object object,
-                              ObjectMapper mapper,
-                              List<String> fields)           // Compare with json, result of object serialization using a custom mapper (jackson)
-    .isEqualsToIgnoringFields(Object object,
-                              ObjectMapper mapper,
-                              List... fields)                // Compare with json, result of object serialization using a custom mapper (jackson)
+     // Compare json representation
+    .isStrictlyEqualsTo(String json)
+    .isStrictlyEqualsTo(File file)
+    .isStrictlyEqualsTo(URI uri)
+    .isStrictlyEqualsTo(URL url)
+    .isStrictlyEqualsTo(Object object)
+    .isStrictlyEqualsTo(Object object, ObjectMapper mapper)
+
+     // Compare json representation, ignoring given fields
+    .isEqualsToIgnoringFields(String json, List<String> fields)
+    .isEqualsToIgnoringFields(File file, List<String> fields)
+    .isEqualsToIgnoringFields(URI uri, List<String> fields)
+    .isEqualsToIgnoringFields(URL url, List<String> fields)
+    .isEqualsToIgnoringFields(Object object, List<String> fields)
+    .isEqualsToIgnoringFields(Object object, ObjectMapper mapper, List<String> fields)
+
+     // Compare json representation, ignoring given fields
+    .isEqualsToIgnoringFields(String json, List... fields)
+    .isEqualsToIgnoringFields(File file, List... fields)
+    .isEqualsToIgnoringFields(URI uri, List... fields)
+    .isEqualsToIgnoringFields(URL url, List... fields)
+    .isEqualsToIgnoringFields(Object object, List... fields)
+    .isEqualsToIgnoringFields(Object object, ObjectMapper mapper, List... fields)
 ```
 ### Cookies Assertions:
 
@@ -237,13 +273,17 @@ REST.assertThat(javax.servlet.http.Cookie cookie);
 ```java
 REST.assertThat(cookie)
 
-    .isNameEqualTo(String name)        // Check that name of cookie is equal to an expected value
-    .isValueEqualTo(String value)      // Check that value of cookie is equal to an expected value
-    .isDomainEqualTo(String domain)    // Check that domain of cookie is equal to an expected value
-    .isPathEqualTo(String path)        // Check that path of cookie is equal to an expected value
-    .isSecure()                        // Check that cookie is secure
-    .isNotSecure()                     // Check that cookie is not secure
-    .isHttpOnly()                      // Check that cookie is http only
-    .isNotHttpOnly()                   // Check that cookie is not http only
+    .isNameEqualTo(String name)     // Check that name of cookie is equal
+                                    // to an expected value
+    .isValueEqualTo(String value)   // Check that value of cookie is equal
+                                    // to an expected value
+    .isDomainEqualTo(String domain) // Check that domain of cookie is equal
+                                    // to an expected value
+    .isPathEqualTo(String path)     // Check that path of cookie is equal
+                                    // to an expected value
+    .isSecure()                     // Check that cookie is secure
+    .isNotSecure()                  // Check that cookie is not secure
+    .isHttpOnly()                   // Check that cookie is http only
+    .isNotHttpOnly()                // Check that cookie is not http only
 
 ```
