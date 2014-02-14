@@ -1,0 +1,205 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.mjeanroy</groupId>
+	<artifactId>fest-rest-assert</artifactId>
+	<packaging>jar</packaging>
+	<version>0.0.1</version>
+	<description>FEST for Rest Services Assertions</description>
+
+	<distributionManagement>
+		<repository>
+			<id>github</id>
+			<name>GitHub ${project.artifactId} Repository</name>
+			<url>https://raw.github.com/mjeanroy/${project.artifactId}/mvn-repo</url>
+		</repository>
+	</distributionManagement>
+
+	<url>https://github.com/mjeanroy/fest-rest-assert</url>
+
+	<scm>
+		<connection>scm:git:git@github.com:mjeanroy/fest-rest-assert.git</connection>
+		<developerConnection>scm:git:git@github.com:mjeanroy/fest-rest-assert.git</developerConnection>
+		<url>https://github.com/mjeanroy/fest-rest-assert</url>
+		<tag>v0.0.1</tag>
+	</scm>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- Compilation -->
+		<java.version>1.6</java.version>
+
+		<!-- github server corresponds to entry in ~/.m2/settings.xml -->
+		<github.global.server>github</github.global.server>
+
+		<!-- Dependencies -->
+		<fest.version>2.0M10</fest.version>
+		<async-http-client.version>1.7.16</async-http-client.version>
+		<httpclient.version>4.2.5</httpclient.version>
+		<geronimo-servlet_3.0_spec.version>1.0</geronimo-servlet_3.0_spec.version>
+		<json-path.version>0.8.1</json-path.version>
+		<jackson-databind.version>2.2.3</jackson-databind.version>
+
+		<junit.version>4.11</junit.version>
+		<mockito.version>1.9.5</mockito.version>
+		<guava.version>14.0.1</guava.version>
+	</properties>
+
+	<licenses>
+		<license>
+			<name>Apache 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.geronimo.specs</groupId>
+			<artifactId>geronimo-servlet_3.0_spec</artifactId>
+			<version>${geronimo-servlet_3.0_spec.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.ning</groupId>
+			<artifactId>async-http-client</artifactId>
+			<version>${async-http-client.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${httpclient.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easytesting</groupId>
+			<artifactId>fest-assert-core</artifactId>
+			<version>${fest.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<version>${json-path.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson-databind.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson-databind.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>${mockito.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.7</version>
+				<configuration>
+					<altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.github.github</groupId>
+				<artifactId>site-maven-plugin</artifactId>
+				<version>0.9</version>
+				<configuration>
+					<message>Maven artifacts for ${project.version}</message>
+					<!-- git commit message -->
+					<noJekyll>true</noJekyll>
+					<!-- disable webpage processing -->
+					<outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
+					<!-- matches distribution management repository url above -->
+					<branch>refs/heads/mvn-repo</branch>
+					<!-- remote branch name -->
+					<includes>
+						<include>**/*</include>
+					</includes>
+					<repositoryName>fest-rest-assert</repositoryName>
+					<!-- github repo name -->
+					<repositoryOwner>mjeanroy</repositoryOwner>
+					<!-- github username  -->
+					<merge>true</merge>
+					<!-- Do not override previous artifacts -->
+				</configuration>
+				<executions>
+					<!-- run site-maven-plugin's 'site' target as part of the build's normal 'deploy' phase -->
+					<execution>
+						<goals>
+							<goal>site</goal>
+						</goals>
+						<phase>deploy</phase>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.eclipse.mylyn.github</groupId>
+						<artifactId>org.eclipse.egit.github.core</artifactId>
+						<version>2.0.3</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.4.1</version>
+				<configuration>
+					<tagNameFormat>v@{project.version}</tagNameFormat>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<showWarnings>true</showWarnings>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
